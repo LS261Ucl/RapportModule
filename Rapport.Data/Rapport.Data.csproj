@@ -19,4 +19,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Rapport.BusinessLogig\Rapport.BusinessLogig.csproj" />
+    <ProjectReference Include="..\Rapport.Entites\Rapport.Entites.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -13,7 +13,7 @@ namespace Rapport.Entites
         public int Id { get; set; } 
         public string? Name { get; set; }    
         public string? Email { get; set; }
-        public ICollection<Report> Reports { get; set; }
+        public ICollection<Report>? Reports { get; set; }
 
     }
 }
