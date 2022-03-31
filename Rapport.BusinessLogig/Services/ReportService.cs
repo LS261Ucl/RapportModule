@@ -27,9 +27,9 @@ namespace Rapport.BusinessLogig.Services
             try
             {
                 var dbRequest = _mapper.Map<Report>(requestDto);
-                var report = await _reportRepository.CreateAsync(dbRequest);
+                //var report = await _reportRepository.CreateAsync(dbRequest);
 
-                return report;
+                return dbRequest;
         
             }//try
             catch (Exception ex)

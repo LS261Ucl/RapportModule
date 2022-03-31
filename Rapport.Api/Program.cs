@@ -12,11 +12,18 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//add in to Sqlserver in cloud       
 builder.Services.AddDbContext<ReportDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ReportConnection"));
 
 });
+
+//builder.Services.AddDbContext<ReportDbContext>(options =>
+//{
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+
+//}); 
 
 //Services
 builder.Services.AddScoped<ITemplateService, TemplateService>();
