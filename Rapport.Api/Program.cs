@@ -1,3 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using Rapport.BusinessLogig.Interfaces;
+using Rapport.BusinessLogig.Services;
+using Rapport.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +12,22 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<ReportDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+
+});
+
+//Services
+builder.Services.AddScoped<ITemplateService, TemplateService>();
+
+
+
+//Automapper
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+//GenericRepository
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

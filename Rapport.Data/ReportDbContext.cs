@@ -32,71 +32,73 @@ namespace Rapport.Data
 
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {
-           
-
-           
-
-            modelbuilder.Entity("Danline.Report.Data.ReportData", b =>
+            modelbuilder.Entity("Rapport.Entites.Report", b =>
             {
-                b.HasOne("Rapport.Entities.Template", "Template")
+                b.HasOne("Rapport.Entites.Customer", "Customer")
+                    .WithMany("Reports")
+                    .HasForeignKey("CustomerId")
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired();
+
+                b.HasOne("Rapport.Entites.Employee", "Employee")
+                    .WithMany("Reports")
+                    .HasForeignKey("EmployeeId")
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired();
+
+                b.HasOne("Rapport.Entites.Template", "Template")
                     .WithMany("Reports")
                     .HasForeignKey("TemplateId")
                     .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
 
+                b.Navigation("Customer");
+
+                b.Navigation("Employee");
+
                 b.Navigation("Template");
-
-                b.HasOne("Rapport.Entities.Customer")
-                .WithMany("Reports")
-                .HasForeignKey("Customerid")
-                .OnDelete(DeleteBehavior.NoAction);
-
-             
-                
             });
 
-            modelbuilder.Entity("Rappport.Entities.ReportElement", b =>
+            modelbuilder.Entity("Rapport.Entites.ReportElement", b =>
             {
-                b.HasOne("Rapport.Entities.ReportGroup", "ReportGroup")
-                    .WithMany("ReportFields")
+                b.HasOne("Rapport.Entites.ReportGroup", "ReportGroup")
+                    .WithMany("Elements")
                     .HasForeignKey("ReportGroupId")
                     .OnDelete(DeleteBehavior.Cascade)
-                    .IsRequired();
+                    .IsRequired(true);
 
-                b.HasOne("Rapport.Entities.TemplateElement", "TemplateElement")
-                    .WithOne("ReportField")
-                    .HasForeignKey("Rapport.Entities.ReportElement", "TemplateElementId")
+                b.HasOne("Rapport.Entites.TemplateElement", "TemplateElement")
+                    .WithMany("ReportElements")
+                    .HasForeignKey("TemplateElementId")
                     .OnDelete(DeleteBehavior.NoAction)
-                    .IsRequired();
+                    .IsRequired(true);
 
                 b.Navigation("ReportGroup");
 
                 b.Navigation("TemplateElement");
             });
 
-            modelbuilder.Entity("Rapport.Entities.ReportGroup", b =>
+            modelbuilder.Entity("Rapport.Entites.ReportGroup", b =>
             {
-                b.HasOne("Rapport.Entites.ReportData", "ReportData")
+                b.HasOne("Rapport.Entites.Report", null)
                     .WithMany("ReportGroups")
-                    .HasForeignKey("ReportDataId")
+                    .HasForeignKey("ReportId")
                     .OnDelete(DeleteBehavior.Cascade)
-                    .IsRequired();
+                    .IsRequired(true);
 
-                b.HasOne("Rapport.Entities.TemplateGroup", "TemplateGroup")
-                    .WithOne("ReportGroup")
-                    .HasForeignKey("Rapport.Entities.ReportGroup", "TemplateGroupId")
+                b.HasOne("Rapport.Entites.TemplateGroup", "TemplateGroup")
+                    .WithMany("ReportGroups")
+                    .HasForeignKey("TemplateGroupId")
                     .OnDelete(DeleteBehavior.NoAction)
-                    .IsRequired();
-
-                b.Navigation("ReportData");
+                    .IsRequired(true);
 
                 b.Navigation("TemplateGroup");
             });
 
-            modelbuilder.Entity("Rapport.Entities.TemplateElement", b =>
+            modelbuilder.Entity("Rapport.Entites.TemplateElement", b =>
             {
-                b.HasOne("Rapport.Entities.TemplateGroup", "TemplateGroup")
-                    .WithMany("Fields")
+                b.HasOne("Rapport.Entites.TemplateGroup", "TemplateGroup")
+                    .WithMany("Elements")
                     .HasForeignKey("TemplateGroupId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
@@ -104,16 +106,20 @@ namespace Rapport.Data
                 b.Navigation("TemplateGroup");
             });
 
-            modelbuilder.Entity("Rapport.Entities.TemplateGroup", b =>
+            modelbuilder.Entity("Rapport.Entites.TemplateGroup", b =>
             {
-                b.HasOne("Rapport.Entities.Template", "Template")
-                    .WithMany("Groups")
+                b.HasOne("Rapport.Entites.Template", "Template")
+                    .WithMany("TemplateGroups")
                     .HasForeignKey("TemplateId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
                 b.Navigation("Template");
             });
+
+
+
+
         }
     }
 }

@@ -4,11 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Rapport.BusinessLogig.Interfaces;
 using Rapport.Entites;
 using Rapport.Shared.Dto_er.Template;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rapport.BusinessLogig.Services
 {
@@ -42,11 +37,6 @@ namespace Rapport.BusinessLogig.Services
 
         }
 
-        public Task<ActionResult> DeleteTemplate(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<ActionResult<List<TemplateDto>>> GetAllTemplate()
         {
             try
@@ -63,19 +53,43 @@ namespace Rapport.BusinessLogig.Services
             }//catch
         }
 
-        public Task<ActionResult<TemplateDto>> GetTemplateById(int id)
+        //public async Task<ActionResult<List<TemplateDto>>> GetTemplate(int id)
+        //{
+        //    var dbTemplate = await _templateRepository.GetAsync(x => x.Id == id);
+          
+        //}
+
+        public async Task<ActionResult<TemplateDto>> GetTemplateWhitChilderen(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var dbTemplate = await _templateRepository.GetAsync(x => x.Id == id, x => x.Include(t => t.TemplateGroups).ThenInclude(g => g.Elements));
+                return _mapper.Map<TemplateDto>(dbTemplate);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception($"Kunne ikke finde Skabelon med følgende id {id}", ex);
+            }
+           
         }
 
-        public Task<ActionResult<TemplateDto>> GetTemplateWhitChilderen(int id)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task<ActionResult> UpdateTemplate(int id, TemplateDto requestDto)
+        public async Task<ActionResult<Template>> UpdateTemplate(int id, TemplateDto requestDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var dbTemplate = await _templateRepository.GetAsync(x => x.Id == id);
+
+                _mapper.Map(requestDto, dbTemplate);
+
+                var dbRequest = await _templateRepository.UpdateAsync(dbTemplate);
+
+                return dbRequest;
+            }//if
+            catch (Exception ex)
+            {
+                throw new Exception($"kunne enten ikke finde følgende skabelon med id: {id}, eller fik ikke lov til at opdatere den, fra Api'et", ex);
+            }//catch
         }
     }
 }

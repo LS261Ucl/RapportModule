@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Rapport.Shared.Dto_er.ReportElement
@@ -20,9 +21,11 @@ namespace Rapport.Shared.Dto_er.ReportElement
         public byte[]? Image { get; set; }
         public bool IsActive { get; set; }
 
+        [JsonIgnore]
         public int ReportGroupId { get; set; }
         public ReportGroupDto? ReportGroup { get; set; }
 
+        [JsonIgnore]
         public int TemplateElementId { get; set; }
 
         public TemplateElementDto? TemplateElement { get; set; }

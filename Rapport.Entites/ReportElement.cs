@@ -25,6 +25,7 @@ namespace Rapport.Entites
         public int ReportGroupId { get; set; }
         public ReportGroup? ReportGroup { get; set; }
 
+        [ForeignKey(nameof(TemplateElementId))]
         public int TemplateElementId { get; set; }
 
         public TemplateElement? TemplateElement { get; set; }

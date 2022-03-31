@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Rapport.Shared.Dto_er.ReportGroup;
+using Rapport.Shared.Dto_er.TemplateElement;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Rapport.Shared.Dto_er.ReportElement
 {
@@ -17,6 +16,18 @@ namespace Rapport.Shared.Dto_er.ReportElement
         public double Numbers { get; set; }
         public byte[]? Image { get; set; }
         public bool IsActive { get; set; }
+      
+        [Required]
+        public int ReportGroupId { get; set; }
+
+        [JsonIgnore]
+        public ReportGroupDto? ReportGroupDto { get; set; }
+
+        [Required]
+        public int TemplateElementId { get; set; }
+
+        [JsonIgnore]
+        public TemplateElementDto TemplateElementDto { get; set; }
 
     }
 }
