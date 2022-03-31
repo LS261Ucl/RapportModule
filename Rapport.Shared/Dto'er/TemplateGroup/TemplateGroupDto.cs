@@ -1,11 +1,6 @@
 ﻿using Rapport.Shared.Dto_er.ReportGroup;
 using Rapport.Shared.Dto_er.Template;
 using Rapport.Shared.Dto_er.TemplateElement;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rapport.Shared.Dto_er.TemplateGroup
 {

@@ -26,15 +26,12 @@ namespace Rapport.BusinessLogig.Services
 
                 var dbTemplate = await _templateRepository.CreateAsync(dbRequest);
                
-
                 return dbTemplate;
             }//try
             catch (Exception ex)
             {
                 throw new Exception("Fik ikke lov til at oprette skabelon, fra Api'et", ex);
             }//catch
-
-
         }
 
         public async Task<ActionResult<List<TemplateDto>>> GetAllTemplate()
@@ -64,17 +61,23 @@ namespace Rapport.BusinessLogig.Services
             try
             {
                 var dbTemplate = await _templateRepository.GetAsync(x => x.Id == id, x => x.Include(t => t.TemplateGroups).ThenInclude(g => g.Elements));
-                return _mapper.Map<TemplateDto>(dbTemplate);
-            }
+                if(dbTemplate != null)
+                {
+                    return _mapper.Map<TemplateDto>(dbTemplate);
+                }
+                return _mapper.Map<TemplateDto>(null);
+                
+               
+            }//try
             catch(Exception ex)
             {
                 throw new Exception($"Kunne ikke finde Skabelon med følgende id {id}", ex);
-            }
+            }//catch
            
         }
 
 
-        public async Task<ActionResult<Template>> UpdateTemplate(int id, TemplateDto requestDto)
+        public async Task<ActionResult<Template>> UpdateTemplate(int id, UpdateTemplateDto requestDto)
         {
             try
             {

@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
+using Rapport.Entites;
+using Rapport.Shared.Dto_er.ReportGroup;
 
 namespace Rapport.BusinessLogig.Interfaces
 {
     public interface IReportGroupService
     {
+        Task<ActionResult<List<ReportGroupDto>>> GetReportGroups();
+        Task<ActionResult<ReportGroupDto>> GetReportGroupById(int id);
+        Task<ActionResult<ReportGroup>> CreateReportGroup([FromBody] CreateReportGroupDto requestDto);
+        Task<ActionResult<ReportGroup>> UpdateReportGroup(int id, UpdateReportGroupDto requestDto);
+        Task<ActionResult> DeleteReportGroup(int id);
     }
 }

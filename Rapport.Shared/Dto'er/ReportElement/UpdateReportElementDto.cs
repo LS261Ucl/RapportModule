@@ -1,10 +1,7 @@
-﻿using Rapport.Shared.Dto_er.ReportGroup;
-using Rapport.Shared.Dto_er.TemplateElement;
-using System.Text.Json.Serialization;
-
+﻿
 namespace Rapport.Shared.Dto_er.ReportElement
 {
-    public class ReportElementDto
+    public class UpdateReportElementDto
     {
         public int Id { get; set; }
         public string? Titel { get; set; }
@@ -15,14 +12,5 @@ namespace Rapport.Shared.Dto_er.ReportElement
         public double Numbers { get; set; }
         public byte[]? Image { get; set; }
         public bool IsActive { get; set; }
-
-        [JsonIgnore]
-        public int ReportGroupId { get; set; }
-        public ReportGroupDto? ReportGroup { get; set; }
-
-        [JsonIgnore]
-        public int TemplateElementId { get; set; }
-
-        public TemplateElementDto? TemplateElement { get; set; }
     }
 }

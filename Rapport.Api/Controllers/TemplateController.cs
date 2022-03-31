@@ -39,15 +39,14 @@ namespace Rapport.Api.Controllers
                 {
                     _logger.LogError("Unable to find Templates");
                     return NotFound();
-                }
+                }//if
 
                 return Ok(templates);
-            }
+            }//if
             catch (Exception ex)
             {
                 throw new Exception("Error on Api", ex);
-            }
-
+            }//cathc
         }
 
         [HttpGet("{id}")]
@@ -61,17 +60,17 @@ namespace Rapport.Api.Controllers
                 {
                     _logger.LogError($"Unable to find template whit this id: {id}");
                     return NotFound();  
-                }
+                }//if
 
                 return Ok(_mapper.Map<Template>(dbtemplate));
-            }
+            }//try
             catch(Exception ex)
             {
                 throw new Exception("Error on Api", ex);
-            }
+            }//catch
         }
 
-        [HttpGet("{id}/groups{id}/fields{id}")]
+        [HttpGet("{id}/groups")]
         public async Task<ActionResult<TemplateDto>> GetTemplateWhitChildrenAscyn(int id)
         {
             try
@@ -82,19 +81,83 @@ namespace Rapport.Api.Controllers
                 {
                     _logger.LogError($"Unable to find template whit this id: {id}");
                     return NotFound();
-                }
+                }//if
 
                 return Ok(dbTemplate);
                    
-            }
+            }//try
             catch(Exception ex)
             {
                 throw new Exception("Error on Api", ex);
-            }
-
+            }//catch
 
         }
+
+        [HttpPost]
+        public async Task<ActionResult<Template>> CreateTemplateAsync([FromBody] CreateTemplateDto requestDto)
+        {
+            try
+            {
+                var template = await _templateService.CreateTemplate(requestDto);
+
+                if (template == null)
+                {
+                    _logger.LogError("Unable to create template");
+                    return BadRequest();
+                }//if
+
+                return Ok(template);
+
+            }//try
+            catch (Exception ex)
+            {
+                throw new Exception("Error on Api", ex);
+            }//catch
            
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Template>> UpdateTemplateAsync(int id, UpdateTemplateDto requestDto)
+        {
+            try
+            {
+                var dbTemplate = await _templateService.UpdateTemplate(id,requestDto);
+
+                if(dbTemplate == null)
+                {
+                    _logger.LogError($"Unable to update template whit this id: {id}");
+                    return BadRequest();
+                }//if
+
+                return Ok(dbTemplate);
+            }//try
+            catch(Exception ex)
+            {
+                throw new Exception("Error on Api", ex);
+            }//catch
+        }
+           
+        [HttpDelete]
+        public async Task<ActionResult> DeleteTemplateAsync(int id)
+        {
+
+            try
+            {
+                bool delete = await _templateRepository.DeleteAsync(id);
+
+                if (!delete)
+                {
+                    _logger.LogInformation($"Unable to find or delete {nameof(Template)} whit this id : {id}");
+                    return NotFound();
+                }//if
+
+                return NoContent();
+            }//try
+            catch (Exception ex)
+            {
+                throw new Exception("Error on Api", ex);
+            }//catch
+        }
 
     }
 }

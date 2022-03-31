@@ -9,8 +9,8 @@ namespace Rapport.BusinessLogig.Interfaces
         Task<ActionResult<List<TemplateDto>>> GetAllTemplate();
         //Task<ActionResult<List<TemplateDto>>> GetTemplate(int id);
         Task<ActionResult<TemplateDto>> GetTemplateWhitChilderen(int id);
-        Task<ActionResult<Template>> CreateTemplate(CreateTemplateDto requestDto);
-        Task<ActionResult<Template>> UpdateTemplate(int id, TemplateDto requestDto);
+        Task<ActionResult<Template>> CreateTemplate([FromBody]CreateTemplateDto requestDto);
+        Task<ActionResult<Template>> UpdateTemplate(int id, UpdateTemplateDto requestDto);
 
 
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Rapport.BusinessLogig.Interfaces
 {
-    public class ICustomerService
+    public interface ICustomerService
     {
     }
 }

@@ -176,7 +176,7 @@ namespace Rapport.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("ReportId")
+                    b.Property<int>("ReportId")
                         .HasColumnType("int");
 
                     b.Property<int>("TemplateGroupId")
@@ -317,7 +317,9 @@ namespace Rapport.Data.Migrations
                 {
                     b.HasOne("Rapport.Entites.Report", null)
                         .WithMany("ReportGroups")
-                        .HasForeignKey("ReportId");
+                        .HasForeignKey("ReportId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Rapport.Entites.TemplateGroup", "TemplateGroup")
                         .WithMany("ReportGroups")
