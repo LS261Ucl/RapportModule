@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Rapport.Entites;
+using Rapport.Shared.Dto_er.Customer;
+using Rapport.Shared.Dto_er.Employee;
 using Rapport.Shared.Dto_er.Report;
 using Rapport.Shared.Dto_er.ReportElement;
 using Rapport.Shared.Dto_er.ReportGroup;
@@ -54,6 +56,16 @@ namespace Rapport.BusinessLogig.Mapping
             CreateMap<UpdateReportElementDto, ReportElementDto>();
             CreateMap<TemplateElementDto, ReportElementDto>();
             CreateMap<TemplateElementDto, CreateReportElementDto>();
+
+            CreateMap<Customer, CustomerDto>();
+            CreateMap<CustomerDto, Customer>();
+            CreateMap<CreateCustomerDto, Customer>();
+            CreateMap<UpdateCustomerDto, CustomerDto>();
+
+            CreateMap<Employee, EmployeeDto>();
+            CreateMap<EmployeeDto, Employee>();
+            CreateMap<CreateEmployeeDto, Employee>();   
+            CreateMap<UpdateEmployeeDto, EmployeeDto>();    
 
         }
     }

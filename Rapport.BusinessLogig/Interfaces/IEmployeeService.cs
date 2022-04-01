@@ -8,8 +8,8 @@ namespace Rapport.BusinessLogig.Interfaces
     {
         Task<ActionResult<List<EmployeeDto>>> GetEmployees();
         Task<ActionResult<EmployeeDto>> GetEmployeeById(int id);
-        Task<ActionResult<Employee>> CreateEmployee([FromBody] Employee requestDto);
-    //    Task<ActionResult<Employee>> UpdateEmployee(int id, UpdateEmployeeDto requestDto);
+        Task<ActionResult<Employee>> CreateEmployee([FromBody] CreateEmployeeDto requestDto);
+        Task<ActionResult<Employee>> UpdateEmployee(int id, UpdateEmployeeDto requestDto);
         Task<ActionResult> DeleteEmployee(int id);
     }
 }

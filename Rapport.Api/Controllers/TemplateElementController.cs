@@ -78,7 +78,7 @@ namespace Rapport.Api.Controllers
 
                 if (templateElement == null)
                 {
-                    _logger.LogError("Unable to create template");
+                    _logger.LogError("Unable to create templateelement");
                     return BadRequest();
                 }//if
 
@@ -101,7 +101,7 @@ namespace Rapport.Api.Controllers
 
                 if (templateElement == null)
                 {
-                    _logger.LogError($"Unable to update template{nameof(TemplateElement)} whit this id: {id}");
+                    _logger.LogError($"Unable to update {nameof(TemplateElement)} whit this id: {id}");
                     return BadRequest();
                 }//if
 
