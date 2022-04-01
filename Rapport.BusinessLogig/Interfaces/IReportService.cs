@@ -8,6 +8,7 @@ namespace Rapport.BusinessLogig.Interfaces
     {
         Task<ActionResult<List<ReportDto>>> GetReports();
         Task<ActionResult<ReportDto>> GetReportById(int id);
+        Task<ActionResult<ReportDto>> GetReportwhitchildren(int id);
         Task<ActionResult<Report>> CreateReport([FromBody] CreateReportDto requestDto);
         Task<ActionResult<Report>> UpdateReport(int id, UpdateReportDto requestDto);
         Task<ActionResult> DeleteReport(int id);

@@ -1,21 +1,17 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Rapport.BusinessLogig.Interfaces;
 using Rapport.Entites;
 using Rapport.Shared.Dto_er.Report;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rapport.BusinessLogig.Services
 {
     public class ReportService : IReportService
     {
-        public IGenericRepository<ReportDto> _reportRepository { get; }
+        public IGenericRepository<Report> _reportRepository { get; }
         public IMapper _mapper { get; }
-        public ReportService(IGenericRepository<ReportDto> reportRepository, IMapper mapper)
+        public ReportService(IGenericRepository<Report> reportRepository, IMapper mapper)
         {
             _reportRepository = reportRepository;
             _mapper = mapper;
@@ -27,9 +23,9 @@ namespace Rapport.BusinessLogig.Services
             try
             {
                 var dbRequest = _mapper.Map<Report>(requestDto);
-                //var report = await _reportRepository.CreateAsync(dbRequest);
+                var report = await _reportRepository.CreateAsync(dbRequest);
 
-                return dbRequest;
+                return report;
         
             }//try
             catch (Exception ex)
@@ -43,19 +39,77 @@ namespace Rapport.BusinessLogig.Services
             throw new NotImplementedException();
         }
 
-        public Task<ActionResult<ReportDto>> GetReportById(int id)
+        public async Task<ActionResult<ReportDto>> GetReportById(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var reports = await _reportRepository.GetAsync(x => x.Id == id);
+                if (reports == null)
+                {
+                    return _mapper.Map<ReportDto>(reports);
+                }
+
+                else
+                    return _mapper.Map<ReportDto>(null);
+            }//try
+            catch (Exception ex)
+            {
+                throw new Exception("fik ikke lov til at hente Rapporterne", ex);
+            }//catch
         }
 
-        public Task<ActionResult<List<ReportDto>>> GetReports()
+        public async Task<ActionResult<List<ReportDto>>> GetReports()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var reports = await _reportRepository.GetAllAsync();
+
+                var request = _mapper.Map<List<ReportDto>>(reports);
+
+                return request;
+            }//try
+            catch (Exception ex)
+            {
+                throw new Exception("fik ikke lov til at hente Rapporterne", ex);
+            }//catch
         }
 
-        public Task<ActionResult<Report>> UpdateReport(int id, UpdateReportDto requestDto)
+        public async Task<ActionResult<Report>> UpdateReport(int id, UpdateReportDto requestDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var report = await _reportRepository.GetAsync(x => x.Id == id);
+
+                _mapper.Map(requestDto, report);
+
+                var dbRequest = await _reportRepository.UpdateAsync(report);
+
+                return dbRequest;
+            }//if
+            catch (Exception ex)
+            {
+                throw new Exception($"kunne enten ikke finde følgende raport med id: {id}, eller fik ikke lov til at opdatere den, fra Api'et", ex);
+            }//catch
+        }
+
+        public async Task<ActionResult<ReportDto>> GetReportwhitchildren(int id)
+        {
+            try
+            {
+                var reports = await _reportRepository.GetAsync(x => x.Id == id, x => x.Include(r => r.ReportGroups).ThenInclude(g => g.Elements));
+               
+                if (reports == null)
+                {
+                    return _mapper.Map<ReportDto>(reports);
+                }
+
+                else
+                    return _mapper.Map<ReportDto>(null);
+            }//try
+            catch (Exception ex)
+            {
+                throw new Exception( $"fik ikke lov til at hente Rapporten med følgende id: {id}", ex);
+            }//catch
         }
     }
 }

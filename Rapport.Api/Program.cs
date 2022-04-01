@@ -19,6 +19,8 @@ builder.Services.AddDbContext<ReportDbContext>(options =>
 
 });
 
+//add in to localserver
+
 //builder.Services.AddDbContext<ReportDbContext>(options =>
 //{
 //    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -30,7 +32,7 @@ builder.Services.AddScoped<ITemplateService, TemplateService>();
 builder.Services.AddScoped<ITemplateGroupService, TemplateGroupService>();
 builder.Services.AddScoped<ITemplateElementService, TemplateElementService>();
 builder.Services.AddScoped<IReportService, ReportService>();
-
+builder.Services.AddScoped<IReportGroupService, ReportGroupService>();
 
 
 //Automapper
