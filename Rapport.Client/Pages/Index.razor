@@ -1,9 +1,36 @@
 ﻿@page "/"
+@using Rapport.Shared.Dto_er.Template
+@using Syncfusion.Blazor.TreeGrid
 
-<PageTitle>Index</PageTitle>
+@*<SfTreeGrid DataSource="@TemplateList" IdMapping="Id" ParentIdMapping="Id">
+      <TreeGridColumns>
+        <TreeGridColumn Field="Id" HeaderText="Id" Width="5" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Center"></TreeGridColumn>
+        <TreeGridColumn Field="@TemplateDto.Title" HeaderText="Titel" Width="30" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Center"></TreeGridColumn>
+    </TreeGridColumns>
+</SfTreeGrid>
 
-<h1>Hello, world!</h1>
+@code {
 
-Welcome to your new app.
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+    [Inject]
+    private ITemplateService? TemplateService { get; set; }
+
+    private TemplateDto TemplateDto { get; set; }
+
+
+        [Inject]
+        private NavigationManager? NavigationManager { get; set; }
+
+        [Parameter]
+        public EventCallback<TemplateDto> OnTemplateCreated { get; set; }
+
+        public List<TemplateDto> TemplateList = new List<TemplateDto>();
+
+        public int Id { get; set; }
+
+        protected override async Task OnInitializedAsync()
+        {
+            TemplateList = await TemplateService.GetTemplates();
+            TemplateService.OnChange += StateHasChanged;
+        }
+}*@

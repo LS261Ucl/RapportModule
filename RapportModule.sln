@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rapport.BusinessLogig", "Ra
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Rapport", "Rapport", "{4736BBF5-E35F-41AD-9D30-70DC5A4E6725}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rapport.Client", "Rapport.Client\Rapport.Client.csproj", "{A9A66710-6EE3-4BBC-9319-5B86415955F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rapport.Client", "Rapport.Client\Rapport.Client.csproj", "{A9A66710-6EE3-4BBC-9319-5B86415955F7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{BFF9E738-F48F-491B-A141-D5ADC54BDD8B}"
 EndProject
