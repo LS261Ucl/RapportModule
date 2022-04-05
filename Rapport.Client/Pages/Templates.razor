@@ -1,21 +1,17 @@
 ﻿@using Rapport.Shared.Dto_er.Template
-@using Syncfusion.Blazor.TreeGrid;
-
 @page "/templates"
 <EditForm Model="@TemplateList" OnValidSubmit="OnInitializedAsync">
 <div class="container">
     <div class="info-form row col-12">
         <h2 class="text-center"> Skabeloner</h2>
     </div>
-    @*<SpinLoader IsLoading="@(Templates == null"></SpinLoader>*@
     <div class="text.start">
         <div class="container">
             <div class="row align-items-start">
                 <table>
                     <thead>
                         <tr>
-                            <th class="col-sm-6 col-sm-8  border">Titel</th>
-                        
+                            <th class="col-sm-6 col-sm-8  border">Titel</th>                        
                         </tr>
                     </thead>
                     <tbody>

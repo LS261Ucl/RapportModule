@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Rapport.BusinessLogig.Interfaces;
 using Rapport.Entites;
 using Rapport.Shared.Dto_er.Template;
-using System.Resources;
 
 namespace Rapport.Api.Controllers
 {

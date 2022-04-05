@@ -1,13 +1,16 @@
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Rapport.BusinessLogig.Interfaces;
 using Rapport.BusinessLogig.Services;
 using Rapport.Data;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(opt => opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -19,13 +22,22 @@ builder.Services.AddDbContext<ReportDbContext>(options =>
 
 });
 
+builder.Services.AddCors(c =>
+{
+    c.AddPolicy("AllowCors", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+});
+
 //add in to localserver
 
 //builder.Services.AddDbContext<ReportDbContext>(options =>
 //{
 //    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 
-//}); 
+//});
+//
+builder.Services.AddHttpClient();
+builder.Services.AddHttpContextAccessor();
+builder.Services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
 //Services
 builder.Services.AddScoped<ITemplateService, TemplateService>();
