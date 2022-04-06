@@ -1,45 +1,50 @@
 ﻿@using Rapport.Shared.Dto_er.Template
 @page "/templates"
-<EditForm Model="@TemplateList" OnValidSubmit="OnInitializedAsync">
-<div class="container">
-    <div class="info-form row col-12">
-        <h2 class="text-center"> Skabeloner</h2>
-    </div>
-    <div class="text.start">
+
+       <h2 class="text-center"> Skabeloner</h2>
+    @if(TemplateService == null)
+    {
+        <div class="d-flex align-items-center">
+        <strong>Loading...</strong>
+        <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+        </div>
+    }
+   
+        <EditForm Model="@TemplateList" OnValidSubmit="OnInitializedAsync">
         <div class="container">
-            <div class="row align-items-start">
+        <div class="info-form row col-12">
+     
+        </div>
+        <div class="text.start">
+        <div class="container">
+            <div class="row">
                 <table>
                     <thead>
                         <tr>
-                            <th class="col-sm-6 col-sm-8  border">Titel</th>                        
+                            <th class="col-md-2 border">Id</th>
+                            <th class="col-md-4  border">Titel</th>   
+                            <th class="col-md-4 border">LayoutId</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var template in TemplateList)
                         {
                             <tr>
-                                <td class="col-sm-6 col-sm-8 border">@(template?.Title ?? "")</td>
-                               @* 
-                                <td>
-                                    <button class="Show-button btn btn-primary" @onclick="(() => ShowTemplate(template.Id))">Vis</button>
-                                </td>*@
+                                  <td>
+                                      <div class=" col-md-4 " @onclick="(() => ShowTemplate(template.Id))">@(template?.Id)</div>                                               
+                                </td>
+                                <td class="col-md-4 ">@(template?.Title ?? "")</td>
+                                <td class="col-md-4 ">@(template?.LayoutId)</td>                              
                             </tr>
                         }
                     </tbody>
                 </table>
            
             </div>  
-        </div>
-  @*
+        </div>  
         <div>
             <button class="info-button btn btn-primary" @onclick="(()=> CreateEmptyTemplate())">Opret skabelon</button>
-        </div>*@
-
-
+        </div>
     </div>
 </div>
-</EditForm>
-
-
-
-  
+ </EditForm>

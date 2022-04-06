@@ -8,9 +8,6 @@ namespace Rapport.Client.Pages
         [Inject]
         private ITemplateService? TemplateService { get; set; }
 
-        //[Inject]
-        //private TemplateDto? TemplateDto { get; set; } 
-
         [Inject]
         private NavigationManager? NavigationManager { get; set; }
 
@@ -28,32 +25,32 @@ namespace Rapport.Client.Pages
         }
 
 
-        //public void ShowTemplate(int id)
-        //{
-        //    try
-        //    {
-        //        NavigationManager.NavigateTo($"template/{id}");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception($"Kunne enten ikke finde skabelonen med følgende id: {id}, eller kunne ikke åbne template/edit/{id}", ex);
-        //    }
-        //}
+        public void ShowTemplate(int? id)
+        {
+            try
+            {
+                NavigationManager?.NavigateTo($"template/{id}");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Kunne enten ikke finde skabelonen med følgende id: {id}, eller kunne ikke åbne template/edit/{id}", ex);
+            }
+        }
 
-        //public async Task CreateEmptyTemplate()
-        //{
-        //    try
-        //    {
-        //        //Call API with create
-        //        var template = await TemplateService.CreateTemplate();
+        public async Task CreateEmptyTemplate()
+        {
+            try
+            {
+                //Call API with create
+                var template = await TemplateService.CreateTemplate();
 
-        //        NavigationManager.NavigateTo($"template/{template.Id}");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception($"Kunne ikke få lov til at oprette skabelonen, eller kunne ikke åbne template/edit", ex);
-        //    }
+                NavigationManager?.NavigateTo($"template/{template.Id}");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Kunne ikke få lov til at oprette skabelonen, eller kunne ikke åbne template/edit", ex);
+            }
 
-        //}
+        }
     }
 }

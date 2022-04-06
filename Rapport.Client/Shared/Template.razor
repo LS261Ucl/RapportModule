@@ -1,0 +1,160 @@
+﻿@page "/template/{id:int}"
+
+<EditForm Model="TemplateDto" OnValidSubmit="OnParametersSetAsync">
+    <div>
+        <div class="container">
+            <div class=" text-center">
+                <InputText class="form-control"
+                           placeholder="titel"
+                           @bind-Value="@TemplateDto.Title">@(TemplateDto?.Title ?? "")</InputText>
+            </div>
+            
+        </div>
+        <div class="text.start">
+            <div class="container">
+                <div class="row ">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="col-sm-3 border">Id</th>
+                                <th class="col-lg-auto border">Titel</th>
+                                <th class="col-lg-auto border">Beskrivelse</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @if (TemplateDto.TemplateGroups != null)
+                            {
+                                @foreach (var group in TemplateDto.TemplateGroups)
+                                {
+                                    <tr>
+                                        <td class="col-sm-3 border">@(group?.Id)</td>
+                                        <td class="col-md-12 border">
+                                            <InputText placeholder="titel"
+                                                       @bind-Value="@group.Titel">@(group?.Titel ?? "")</InputText>
+                                        </td>
+
+                                        <td class="col-lg-6 .ms-md-auto border ">
+                                            <InputTextArea type="text"
+                                                           class="form-control"
+                                                           placeholder="Beskrivelse"
+                                                           @bind-Value="@group.Description"
+                                                           rows="3">@(group?.Description ?? "")</InputTextArea>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-outline-danger"
+                                                    @onclick="(() => DeleteGroup(group.Id))">
+                                                Delete
+                                            </button>
+
+
+                                        </td>
+
+                                    </tr>
+                                    <tr class="container">
+
+                                        @if (group.Elements!= null)
+                                        {
+
+                                        <tr>
+                                            <th class="col-6 border text-dark">Id</th>
+                                            <th class="col-6 col-sm-8 border text-dark">Titel</th>
+                                            <th class="col-lg-auto border text-dark">Beskrivelse</th>
+                                            <th class="col-lg-8 border text-dark"> DataType</th>
+                                            <th class="col-8 border text-dark">muligheder</th>
+                                        </tr>
+
+
+                                        @foreach (var elements in group.Elements)
+                                        {
+                                            <tr>
+
+                                                <td class="col-4 border">@(elements?.Id)</td>
+                                                <td class="col-8 border">
+                                                    <InputText placeholder="Titel"
+                                                               @bind-Value="@elements?.Titel">@(elements?.Titel ?? "")</InputText>
+                                                </td>
+                                                <td class="col-lg-6 .ms-md-auto border ">
+                                                    <InputTextArea placeholder="Beskrivelse"
+                                                                   @bind-Value="@elements?.Description">@(elements?.Description ?? "")</InputTextArea>
+                                                </td>
+                                                <td class="col-xl-12 border">
+                                                    <InputSelect placeholder="Type" @bind-Value="@elements?.Datatype">
+                                                        @foreach (DataTypeEnum datatype in Enum.GetValues(typeof(DataTypeEnum)))
+                                                                        {
+                                                            <option value="@((int) datatype)">@datatype</option>
+
+                                                                        }
+                                                    </InputSelect>
+                                                </td>
+                                                <td class="col-12 border">
+                                                    <InputTextArea placeholder="Valg mulighder"
+                                                                   @bind-Value="@elements?.Options">@(elements?.Options ?? "")</InputTextArea>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-outline-danger"
+                                                            @onclick="(() => DeleteField(elements.Id))">
+                                                        Delete
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        }@* Forache fields *@
+
+                                    } @* if groups *@
+                                        </tr>
+                                        <tr class="container">
+                                            <td class="col-sm-6 text-right">
+                                                <button class="btn btn-outline-secondary"
+                                                        type="button"
+                                                        @onclick="(() => OnSubmit())">
+                                                    Nyt felt
+                                                </button>
+
+                                            </td>
+                                        </tr>
+                                    }@* forache groups  *@
+
+                                }@* if template *@
+                        </tbody>
+
+                    </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </EditForm>
+    <EditForm Model="TemplateDto" OnValidSubmit="HandleValidSubmit">
+        <div class="container">
+            <div class="col-sm-6 text-right">
+                <button class="btn btn-outline-secondary"
+                        type="submit">
+                    Ny gruppe
+                </button>
+            </div>
+        </div>
+    </EditForm>
+   @* <EditForm Model="TemplateDto">
+        <div class="container">
+            <div class="col-12 text-right">
+                <button class="btn btn-outline-primary" @onclick="(() => UpdateTemplate(Id))">
+                    Gem skabelon
+                </button>
+            </div>
+        </div>
+        <div class="container">
+            <div class="col-12 text-right">
+                <button class="btn btn-outline-danger" @onclick="(() => DeleteTemplate(TemplateDto))">
+                    Slet Skabelon
+                </button>
+            </div>
+        </div>
+    </EditForm>
+    <EditForm Model="TemplateDto">
+        <div class="container">
+            <div class="col-12 text-center">
+                <button class="btn btn-primary" @onclick="(() => ValidSubmit(TemplateDto))">
+                    Opret Rapport
+                </button>
+            </div>
+        </div>
+    </EditForm>*@

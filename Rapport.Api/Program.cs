@@ -22,11 +22,6 @@ builder.Services.AddDbContext<ReportDbContext>(options =>
 
 });
 
-builder.Services.AddCors(c =>
-{
-    c.AddPolicy("AllowCors", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-});
-
 //add in to localserver
 
 //builder.Services.AddDbContext<ReportDbContext>(options =>
@@ -55,19 +50,37 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 //GenericRepository
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+
+
+var devCorsPolicy = "devCorsPolicy";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(devCorsPolicy, builder => {
+        //builder.WithOrigins("http://localhost:800").AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+        //builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost");
+        //builder.SetIsOriginAllowed(origin => true);
+    });
+});
+
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors(devCorsPolicy);
 }
 
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+
 app.MapControllers();
 
 app.Run();
+
+

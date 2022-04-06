@@ -32,20 +32,16 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var templates = await _templateService.GetAllTemplate();
+                var dbTemplate = await _templateRepository.GetAllAsync();
 
-                if(templates == null)
-                {
-                    _logger.LogError("Unable to find Templates");
-                    return NotFound();
-                }//if
+                var request = _mapper.Map<List<TemplateDto>>(dbTemplate);
 
-                return Ok(templates);
-            }//if
+                return request;
+            }//try
             catch (Exception ex)
             {
-                throw new Exception("Error on Api", ex);
-            }//cathc
+                throw new Exception("fik ikke lov til at hente skabelonerne", ex);
+            }//catch
         }
 
         [HttpGet("{id}")]
