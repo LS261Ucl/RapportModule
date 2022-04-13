@@ -1,6 +1,6 @@
 ﻿@page "/template/{id:int}"
 
-<EditForm Model="TemplateDto" OnValidSubmit="OnParametersSetAsync">
+<EditForm Model="TemplateDto" OnValidSubmit="OnInitializedAsync">
     <div>
         <div class="container">
             <div class=" text-center">
@@ -16,9 +16,9 @@
                     <table>
                         <thead>
                             <tr>
-                                <th class="col-sm-3 border">Id</th>
-                                <th class="col-lg-auto border">Titel</th>
-                                <th class="col-lg-auto border">Beskrivelse</th>
+                                <th class="col-md-4 border">Id</th>
+                                <th class="col-md-4 border">Titel</th>
+                                <th class="col-md-4 border">Beskrivelse</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -28,18 +28,18 @@
                                 @foreach (var group in TemplateDto.TemplateGroups)
                                 {
                                     <tr>
-                                        <td class="col-sm-3 border">@(group?.Id)</td>
-                                        <td class="col-md-12 border">
+                                        <td class="col-sm-4 border">@(group.Id)</td>
+                                        <td class="col-md-4 border">
                                             <InputText placeholder="titel"
                                                        @bind-Value="@group.Titel">@(group?.Titel ?? "")</InputText>
                                         </td>
 
-                                        <td class="col-lg-6 .ms-md-auto border ">
+                                        <td class="col-md-4 border ">
                                             <InputTextArea type="text"
                                                            class="form-control"
                                                            placeholder="Beskrivelse"
                                                            @bind-Value="@group.Description"
-                                                           rows="3">@(group?.Description ?? "")</InputTextArea>
+                                                           rows="3">@(group.Description ?? "")</InputTextArea>
                                         </td>
                                         <td>
                                             <button class="btn btn-outline-danger"
@@ -57,11 +57,11 @@
                                         {
 
                                         <tr>
-                                            <th class="col-6 border text-dark">Id</th>
-                                            <th class="col-6 col-sm-8 border text-dark">Titel</th>
-                                            <th class="col-lg-auto border text-dark">Beskrivelse</th>
-                                            <th class="col-lg-8 border text-dark"> DataType</th>
-                                            <th class="col-8 border text-dark">muligheder</th>
+                                            <th class="col-md-4 border text-dark">Id</th>
+                                            <th class="col-md-4 border text-dark">Titel</th>
+                                            <th class="col-md-4 border text-dark">Beskrivelse</th>
+                                            <th class="col-md-4 border text-dark"> DataType</th>
+                                            <th class="col-md-4 border text-dark">muligheder</th>
                                         </tr>
 
 
@@ -69,17 +69,17 @@
                                         {
                                             <tr>
 
-                                                <td class="col-4 border">@(elements?.Id)</td>
-                                                <td class="col-8 border">
+                                                <td class="col-md-4 border">@(elements?.Id)</td>
+                                                <td class="col-md-4 border">
                                                     <InputText placeholder="Titel"
-                                                               @bind-Value="@elements?.Titel">@(elements?.Titel ?? "")</InputText>
+                                                               @bind-Value="@elements.Titel">@(elements?.Titel ?? "")</InputText>
                                                 </td>
-                                                <td class="col-lg-6 .ms-md-auto border ">
+                                                <td class="col-md-4 border ">
                                                     <InputTextArea placeholder="Beskrivelse"
-                                                                   @bind-Value="@elements?.Description">@(elements?.Description ?? "")</InputTextArea>
+                                                                   @bind-Value="@elements.Description">@(elements?.Description ?? "")</InputTextArea>
                                                 </td>
-                                                <td class="col-xl-12 border">
-                                                    <InputSelect placeholder="Type" @bind-Value="@elements?.Datatype">
+                                                <td class="col-md-4 border">
+                                                    <InputSelect placeholder="Type" @bind-Value="@elements.Datatype">
                                                         @foreach (DataTypeEnum datatype in Enum.GetValues(typeof(DataTypeEnum)))
                                                                         {
                                                             <option value="@((int) datatype)">@datatype</option>
@@ -87,9 +87,9 @@
                                                                         }
                                                     </InputSelect>
                                                 </td>
-                                                <td class="col-12 border">
+                                                <td class="col-md-4 border">
                                                     <InputTextArea placeholder="Valg mulighder"
-                                                                   @bind-Value="@elements?.Options">@(elements?.Options ?? "")</InputTextArea>
+                                                                   @bind-Value="@elements.Options">@(elements?.Options ?? "")</InputTextArea>
                                                 </td>
                                                 <td>
                                                     <button class="btn btn-outline-danger"
@@ -109,7 +109,6 @@
                                                         @onclick="(() => OnSubmit())">
                                                     Nyt felt
                                                 </button>
-
                                             </td>
                                         </tr>
                                     }@* forache groups  *@
@@ -133,7 +132,7 @@
             </div>
         </div>
     </EditForm>
-   @* <EditForm Model="TemplateDto">
+    <EditForm Model="TemplateDto">
         <div class="container">
             <div class="col-12 text-right">
                 <button class="btn btn-outline-primary" @onclick="(() => UpdateTemplate(Id))">
@@ -141,15 +140,15 @@
                 </button>
             </div>
         </div>
-        <div class="container">
+       @* <div class="container">
             <div class="col-12 text-right">
                 <button class="btn btn-outline-danger" @onclick="(() => DeleteTemplate(TemplateDto))">
                     Slet Skabelon
                 </button>
             </div>
-        </div>
+        </div>*@
     </EditForm>
-    <EditForm Model="TemplateDto">
+ @*   <EditForm Model="TemplateDto">
         <div class="container">
             <div class="col-12 text-center">
                 <button class="btn btn-primary" @onclick="(() => ValidSubmit(TemplateDto))">

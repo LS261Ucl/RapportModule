@@ -35,9 +35,9 @@ namespace Rapport.Client.Shared
         public int Id { get; set; }
 
         private readonly CreateTemplateGroupDto createGroupDto = new();
-        private readonly CreateTemplateElementDto createTemplateFieldDto = new();
+        private readonly CreateTemplateElementDto createTemplateElementDto = new();
         private CreateReportGroupDto createReportGroupDto = new();
-        private CreateReportElementDto createReportFieldDto = new();
+        private CreateReportElementDto createReportElementDto = new();
 
 
         private TemplateDto TemplateDto { get; set; } = new();
@@ -87,8 +87,8 @@ namespace Rapport.Client.Shared
         private async Task OnSubmit()
         {
             //Call Api whit Create
-            var field = await ElementService.CreateTemplateElement(Id, createTemplateFieldDto);
-            NavigationManager.NavigateTo($"field/edit/{field.Id}");
+            var element = await ElementService.CreateTemplateElement(Id, createTemplateElementDto);
+            NavigationManager.NavigateTo($"field/edit/{element.Id}");
         }
 
         public async Task DeleteGroup(int Id)
@@ -113,20 +113,20 @@ namespace Rapport.Client.Shared
         //}
 
 
-        //public async Task<TemplateDto> UpdateTemplate(int Id)
-        //{
-        //    try
-        //    {
-        //        //Call Api whit Update
-        //        var dbTemplate = await TemplateService.UpdatedTemplate(Id, TemplateDto);
-        //        return dbTemplate;
+        public async Task<TemplateDto> UpdateTemplate(int Id)
+        {
+            try
+            {
+                //Call Api whit Update
+                var dbTemplate = await TemplateService.UpdatedTemplate(Id, TemplateDto);
+                return dbTemplate;
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception($"kunne ikke få lov til at gemme følgende skabelon: {Id}", ex);
-        //    }
-        //}
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"kunne ikke få lov til at gemme følgende skabelon: {Id}", ex);
+            }
+        }
 
         //private async Task ValidSubmit(TemplateDto currentTemplateDto)
         //{
@@ -175,7 +175,7 @@ namespace Rapport.Client.Shared
         //        }//forache
         //    }//if
         //    NavigationManager.NavigateTo($"report/{report.Id}");
-       // }
+        // }
 
     }
 }

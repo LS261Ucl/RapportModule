@@ -24,12 +24,13 @@ builder.Services.AddDbContext<ReportDbContext>(options =>
 
 //add in to localserver
 
+// Add in to localdb 
 //builder.Services.AddDbContext<ReportDbContext>(options =>
 //{
 //    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 
 //});
-//
+
 builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
 builder.Services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();

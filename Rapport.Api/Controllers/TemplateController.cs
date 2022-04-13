@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Rapport.BusinessLogig.Interfaces;
 using Rapport.Entites;
 using Rapport.Shared.Dto_er.Template;
@@ -12,17 +13,14 @@ namespace Rapport.Api.Controllers
     public class TemplateController : ControllerBase
     {
         private readonly IGenericRepository<Template> _templateRepository;
-        private readonly ITemplateService _templateService;
         private readonly ILogger<TemplateController> _logger;
         private readonly IMapper _mapper;
 
         public TemplateController(IGenericRepository<Template> templateRepository,
-            ITemplateService templateService,
             ILogger<TemplateController> logger,
             IMapper mapper)
         {
             _templateRepository = templateRepository;
-            _templateService = templateService;
             _logger = logger;
             _mapper = mapper;
         }
@@ -34,9 +32,15 @@ namespace Rapport.Api.Controllers
             {
                 var dbTemplate = await _templateRepository.GetAllAsync();
 
-                var request = _mapper.Map<List<TemplateDto>>(dbTemplate);
+                if(dbTemplate == null)
+                {
+                    _logger.LogError("Kunne ikke finde skabelonerne, fejl på controlleren");
+                    return NotFound();
+                }
 
-                return request;
+                var dto = _mapper.Map<List<TemplateDto>>(dbTemplate);
+
+                return Ok(dto);
             }//try
             catch (Exception ex)
             {
@@ -49,66 +53,44 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var dbtemplate = await _templateRepository.GetAsync(x => x.Id == id);
+                var dbTemplate = await _templateRepository.GetAsync(x => x.Id == id);
 
-                if(dbtemplate == null)
+                if (dbTemplate == null)
                 {
-                    _logger.LogError($"Unable to find template whit this id: {id}");
-                    return NotFound();  
-                }//if
-
-                return Ok(_mapper.Map<Template>(dbtemplate));
-            }//try
-            catch(Exception ex)
-            {
-                throw new Exception("Error on Api", ex);
-            }//catch
-        }
-
-        [HttpGet("{id}/groups")]
-        public async Task<ActionResult<TemplateDto>> GetTemplateWhitChildrenAscyn(int id)
-        {
-            try
-            {
-                var dbTemplate = await _templateService.GetTemplateWhitChilderen(id);
-
-                if(dbTemplate == null)
-                {
-                    _logger.LogError($"Unable to find template whit this id: {id}");
+                    _logger.LogInformation($"Kunne ikke finde {nameof(Template)} med id: {id}");
                     return NotFound();
                 }//if
 
-                return Ok(dbTemplate);
-                   
-            }//try
-            catch(Exception ex)
-            {
-                throw new Exception("Error on Api", ex);
-            }//catch
-
-        }
-
-        [HttpPost]
-        public async Task<ActionResult<Template>> CreateTemplateAsync([FromBody] CreateTemplateDto requestDto)
-        {
-            try
-            {
-                var template = await _templateService.CreateTemplate(requestDto);
-
-                if (template == null)
-                {
-                    _logger.LogError("Unable to create template");
-                    return BadRequest();
-                }//if
-
-                return Ok(template);
-
+                return Ok(_mapper.Map<Template>(dbTemplate));
             }//try
             catch (Exception ex)
             {
-                throw new Exception("Error on Api", ex);
+                throw new Exception($"Kunne ikke finde skabelone med følgende id fra Api'et: {id}", ex);
             }//catch
-           
+        }
+
+      
+        [HttpPost]
+        public async Task<ActionResult<Template>> CreateTemplate([FromBody] CreateTemplateDto requestDto)
+        {
+            try
+            {
+                var dbRequest = _mapper.Map<Template>(requestDto);
+
+                var dbTemplate = await _templateRepository.CreateAsync(dbRequest);
+
+                if (dbTemplate == null)
+                {
+                    _logger.LogInformation($"Kunne ikke oprette {nameof(Template)}");
+                    return BadRequest();
+                }//if
+
+                return Ok(_mapper.Map<TemplateDto>(dbTemplate));
+            }//try
+            catch (Exception ex)
+            {
+                throw new Exception("Fik ikke lov til at oprette skabelon, fra Api'et", ex);
+            }//catch
         }
 
         [HttpPut("{id}")]
@@ -116,22 +98,26 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var dbTemplate = await _templateService.UpdateTemplate(id,requestDto);
+                var dbTemplate = await _templateRepository.GetAsync(x => x.Id == id);
 
-                if(dbTemplate == null)
+                if (dbTemplate == null)
                 {
-                    _logger.LogError($"Unable to update template whit this id: {id}");
-                    return BadRequest();
+                    _logger.LogInformation($"Kunne ikke finde {nameof(Template)} med følgende id : {id}");
+                    return NotFound();
                 }//if
 
-                return Ok(dbTemplate);
-            }//try
-            catch(Exception ex)
+                _mapper.Map(requestDto, dbTemplate);
+                var dbRequest = await _templateRepository.UpdateAsync(dbTemplate);
+
+                return Ok(_mapper.Map<TemplateDto>(dbTemplate));
+            }//if
+            catch (Exception ex)
             {
-                throw new Exception("Error on Api", ex);
+                throw new Exception($"kunne enten ikke finde følgende skabelon med id: {id}, eller fik ikke lov til at opdatere den, fra Api'et", ex);
             }//catch
+
         }
-           
+
         [HttpDelete]
         public async Task<ActionResult> DeleteTemplateAsync(int id)
         {
@@ -142,7 +128,7 @@ namespace Rapport.Api.Controllers
 
                 if (!delete)
                 {
-                    _logger.LogInformation($"Unable to find or delete {nameof(Template)} whit this id : {id}");
+                    _logger.LogInformation($"Kunne ikke få lov til at slette {nameof(Template)} med følgende id : {id}");
                     return NotFound();
                 }//if
 
@@ -150,7 +136,7 @@ namespace Rapport.Api.Controllers
             }//try
             catch (Exception ex)
             {
-                throw new Exception("Error on Api", ex);
+                throw new Exception("Fejl på Api'et", ex);
             }//catch
         }
 

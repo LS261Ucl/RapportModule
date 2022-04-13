@@ -31,15 +31,15 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var templateElements = await _templateElementService.GetTemplateElements();
+                var elements = await _templateElementRepository.GetAllAsync();
 
-                if (templateElements == null)
+                if(elements == null)
                 {
-                    _logger.LogError("Unable to find Templates");
-                    return NotFound();
-                }//if
+                    _logger.LogError("Kunne ikke finde elementerne");
+                    return NotFound();  
+                }
 
-                return Ok(templateElements);
+                return Ok(_mapper.Map<TemplateElement>(elements));
             }//if
             catch (Exception ex)
             {
@@ -52,14 +52,15 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var templateElement = await _templateElementService.GetTemplateElementById(id);
-                if (templateElement == null)
-                {
-                    _logger.LogError($"Unable to find template{nameof(TemplateElement)} whit this id: {id}");
-                    return NotFound();
-                }//if
+               var element = await _templateElementRepository.GetAsync(x => x.Id == id);
 
-                return Ok(templateElement);
+                if(element == null)
+                {
+                    _logger.LogError($"Kunne ikke finde element {nameof(TemplateElement)} med følgende Id: {id}");
+                    return NotFound();
+                }
+
+                return Ok(_mapper.Map<TemplateElement>(element));
 
             }//try
             catch (Exception ex)
@@ -74,15 +75,17 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var templateElement = await _templateElementService.CreateTemplateElement(requestDto);
+                var element = _mapper.Map<TemplateElement>(requestDto);
 
-                if (templateElement == null)
+                var created = await _templateElementRepository.CreateAsync(element);
+
+                if(created == null)
                 {
-                    _logger.LogError("Unable to create templateelement");
+                    _logger.LogError("Kunne ikke få lov til at oprette element");
                     return BadRequest();
-                }//if
+                }
 
-                return Ok(templateElement);
+                return Ok(_mapper.Map<TemplateElementDto>(created));
 
             }//try
             catch (Exception ex)
@@ -97,19 +100,23 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var templateElement = await _templateElementService.UpdateTemplateElement(id, requestDto);
+                var templateElement = await _templateElementRepository.GetAsync(x => x.Id == id);
 
-                if (templateElement == null)
+                if(templateElement == null)
                 {
-                    _logger.LogError($"Unable to update {nameof(TemplateElement)} whit this id: {id}");
-                    return BadRequest();
-                }//if
+                    _logger.LogError($"Kunne ikke finde {nameof(templateElement)} med følgende id: {id}");
+                    return NotFound();
+                }
 
-                return Ok(templateElement);
-            }//try
+                _mapper.Map(requestDto, templateElement);
+
+                var dbRequest = await _templateElementRepository.UpdateAsync(templateElement);
+
+                return dbRequest;
+            }//if
             catch (Exception ex)
             {
-                throw new Exception("Error on Api", ex);
+                throw new Exception($"kunne enten ikke finde følgende skabelon med id: {id}, eller fik ikke lov til at opdatere den, fra Api'et", ex);
             }//catch
         }
 
