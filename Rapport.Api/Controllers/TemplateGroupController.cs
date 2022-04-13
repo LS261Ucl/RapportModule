@@ -68,7 +68,7 @@ namespace Rapport.Api.Controllers
            
         }
 
-        [HttpPost]
+        [HttpPost("{id}")]
         public async Task<ActionResult<TemplateGroup>> CreateTemplateGroup([FromBody] CreateTemplateGroupDto requestDto)
         {
             try

@@ -2,6 +2,7 @@ global using Rapport.Client.Helpers;
 global using Rapport.Client.Interfaces;
 global using Rapport.Shared.Dto_er.Template;
 global using Rapport.Shared.Enums;
+global using Blazored.Modal;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Rapport.Client;
@@ -19,7 +20,7 @@ builder.Services.AddHttpClient("ReportUri", (sp, cl) =>
     cl.BaseAddress = new Uri("https://localhost:7109/api/");
 });
 
-
+builder.Services.AddBlazoredModal();
 
 
 

@@ -69,8 +69,28 @@ namespace Rapport.Api.Controllers
             }//catch
         }
 
-      
-        [HttpPost]
+        [HttpGet("{id}/groups")]
+        public async Task<ActionResult<TemplateDto>> GetTemplateWhitChildren(int id)
+        {
+            try
+            {
+                var dbTemplate = await _templateRepository.GetAsync(x => x.Id == id, x => x.Include(t => t.TemplateGroups).ThenInclude(g => g.Elements));
+                if (dbTemplate != null)
+                {
+                    return _mapper.Map<TemplateDto>(dbTemplate);
+                }
+                return _mapper.Map<TemplateDto>(null);
+
+
+            }//try
+            catch (Exception ex)
+            {
+                throw new Exception($"Kunne ikke finde Skabelon med følgende id {id}", ex);
+            }//catch
+        }
+
+
+            [HttpPost]
         public async Task<ActionResult<Template>> CreateTemplate([FromBody] CreateTemplateDto requestDto)
         {
             try

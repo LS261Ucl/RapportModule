@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazored.Modal.Services;
+using Microsoft.AspNetCore.Components;
 using Rapport.Shared.Dto_er.Report;
 using Rapport.Shared.Dto_er.ReportElement;
 using Rapport.Shared.Dto_er.ReportGroup;
@@ -17,6 +18,9 @@ namespace Rapport.Client.Shared
 
         [Inject]
         private ITemplateElementService? ElementService { get; set; }
+
+        [Inject]
+        private IModalService Modal { get; set; }
 
         [Inject]
         private IReportService? ReportService { get; set; }
@@ -84,10 +88,10 @@ namespace Rapport.Client.Shared
             NavigationManager.NavigateTo($"group/edit/{group.Id}");
         }
 
-        private async Task OnSubmit()
+        private async Task OnSubmit(int id)
         {
             //Call Api whit Create
-            var element = await ElementService.CreateTemplateElement(Id, createTemplateElementDto);
+            var element = await ElementService.CreateTemplateElement(id, createTemplateElementDto);
             NavigationManager.NavigateTo($"field/edit/{element.Id}");
         }
 

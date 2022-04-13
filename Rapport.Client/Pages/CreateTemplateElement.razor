@@ -1,0 +1,82 @@
+﻿@page "/field/edit/{id:int}"
+
+<div class="container">
+    <EditForm Model="ElementDto" OnValidSubmit="OnInitializedAsync">
+        <DataAnnotationsValidator />
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label> Titel </label>
+                            <div class="col-md-12">
+                                <InputText class="form-control"
+                                           @bind-Value="@ElementDto.Titel"></InputText>
+                            </div>
+
+                            <label> Beskrivelse</label>
+                            <div class="col-md-12">
+                                <InputTextArea class="form-control"
+                                               @bind-Value="@ElementDto.Description"
+                                               rows="3"></InputTextArea>
+                            </div>
+                            <label> Type</label>
+                            <div class="col-md-12">
+                                <InputSelect @bind-Value="@ElementDto.Datatype">
+                                    @foreach (DataTypeEnum datatype in Enum.GetValues(typeof(DataTypeEnum)))
+                                    {
+                                        <option value="@((int) datatype)">@datatype</option>
+                                        
+                                    }
+                                </InputSelect>                               
+                            </div>
+                            <label>Options </label>
+                           @* <div class="col-md-12">
+                                <InputSelect @bind-Value="@ElementDto.Options">
+                                    @foreach (var options in Enum.GetValues(typeof(OptionsEnum)))
+                                    {
+                                        <option>@options</option>
+                                    }
+                                </InputSelect>
+                            </div>*@
+                            <label>Sortering </label>
+                        @*    <div class="col-md-12">
+                                <InputTextArea class="form-control"
+                                               @bind-Value="@ElementDto.s"
+                                               rows="3"></InputTextArea>
+                            </div>*@
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ValidationSummary />
+    </EditForm>
+</div>
+<div class="container">
+    <EditForm Model="ElementDto">
+        <div class="col-sm-6 text-right margin-top:32px">
+            <button class="btn btn-outline-danger"
+                    type="submit">
+                Slet
+            </button>
+            <button class="btn btn-outline-primary"
+                    type="button"
+                    onclick="(() => @UpdateField(ElementDto.Id))">
+                Gem
+            </button>
+        </div>
+    </EditForm>
+</div>
+<div class="container">
+   
+        <div class="col-sm-6 text-right margin-top:32px">
+            <button class="btn btn-secondary"
+                    @onclick="(() => Backbutton(ElementDto.TemplateGroupId))">
+                Tilbage
+            </button>  
+            </div>
+  
+</div>

@@ -70,7 +70,7 @@ namespace Rapport.Api.Controllers
 
         }
 
-        [HttpPost]
+        [HttpPost("{id}")]
         public async Task<ActionResult<TemplateElement>> CreateTemplateElementAsync([FromBody] CreateTemplateElementDto requestDto)
         {
             try

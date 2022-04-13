@@ -1,4 +1,5 @@
 ﻿@page "/template/{id:int}"
+@using Rapport.Client.Pages
 
 <EditForm Model="TemplateDto" OnValidSubmit="OnInitializedAsync">
     <div>
@@ -16,31 +17,33 @@
                     <table>
                         <thead>
                             <tr>
-                                <th class="col-md-4 border">Id</th>
+                                <th class="col-md-2 border">Id</th>
                                 <th class="col-md-4 border">Titel</th>
-                                <th class="col-md-4 border">Beskrivelse</th>
+                                <th class="col-md-10 border">Beskrivelse</th>
                             </tr>
                         </thead>
                         <tbody>
 
                             @if (TemplateDto.TemplateGroups != null)
                             {
+                                
                                 @foreach (var group in TemplateDto.TemplateGroups)
                                 {
+                                    
                                     <tr>
-                                        <td class="col-sm-4 border">@(group.Id)</td>
-                                        <td class="col-md-4 border">
-                                            <InputText placeholder="titel"
-                                                       @bind-Value="@group.Titel">@(group?.Titel ?? "")</InputText>
+                                        <td>
+                                             <InputNumber class=col-md-2 @bind-Value="group.Id">@(group.Id)</InputNumber>
                                         </td>
-
-                                        <td class="col-md-4 border ">
-                                            <InputTextArea type="text"
+                                        <td class="col-md-4">
+                                            <InputText @bind-Value="group.Titel">@(group?.Titel ?? "")</InputText>
+                                        </td>
+                                        <td class="col-md-10">
+                                            <InputTextArea  type="text"
                                                            class="form-control"
                                                            placeholder="Beskrivelse"
                                                            @bind-Value="@group.Description"
                                                            rows="3">@(group.Description ?? "")</InputTextArea>
-                                        </td>
+                                        </td>                                                                                   
                                         <td>
                                             <button class="btn btn-outline-danger"
                                                     @onclick="(() => DeleteGroup(group.Id))">
@@ -57,11 +60,11 @@
                                         {
 
                                         <tr>
-                                            <th class="col-md-4 border text-dark">Id</th>
+                                            <th class="col-md-2 border text-dark">Id</th>
                                             <th class="col-md-4 border text-dark">Titel</th>
-                                            <th class="col-md-4 border text-dark">Beskrivelse</th>
-                                            <th class="col-md-4 border text-dark"> DataType</th>
-                                            <th class="col-md-4 border text-dark">muligheder</th>
+                                            <th class="col-md-10 border text-dark">Beskrivelse</th>
+                                            <th class="col-md-6 border text-dark"> DataType</th>
+                                            <th class="col-md-6 border text-dark">muligheder</th>
                                         </tr>
 
 
@@ -69,16 +72,16 @@
                                         {
                                             <tr>
 
-                                                <td class="col-md-4 border">@(elements?.Id)</td>
-                                                <td class="col-md-4 border">
-                                                    <InputText placeholder="Titel"
+                                                <InputNumber class="col-md-2" @bind-Value="@elements.Id" >@elements.Id</InputNumber>
+                                                
+                                                <InputText class="col-md-4" placeholder="Titel"
                                                                @bind-Value="@elements.Titel">@(elements?.Titel ?? "")</InputText>
-                                                </td>
-                                                <td class="col-md-4 border ">
+                                              
+                                                <td class="col-md-10 border ">
                                                     <InputTextArea placeholder="Beskrivelse"
                                                                    @bind-Value="@elements.Description">@(elements?.Description ?? "")</InputTextArea>
                                                 </td>
-                                                <td class="col-md-4 border">
+                                                <td class="col-md-6 border">
                                                     <InputSelect placeholder="Type" @bind-Value="@elements.Datatype">
                                                         @foreach (DataTypeEnum datatype in Enum.GetValues(typeof(DataTypeEnum)))
                                                                         {
@@ -87,7 +90,7 @@
                                                                         }
                                                     </InputSelect>
                                                 </td>
-                                                <td class="col-md-4 border">
+                                                <td class="col-md-6 border">
                                                     <InputTextArea placeholder="Valg mulighder"
                                                                    @bind-Value="@elements.Options">@(elements?.Options ?? "")</InputTextArea>
                                                 </td>
@@ -99,18 +102,18 @@
                                                 </td>
                                             </tr>
                                         }@* Forache fields *@
-
-                                    } @* if groups *@
-                                        </tr>
-                                        <tr class="container">
+                                           <tr class="container">
                                             <td class="col-sm-6 text-right">
                                                 <button class="btn btn-outline-secondary"
                                                         type="button"
-                                                        @onclick="(() => OnSubmit())">
+                                                        @onclick="(() => OnSubmit(group.Id))">
                                                     Nyt felt
                                                 </button>
                                             </td>
                                         </tr>
+                                    } @* if groups *@
+                                        </tr>
+                                     
                                     }@* forache groups  *@
 
                                 }@* if template *@
@@ -121,14 +124,16 @@
                 </div>
             </div>
         </div>
+@*   <div class="container">
+            <div class="col-sm-6 text-right">
+                <button @onclick="@(() => Modal.Show<FetchData>("Opret gruppe"))" class="btn btn-outline-secondary">Opret gruppe</button>
+            </div>
+        </div>*@                
     </EditForm>
-    <EditForm Model="TemplateDto" OnValidSubmit="HandleValidSubmit">
+    <EditForm Model="TemplateDto">
         <div class="container">
             <div class="col-sm-6 text-right">
-                <button class="btn btn-outline-secondary"
-                        type="submit">
-                    Ny gruppe
-                </button>
+                <button @onclick="HandleValidSubmit" class="btn btn-outline-secondary">Opret gruppe</button>
             </div>
         </div>
     </EditForm>
