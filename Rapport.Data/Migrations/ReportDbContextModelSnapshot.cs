@@ -22,43 +22,6 @@ namespace Rapport.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Rapport.Entites.Customer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PostNumber")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Customers");
-                });
-
             modelBuilder.Entity("Rapport.Entites.Employee", b =>
                 {
                     b.Property<int>("Id")
@@ -86,8 +49,8 @@ namespace Rapport.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
+                    b.Property<string>("CustomerEmail")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
@@ -111,8 +74,6 @@ namespace Rapport.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
 
                     b.HasIndex("EmployeeId");
 
@@ -269,12 +230,6 @@ namespace Rapport.Data.Migrations
 
             modelBuilder.Entity("Rapport.Entites.Report", b =>
                 {
-                    b.HasOne("Rapport.Entites.Customer", "Customer")
-                        .WithMany("Reports")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("Rapport.Entites.Employee", "Employee")
                         .WithMany("Reports")
                         .HasForeignKey("EmployeeId")
@@ -286,8 +241,6 @@ namespace Rapport.Data.Migrations
                         .HasForeignKey("TemplateId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.Navigation("Customer");
 
                     b.Navigation("Employee");
 
@@ -350,11 +303,6 @@ namespace Rapport.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Template");
-                });
-
-            modelBuilder.Entity("Rapport.Entites.Customer", b =>
-                {
-                    b.Navigation("Reports");
                 });
 
             modelBuilder.Entity("Rapport.Entites.Employee", b =>

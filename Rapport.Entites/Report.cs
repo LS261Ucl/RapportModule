@@ -14,13 +14,11 @@ namespace Rapport.Entites
 
         public bool? IsReadOnly { get; set; }
 
+        public string? CustomerEmail { get; set; }
+
         [ForeignKey( nameof(TemplateId))]
         public int TemplateId { get; set; }
         public Template? Template { get; set; }
-
-        [ForeignKey(nameof(CustomerId))]
-        public int CustomerId { get; set; }
-        public Customer? Customer { get; set; }
 
         [ForeignKey(nameof(EmployeeId))]
         public int EmployeeId { get; set; }

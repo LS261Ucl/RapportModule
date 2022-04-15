@@ -21,7 +21,6 @@ namespace Rapport.Data
         public DbSet<Report>? Reports { get; set; }
         public DbSet<ReportGroup>? ReportGroups { get; set; }
         public DbSet<ReportElement>? ReportElements { get; set; }
-        public DbSet<Customer>? Customers { get; set; }
         public DbSet<Employee>? Employees { get; set; }
 
 
@@ -34,12 +33,7 @@ namespace Rapport.Data
         {
             modelbuilder.Entity("Rapport.Entites.Report", b =>
             {
-                b.HasOne("Rapport.Entites.Customer", "Customer")
-                    .WithMany("Reports")
-                    .HasForeignKey("CustomerId")
-                    .OnDelete(DeleteBehavior.NoAction)
-                    .IsRequired();
-
+               
                 b.HasOne("Rapport.Entites.Employee", "Employee")
                     .WithMany("Reports")
                     .HasForeignKey("EmployeeId")
@@ -51,8 +45,6 @@ namespace Rapport.Data
                     .HasForeignKey("TemplateId")
                     .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
-
-                b.Navigation("Customer");
 
                 b.Navigation("Employee");
 

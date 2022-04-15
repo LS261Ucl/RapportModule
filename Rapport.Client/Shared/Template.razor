@@ -26,18 +26,18 @@
 
                             @if (TemplateDto.TemplateGroups != null)
                             {
-                                
-                                @foreach (var group in TemplateDto.TemplateGroups)
+                           
+                                     @foreach (var group in TemplateDto.TemplateGroups)
                                 {
                                     
                                     <tr>
                                         <td>
-                                             <InputNumber class=col-md-2 @bind-Value="group.Id">@(group.Id)</InputNumber>
+                                            <label> @(group.Id)</label>
                                         </td>
-                                        <td class="col-md-4">
+                                        <td class="col-md-4 border">
                                             <InputText @bind-Value="group.Titel">@(group?.Titel ?? "")</InputText>
                                         </td>
-                                        <td class="col-md-10">
+                                        <td class="col-md-10 border">
                                             <InputTextArea  type="text"
                                                            class="form-control"
                                                            placeholder="Beskrivelse"
@@ -71,11 +71,15 @@
                                         @foreach (var elements in group.Elements)
                                         {
                                             <tr>
-
-                                                <InputNumber class="col-md-2" @bind-Value="@elements.Id" >@elements.Id</InputNumber>
-                                                
-                                                <InputText class="col-md-4" placeholder="Titel"
+                                                <td class="col-md-2">
+                                                    <label> @(elements.Id)</label>
+                                                </td>
+                                                <td class="col-md-4">
+                                                    <InputText placeholder="Titel"
                                                                @bind-Value="@elements.Titel">@(elements?.Titel ?? "")</InputText>
+                                                </td>
+                                                
+                                                
                                               
                                                 <td class="col-md-10 border ">
                                                     <InputTextArea placeholder="Beskrivelse"
@@ -115,6 +119,8 @@
                                         </tr>
                                      
                                     }@* forache groups  *@
+                             
+                               
 
                                 }@* if template *@
                         </tbody>
@@ -145,15 +151,15 @@
                 </button>
             </div>
         </div>
-       @* <div class="container">
+        <div class="container">
             <div class="col-12 text-right">
                 <button class="btn btn-outline-danger" @onclick="(() => DeleteTemplate(TemplateDto))">
                     Slet Skabelon
                 </button>
             </div>
-        </div>*@
+        </div>
     </EditForm>
- @*   <EditForm Model="TemplateDto">
+    <EditForm Model="TemplateDto">
         <div class="container">
             <div class="col-12 text-center">
                 <button class="btn btn-primary" @onclick="(() => ValidSubmit(TemplateDto))">
@@ -161,4 +167,4 @@
                 </button>
             </div>
         </div>
-    </EditForm>*@
+    </EditForm>

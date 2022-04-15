@@ -38,14 +38,16 @@ namespace Rapport.Client.Shared
         [Parameter]
         public int Id { get; set; }
 
-        private readonly CreateTemplateGroupDto createGroupDto = new();
-        private readonly CreateTemplateElementDto createTemplateElementDto = new();
+        private CreateTemplateGroupDto createGroupDto = new();
+        private CreateTemplateElementDto createTemplateElementDto = new();
+        private CreateReportDto createReportDto = new();
         private CreateReportGroupDto createReportGroupDto = new();
         private CreateReportElementDto createReportElementDto = new();
 
 
         private TemplateDto TemplateDto { get; set; } = new();
         public TemplateGroupDto GroupDto { get; set; } = new();
+        private UpdateTemplateDto updateTemplate = new();
         private ReportDto ReportDto { get; set; } = new();
 
         public List<TemplateGroupDto> TemplateGroups = new();
@@ -107,14 +109,14 @@ namespace Rapport.Client.Shared
             await ElementService.DeletedTemplateElement(Id);
         }
 
-        //public async Task DeleteTemplate(TemplateDto currentTemplateDto)
-        //{
-        //    //Call Api whit Delete
-        //    //skal have lave en kaskade kald igennem rækkerne så jeg for slettet det hele på en gang????
-        //    await TemplateService.DeletedTemplate();
-        //    NavigationManager.NavigateTo("templates");
+        public async Task DeleteTemplate(TemplateDto currentTemplateDto)
+        {
+            //Call Api whit Delete
+            // Delete Template and its Children
+            await TemplateService?.DeletedTemplate(Id);
+            NavigationManager?.NavigateTo("templates");
 
-        //}
+        }
 
 
         public async Task<TemplateDto> UpdateTemplate(int Id)
@@ -122,64 +124,65 @@ namespace Rapport.Client.Shared
             try
             {
                 //Call Api whit Update
-                var dbTemplate = await TemplateService.UpdatedTemplate(Id, TemplateDto);
+                //Update Template and its Children
+                var dbTemplate = await TemplateService.UpdatedTemplate(Id, updateTemplate);
                 return dbTemplate;
 
             }
             catch (Exception ex)
             {
-                throw new Exception($"kunne ikke få lov til at gemme følgende skabelon: {Id}", ex);
+                throw new Exception($"kunne ikke få lov til at gemme følgende skabelon: {Id} Fejl på Service/Ui", ex);
             }
         }
 
-        //private async Task ValidSubmit(TemplateDto currentTemplateDto)
-        //{
+        private async Task ValidSubmit(TemplateDto currentTemplateDto)
+        {
 
-        //    var report = await ReportService.CreateReport(Id, TemplateDto.Title, ReportDto);
+            var report = await ReportService.CreateReport(Id, TemplateDto.Title, createReportDto);
 
-        //    if (report != null)
-        //    {
+            if (report != null)
+            {
 
-        //        //currentTemplateDto.Groups
-        //        foreach (var group in currentTemplateDto.TemplateGroups)
-        //        {
-        //            //Id bliver 0
-        //            //   var templateGroup = await GroupService.GetTemplateGroupById();
-        //            var dbgroup = new CreateReportGroupDto
-        //            {
-        //                TemplateGroupId = group.Id,
-        //                Titel = group.Titel,
-        //                ReportId = report.Id
-        //            };
+                //currentTemplateDto.Groups
+                foreach (var group in currentTemplateDto.TemplateGroups)
+                {
+                    //Id bliver 0
+                    //   var templateGroup = await GroupService.GetTemplateGroupById();
+                    var dbgroup = new CreateReportGroupDto
+                    {
+                        TemplateGroupId = group.Id,
+                        Titel = group.Titel,
+                        ReportId = report.Id
+                    };
 
-        //            createReportGroupDto = dbgroup;
+                    createReportGroupDto = dbgroup;
 
-        //            var dbRequest = await ReportGroupService.CreateReport(createReportGroupDto);
-        //            //  await Task.Delay(1000);
-        //            ReportGroupService.OnChange += StateHasChanged;
+                    var dbRequest = await ReportGroupService.CreateReport(createReportGroupDto);
+                    //  await Task.Delay(1000);
+                    ReportGroupService.OnChange += StateHasChanged;
 
-        //            foreach (var fields in group.Elements)
-        //            {
-        //                var dbfield = new CreateReportElementDto
-        //                {
-        //                    TemplateElementId = fields.Id,
-        //                    ReportGroupId = dbRequest.Id,
-        //                    Titel = fields.Titel,
-        //                    Description = fields.Description
+                    foreach (var element in group.Elements)
+                    {
+                        var dbelement = new CreateReportElementDto
+                        {
+                            TemplateElementId = element.Id,
+                            ReportGroupId = dbRequest.Id,
+                            Titel = element.Titel,
+                           
 
-        //                };
+                        };
 
-        //                createReportFieldDto = dbfield;
+                        createReportElementDto = dbelement;
 
-        //                await ReportFieldService.CreateFieldAsync(createReportFieldDto);
-        //                // await Task.Delay(1000);
-        //                ReportFieldService.OnChange += StateHasChanged;
-        //            }//forache
+                        await ReportElementService.CreateElementAsync(dbelement);
+                        // await Task.Delay(1000);
+                        ReportElementService.OnChange += StateHasChanged;
+                    }//forache
 
-        //        }//forache
-        //    }//if
-        //    NavigationManager.NavigateTo($"report/{report.Id}");
-        // }
+                }//forache
+            }//if
+            NavigationManager.NavigateTo($"report/{report.Id}");
+        }
 
     }
 }

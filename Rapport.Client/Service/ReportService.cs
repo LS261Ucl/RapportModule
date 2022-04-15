@@ -1,6 +1,4 @@
-﻿using Rapport.Client.Interfaces;
-using Rapport.Shared.Dto_er.Customer;
-using Rapport.Shared.Dto_er.Report;
+﻿using Rapport.Shared.Dto_er.Report;
 using Rapport.Shared.Dto_er.ReportGroup;
 
 namespace Rapport.Client.Service
@@ -10,7 +8,6 @@ namespace Rapport.Client.Service
         private readonly IHttpService _httpServices;
         public List<ReportDto> ReportDtos { get; set; }
         public List<ReportGroupDto> GroupDtos { get; set; }
-        public List<CustomerDto> CustomerDtos { get; set; }
 
         public event Action OnChange;
 
@@ -19,7 +16,7 @@ namespace Rapport.Client.Service
             _httpServices = httpServices;
         }
 
-        public async Task<ReportDto> CreateReport(int id, string templateTitel, string templateDecription, CreateReportDto requestDto)
+        public async Task<ReportDto> CreateReport(int id, string templateTitel, CreateReportDto requestDto)
         {
             try
             {

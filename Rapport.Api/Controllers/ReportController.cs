@@ -92,7 +92,7 @@ namespace Rapport.Api.Controllers
 
         }
 
-        [HttpPost]
+        [HttpPost("{id}")]
         public async Task<ActionResult<Report>> CreateReportAsync([FromBody] CreateReportDto requestDto)
         {
             try

@@ -10,5 +10,6 @@ namespace Rapport.Shared.Dto_er.Report
         public string? Remarks { get; set; }
 
         public bool? IsReadOnly { get; set; }
+        public string? CustomerEmail { get; set; }
     }
 }
