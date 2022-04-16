@@ -94,7 +94,7 @@ namespace Rapport.Client.Shared
         {
             //Call Api whit Create
             var element = await ElementService.CreateTemplateElement(id, createTemplateElementDto);
-            NavigationManager.NavigateTo($"field/edit/{element.Id}");
+            NavigationManager.NavigateTo($"element/create/{element.Id}");
         }
 
         public async Task DeleteGroup(int Id)
@@ -168,8 +168,7 @@ namespace Rapport.Client.Shared
                             TemplateElementId = element.Id,
                             ReportGroupId = dbRequest.Id,
                             Titel = element.Titel,
-                           
-
+                          
                         };
 
                         createReportElementDto = dbelement;

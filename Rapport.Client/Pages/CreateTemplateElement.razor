@@ -1,4 +1,4 @@
-﻿@page "/field/edit/{id:int}"
+﻿@page "/element/create/{id:int}"
 
 <div class="container">
     <EditForm Model="ElementDto" OnValidSubmit="OnInitializedAsync">
@@ -64,7 +64,7 @@
             </button>
             <button class="btn btn-outline-primary"
                     type="button"
-                    onclick="(() => @UpdateField(ElementDto.Id))">
+                    onclick="(() => @UpdateElement(ElementDto.Id))">
                 Gem
             </button>
         </div>

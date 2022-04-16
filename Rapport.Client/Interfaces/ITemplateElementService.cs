@@ -8,7 +8,7 @@ namespace Rapport.Client.Interfaces
         Task<TemplateElementDto> GetTemplateElementById(int id);
         Task<List<TemplateElementDto>> GetTemplateElementByGroupId(int groupId);
         Task<TemplateElementDto> CreateTemplateElement(int id, CreateTemplateElementDto requestDto);
-        Task<TemplateElementDto> UpdatedTemplateElement(int id, UpdateTemplateElementDto fieldDto);
+        Task<TemplateElementDto> UpdatedTemplateElement(int id, TemplateElementDto elementDto);
         Task<bool> DeletedTemplateElement(int id);
     }
 }

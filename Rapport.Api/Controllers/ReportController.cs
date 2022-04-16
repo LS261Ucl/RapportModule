@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Rapport.BusinessLogig.Interfaces;
 using Rapport.Entites;
 using Rapport.Shared.Dto_er.Report;
@@ -13,17 +14,14 @@ namespace Rapport.Api.Controllers
     {
         private readonly IGenericRepository<Report> _reportGenericRepository;
         private readonly ILogger<ReportController> _logger;
-        private readonly IGenericRepository<Report> reportRepository;
-        private readonly IReportService _reportService;
+        private readonly IGenericRepository<Report> _reportRepository;
         private readonly IMapper _mapper;
 
         public ReportController(IGenericRepository<Report> reportRepository,
-            IReportService reportService,
             ILogger<ReportController> logger,
             IMapper mapper)
         {
-            this.reportRepository = reportRepository;
-            _reportService = reportService;
+            _reportRepository = reportRepository;
             _logger = logger;
             _mapper = mapper;
         }
@@ -33,7 +31,7 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var reports = await _reportService.GetReports();
+                var reports = await _reportGenericRepository.GetAllAsync();
 
                 if (reports == null)
                 {
@@ -54,14 +52,15 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-               var report = await _reportService.GetReportById(id);
+                var report = await _reportGenericRepository.GetAsync(x => x.Id == id);
+
                 if (report == null)
                 {
                     _logger.LogError($"Unable to find {nameof(Report)} whit this id: {id}");
                     return NotFound();
                 }//if
 
-                return Ok(_mapper.Map<Report>(report));
+                return Ok(_mapper.Map<ReportDto>(report));
             }//try
             catch (Exception ex)
             {
@@ -74,15 +73,15 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var report = await _reportService.GetReportwhitchildren(id);
+                var dbReport = await _reportRepository.GetAsync(x => x.Id == id, x => x.Include(r => r.ReportGroups).ThenInclude(g => g.Elements));
 
-                if (report== null)
+                if (dbReport == null)
                 {
-                    _logger.LogError($"Unable to find {nameof(Report)} whit this id: {id}");
+                    _logger.LogInformation($"No {nameof(Report)} was found with this id : {id}");
                     return NotFound();
-                }//if
+                }
 
-                return Ok(report);
+                return Ok(_mapper.Map<ReportDto>(dbReport));
 
             }//try
             catch (Exception ex)
@@ -97,15 +96,25 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var report = await _reportService.CreateReport(requestDto);
+            //    var dbTemlate = await _templateRepository.GetAsync(x => x.Id == id);
 
-                if (report == null)
-                {
-                    _logger.LogError("Unable to create report");
-                    return BadRequest();
-                }//if
+            //    var dbGroup = new CreateReportDto
+            //    {
+            //        TemplateId = dbTemlate.Id,
+            //        Titel = dbTemlate.Titel,
+            //        Description = dbTemlate.Description,
+            //        Date = DateTime.UtcNow
 
-                return Ok(report);
+            //    };
+
+            //    dbGroup = requestDto;
+
+                var dbRequest = _mapper.Map<Report>(requestDto);
+
+                var dbResult = await _reportRepository.CreateAsync(dbRequest);
+
+
+                return Ok(_mapper.Map<Report>(dbResult));
 
             }//try
             catch (Exception ex)
@@ -120,15 +129,21 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var report = await _reportService.UpdateReport(id, requestDto);
+                var dbReport = await _reportRepository.GetAsync(x => x.Id == id);
 
-                if (report == null)
+                if (dbReport == null)
                 {
-                    _logger.LogError($"Unable to update {nameof(Report)} whit this id: {id}");
-                    return BadRequest();
+                    _logger.LogInformation($"No {nameof(Report)} was found whit this id: {id}");
+                    return NotFound();
                 }//if
 
-                return Ok(report);
+                _mapper.Map(requestDto, dbReport);
+
+                var updated = await _reportRepository.UpdateAsync(dbReport);
+
+                return Ok(_mapper.Map<ReportDto>(dbReport));
+
+            
             }//try
             catch (Exception ex)
             {

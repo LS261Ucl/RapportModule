@@ -33,6 +33,7 @@ namespace Rapport.BusinessLogig.Mapping
             CreateMap<TemplateElementDto, TemplateElement>();
             CreateMap<CreateTemplateElementDto, TemplateElement>();
             CreateMap<UpdateTemplateElementDto, TemplateElementDto>();
+            CreateMap<UpdateTemplateElementDto, TemplateElement>();
 
             CreateMap<TemplateDto, ReportDto>();
             CreateMap<TemplateDto, CreateReportDto>();

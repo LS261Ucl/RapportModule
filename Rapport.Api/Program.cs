@@ -36,13 +36,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
 //Services
-builder.Services.AddScoped<ITemplateService, TemplateService>();
-builder.Services.AddScoped<ITemplateGroupService, TemplateGroupService>();
-builder.Services.AddScoped<ITemplateElementService, TemplateElementService>();
-builder.Services.AddScoped<IReportService, ReportService>();
-builder.Services.AddScoped<IReportGroupService, ReportGroupService>();
-builder.Services.AddScoped<IReportElementService, ReportElementService>();
-builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+
 
 
 

@@ -14,14 +14,12 @@ namespace Rapport.Api.Controllers
         private readonly IGenericRepository<ReportGroup> _reportGroupRepository;
         private readonly ILogger<ReportGroupController> _logger;
         private readonly IMapper _mapper;
-        private readonly IReportGroupService _reportGroupService;
 
-        public ReportGroupController(IReportGroupService reportGroupService,
+        public ReportGroupController(
             IGenericRepository<ReportGroup> reportGroupRepository,
             IMapper mapper,
             ILogger<ReportGroupController> logger)
         {
-            _reportGroupService = reportGroupService;
             _reportGroupRepository = reportGroupRepository;
             _mapper = mapper;
             _logger = logger;
@@ -31,7 +29,7 @@ namespace Rapport.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<List<ReportGroupDto>>> GetReportGroups()
         {
-            var reportGroups = await _reportGroupService.GetReportGroups();
+            var reportGroups = await _reportGroupRepository.GetAllAsync();
 
 
             if (reportGroups == null)
@@ -49,7 +47,7 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var reportGroup = await _reportGroupService.GetReportGroupById(id);
+                var reportGroup = await _reportGroupRepository.GetAsync(x => x.Id == id);
 
                 if (reportGroup == null)
                 {
@@ -71,16 +69,16 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                if (requestDto == null)
+                var dbRequest = _mapper.Map<ReportGroup>(requestDto);
+
+                var dbResult = await _reportGroupRepository.CreateAsync(dbRequest);
+                if (dbResult == null)
                 {
+                    _logger.LogInformation("Unable to create ReportGroup in Api");
                     return BadRequest();
                 }
-                else
-                {
-                    var reportGroup = await _reportGroupService.CreateReportGroup(requestDto);
 
-                    return Ok(reportGroup);
-                }
+                return Ok(_mapper.Map<ReportGroup>(dbResult));
             }
             catch (Exception ex)
             {
@@ -94,15 +92,25 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var reportGroup = await _reportGroupService.UpdateReportGroup(id, requestDto);
+                var dbGroup = await _reportGroupRepository.GetAsync(x => x.Id == id);
 
-                if (reportGroup == null)
+                if (dbGroup == null)
                 {
-                    _logger.LogError($"Unable to find {nameof(ReportGroup)} whit this id: {id}");
+                    _logger.LogInformation($"No {nameof(ReportGroup)} was found whit this id: {id}");
+                    return NotFound();
+                }
+
+                _mapper.Map(requestDto, dbGroup);
+
+                var updated = await _reportGroupRepository.UpdateAsync(dbGroup);
+
+                if (updated == null)
+                {
+                    _logger.LogError($"Unable to Update ReportGroup whit this id: {id}");
                     return BadRequest();
                 }
 
-                return Ok(requestDto);
+                return Ok(_mapper.Map<ReportGroup>(dbGroup));
             }
             catch (Exception ex)
             {

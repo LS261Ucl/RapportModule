@@ -14,14 +14,11 @@ namespace Rapport.Api.Controllers
         private readonly IMapper _mapper;
         private readonly ILogger<TemplateElementController> _logger;
         private readonly IGenericRepository<TemplateElement> _templateElementRepository;
-        private readonly ITemplateElementService _templateElementService;
         public TemplateElementController(IGenericRepository<TemplateElement> templateElementRepository, 
-            ITemplateElementService templateElementService,
             IMapper mapper,
             ILogger<TemplateElementController> logger)
         {
             _templateElementRepository = templateElementRepository;
-            _templateElementService = templateElementService;
             _mapper = mapper;
             _logger = logger;
         }
@@ -47,7 +44,7 @@ namespace Rapport.Api.Controllers
             }//cathc
         }
 
-        [HttpGet("{id}/groups")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<TemplateElementDto>> GetTemplateElementById(int id)
         {
             try
@@ -112,7 +109,7 @@ namespace Rapport.Api.Controllers
 
                 var dbRequest = await _templateElementRepository.UpdateAsync(templateElement);
 
-                return dbRequest;
+                return Ok(_mapper.Map<TemplateElement>(templateElement));
             }//if
             catch (Exception ex)
             {

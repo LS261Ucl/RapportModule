@@ -12,17 +12,14 @@ namespace Rapport.Api.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly IGenericRepository<Employee> _employeeRepository;
-        private readonly IEmployeeService _employeeService;
         private readonly ILogger<EmployeeController> _logger;
         private readonly IMapper _mapper;
 
         public EmployeeController(IGenericRepository<Employee> employeeRepository,
-            IEmployeeService employeeService, 
             ILogger<EmployeeController> logger,
             IMapper mapper)
         {
             _employeeRepository = employeeRepository;
-            _employeeService = employeeService;
             _logger = logger;
             _mapper = mapper;
         }
@@ -32,7 +29,7 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var employee = await _employeeService.GetEmployeeById(id);
+                var employee = await _employeeRepository.GetAsync(x => x.Id == id);
                 if (employee == null)
                 {
                     _logger.LogError($"Unable to find {nameof(Employee)} whit this id: {id}");
@@ -52,7 +49,9 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var employee = await _employeeService.CreateEmployee(requestDto);
+               var dbEmployee = _mapper.Map<Employee>(requestDto);
+
+                var employee = await _employeeRepository.CreateAsync(dbEmployee);
 
                 if (employee == null)
                 {
@@ -75,7 +74,16 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var employee = await _employeeService.UpdateEmployee(id, requestDto);
+                var response = await _employeeRepository.GetAsync(x => x.Id == id);
+                if(response == null)
+                {
+                    _logger.LogError($"Unable to finde ReportElement whit this id: {id}");
+                    return NotFound();
+                }
+
+                _mapper.Map(requestDto, response);
+                var employee = await _employeeRepository.UpdateAsync(response);
+            
 
                 if (employee == null)
                 {
@@ -83,7 +91,8 @@ namespace Rapport.Api.Controllers
                     return BadRequest();
                 }//if
 
-                return Ok(employee);
+
+                return Ok(_mapper.Map<ReportElement>(response));
             }//try
             catch (Exception ex)
             {

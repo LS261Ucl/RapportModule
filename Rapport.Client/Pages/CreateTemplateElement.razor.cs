@@ -19,7 +19,6 @@ namespace Rapport.Client.Pages
 
         private TemplateElementDto ElementDto { get; set; } = new();
         private UpdateTemplateElementDto? updateElement { get; set; }
-        private readonly TemplateDto Template = new();
 
         public override Task SetParametersAsync(ParameterView parameters)
         {
@@ -41,7 +40,7 @@ namespace Rapport.Client.Pages
 
         }
 
-        public async Task<TemplateElementDto> UpdateField(int id)
+        public async Task<TemplateElementDto> UpdateElement(int id)
         {
             try
             {
@@ -54,7 +53,7 @@ namespace Rapport.Client.Pages
                 //};
 
                 //Call Api whit Update
-                var element = await TemplateElement.UpdatedTemplateElement(Id, updateElement);
+                var element = await TemplateElement.UpdatedTemplateElement(Id, ElementDto);
                 return element;
 
             }

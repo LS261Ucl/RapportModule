@@ -1,6 +1,4 @@
-﻿using Rapport.Client.Interfaces;
-using Rapport.Shared.Dto_er.Template;
-using Rapport.Shared.Dto_er.TemplateElement;
+﻿using Rapport.Shared.Dto_er.TemplateElement;
 
 namespace Rapport.Client.Service
 {
@@ -86,12 +84,12 @@ namespace Rapport.Client.Service
 
         }
 
-        public async Task<TemplateElementDto> UpdatedTemplateElement(int id, UpdateTemplateElementDto fieldDto)
+        public async Task<TemplateElementDto> UpdatedTemplateElement(int id, TemplateElementDto elementDto)
         {
             try
             {
                 //Call Api whit Get
-                var wrapper = await _httpService.Put<UpdateTemplateElementDto, TemplateElementDto>($"templateelement/{id}", fieldDto);
+                var wrapper = await _httpService.Put<TemplateElementDto, TemplateElementDto>($"templateelement/{id}", elementDto);
 
                 return wrapper.Response ?? throw new HttpRequestException(wrapper.HttpResponseMessage.ReasonPhrase);
             }//try
@@ -101,6 +99,8 @@ namespace Rapport.Client.Service
             }//catch
 
         }
+
+       
     }
        
 

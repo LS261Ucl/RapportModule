@@ -13,16 +13,13 @@ namespace Rapport.Api.Controllers
     {
         private readonly IGenericRepository<ReportElement> _reportElementRepository;
         private readonly ILogger<ReportElementController> _logger;
-        private readonly IReportElementService _reportElementService;
         private readonly IMapper _mapper;
 
         public ReportElementController(IGenericRepository<ReportElement> reportElementRepository, 
-            IReportElementService reportElementService,
             ILogger<ReportElementController> logger,
             IMapper mapper)
         {
             _reportElementRepository = reportElementRepository;
-            _reportElementService = reportElementService;
             _logger = logger;
             _mapper = mapper;
         }
@@ -32,7 +29,7 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var reportElements = await _reportElementService.GetReportElements();
+                var reportElements = await _reportElementRepository.GetAllAsync();
 
 
                 if (reportElements == null)
@@ -56,7 +53,7 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var reportElement = await _reportElementService.GetReportElementById(id);
+                var reportElement = await _reportElementRepository.GetAsync(x => x.Id == id);
 
                 if (reportElement == null)
                 {
@@ -78,16 +75,17 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                if (requestDto == null)
-                {
-                    return BadRequest();
-                }
-                else
-                {
-                    var reportElement = await _reportElementService.CreateReportElement(requestDto);
+                var dbRequest = _mapper.Map<ReportElement>(requestDto);
 
-                    return Ok(reportElement);
-                }
+                var dbResult = await _reportElementRepository.CreateAsync(dbRequest);
+
+                if (dbResult == null)
+                {
+                    _logger.LogInformation($"Unable to create ReportField");
+                    return BadRequest();
+                }//if
+
+                return Ok(_mapper.Map<ReportElement>(dbResult));
             }
             catch (Exception ex)
             {
@@ -101,15 +99,19 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var reportElement = await _reportElementService.UpdateReportElement(id, requestDto);
+                var dbElement = await _reportElementRepository.GetAsync(x => x.Id == id);
 
-                if (reportElement == null)
+                if (dbElement == null)
                 {
-                    _logger.LogError($"Unable to find {nameof(ReportElement)} whit this id: {id}");
-                    return BadRequest();
-                }
+                    _logger.LogInformation($"Unable to finde ReportField whit this id: {id}");
+                    return NotFound();
+                }//if
 
-                return Ok(requestDto);
+                _mapper.Map(requestDto, dbElement);
+
+                var updated = await _reportElementRepository.UpdateAsync(dbElement);
+
+                return Ok(_mapper.Map<ReportElement>(dbElement));
             }
             catch (Exception ex)
             {
