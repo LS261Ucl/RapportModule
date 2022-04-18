@@ -95,7 +95,7 @@ namespace Rapport.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<ReportElement>> UpdateReportElement(int id, UpdateReportElementDto requestDto)
+        public async Task<ActionResult<ReportElement>> UpdateReportElement(int id, ReportElementDto requestDto)
         {
             try
             {

@@ -18,8 +18,7 @@ namespace Rapport.Client.Pages
         public int Id { get; set; }
 
         private TemplateElementDto ElementDto { get; set; } = new();
-        private UpdateTemplateElementDto? updateElement { get; set; }
-
+       
         public override Task SetParametersAsync(ParameterView parameters)
         {
             return base.SetParametersAsync(parameters);

@@ -70,7 +70,7 @@ namespace Rapport.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Employee>> UpdateEmployeeAsync(int id, UpdateEmployeeDto requestDto)
+        public async Task<ActionResult<Employee>> UpdateEmployeeAsync(int id, EmployeeDto requestDto)
         {
             try
             {

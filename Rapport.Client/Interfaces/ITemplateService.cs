@@ -13,7 +13,7 @@ namespace Rapport.Client.Interfaces
         Task<List<TemplateDto>> GetTemplates();
         Task<TemplateDto> CreateTemplate();
 
-        Task<TemplateDto> UpdatedTemplate(int id, UpdateTemplateDto updateDto);
+        Task<TemplateDto> UpdatedTemplate(int id, TemplateDto updateDto);
         Task<bool> DeletedTemplate(int id);
     }
 }

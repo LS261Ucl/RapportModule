@@ -26,14 +26,12 @@ namespace Rapport.BusinessLogig.Mapping
             CreateMap<TemplateGroup, TemplateGroupDto>();
             CreateMap<TemplateGroupDto, TemplateGroup>();
             CreateMap<CreateTemplateGroupDto, TemplateGroup>();
-            CreateMap<UpdateTemplateGroupDto, TemplateGroupDto>();
-            CreateMap<UpdateTemplateGroupDto, TemplateGroup>();
+         
 
             CreateMap<TemplateElement, TemplateElementDto>();
             CreateMap<TemplateElementDto, TemplateElement>();
             CreateMap<CreateTemplateElementDto, TemplateElement>();
-            CreateMap<UpdateTemplateElementDto, TemplateElementDto>();
-            CreateMap<UpdateTemplateElementDto, TemplateElement>();
+          
 
             CreateMap<TemplateDto, ReportDto>();
             CreateMap<TemplateDto, CreateReportDto>();
@@ -41,7 +39,7 @@ namespace Rapport.BusinessLogig.Mapping
             CreateMap<Report, ReportDto>();
             CreateMap<ReportDto, Report>();
             CreateMap<CreateReportDto, Report>();
-            CreateMap<UpdateReportDto, ReportDto>();
+
 
             CreateMap<TemplateGroup, ReportGroupDto>();
             CreateMap<TemplateGroup, CreateReportGroupDto>();
@@ -49,19 +47,16 @@ namespace Rapport.BusinessLogig.Mapping
             CreateMap<ReportGroup, ReportGroupDto>();
             CreateMap<ReportGroupDto, ReportGroup>();
             CreateMap<CreateReportGroupDto, ReportGroup>();
-            CreateMap<UpdateReportGroupDto, ReportGroupDto>();
 
             CreateMap<ReportElement, ReportElementDto>();
             CreateMap<ReportElementDto, ReportElement>();
             CreateMap<CreateReportElementDto, ReportElement>();
-            CreateMap<UpdateReportElementDto, ReportElementDto>();
             CreateMap<TemplateElementDto, ReportElementDto>();
             CreateMap<TemplateElementDto, CreateReportElementDto>();
 
             CreateMap<Employee, EmployeeDto>();
             CreateMap<EmployeeDto, Employee>();
-            CreateMap<CreateEmployeeDto, Employee>();   
-            CreateMap<UpdateEmployeeDto, EmployeeDto>();    
+            CreateMap<CreateEmployeeDto, Employee>();     
 
         }
     }

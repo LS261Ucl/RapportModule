@@ -79,12 +79,12 @@ namespace Rapport.Client.Service
 
         }
 
-        public async Task<TemplateDto> UpdatedTemplate(int id, UpdateTemplateDto updateDto)
+        public async Task<TemplateDto> UpdatedTemplate(int id, TemplateDto updateDto)
         {
             try
             {
 
-                var wrapper = await _httpService.Put<UpdateTemplateDto, TemplateDto >($"template/{id}", updateDto);
+                var wrapper = await _httpService.Put<TemplateDto, TemplateDto >($"template/{id}", updateDto);
 
                 return wrapper.Response ?? throw new HttpRequestException(wrapper.HttpResponseMessage.ReasonPhrase);
             }

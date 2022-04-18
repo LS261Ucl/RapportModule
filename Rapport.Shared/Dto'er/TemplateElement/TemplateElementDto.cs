@@ -1,5 +1,6 @@
 ﻿using Rapport.Shared.Dto_er.ReportElement;
 using Rapport.Shared.Dto_er.TemplateGroup;
+using System.Text.Json.Serialization;
 
 namespace Rapport.Shared.Dto_er.TemplateElement
 {
@@ -12,6 +13,8 @@ namespace Rapport.Shared.Dto_er.TemplateElement
         public string? Options { get; set; }
 
         public int TemplateGroupId { get; set; }
+
+        [JsonIgnore]
         public TemplateGroupDto? TemplateGroup { get; set; }
         public ICollection<ReportElementDto>? ReportElements { get; set; }
     }

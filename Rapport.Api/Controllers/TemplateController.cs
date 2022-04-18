@@ -114,7 +114,7 @@ namespace Rapport.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Template>> UpdateTemplateAsync(int id, UpdateTemplateDto requestDto)
+        public async Task<ActionResult> UpdateTemplateAsync(int id, UpdateTemplateDto requestDto)
         {
             try
             {

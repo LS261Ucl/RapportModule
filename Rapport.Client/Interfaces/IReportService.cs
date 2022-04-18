@@ -14,7 +14,7 @@ namespace Rapport.Client.Interfaces
         Task<List<ReportDto>> GetReports();
         Task<ReportDto> CreateReport(int id, string templateTitel, CreateReportDto requestDto);
 
-        Task<ReportDto> UpdatedReport(int id, UpdateReportDto requestDto);
+        Task<ReportDto> UpdatedReport(int id, ReportDto requestDto);
         Task<bool> DeletedReport(int id);
 
         Task<ReportDto> GetReportWhitGroupsAndFields(int id);

@@ -93,12 +93,12 @@ namespace Rapport.Client.Service
             }
         }
 
-        public async Task<ReportDto> UpdatedReport(int id,UpdateReportDto requestDto)
+        public async Task<ReportDto> UpdatedReport(int id,ReportDto requestDto)
         {
             try
             {
 
-                var wrapper = await _httpServices.Put<UpdateReportDto, ReportDto>($"report/{id}", requestDto);
+                var wrapper = await _httpServices.Put<ReportDto, ReportDto>($"report/{id}", requestDto);
 
                 return wrapper.Response ?? throw new HttpRequestException(wrapper.HttpResponseMessage.ReasonPhrase);
             }

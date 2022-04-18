@@ -43,7 +43,7 @@ namespace Rapport.Client.Shared
         private CreateReportDto createReportDto = new();
         private CreateReportGroupDto createReportGroupDto = new();
         private CreateReportElementDto createReportElementDto = new();
-
+        private TemplateGroupDto updateTemplateGroupDto = new();
 
         private TemplateDto TemplateDto { get; set; } = new();
         public TemplateGroupDto GroupDto { get; set; } = new();
@@ -119,13 +119,13 @@ namespace Rapport.Client.Shared
         }
 
 
-        public async Task<TemplateDto> UpdateTemplate(int Id)
+        public async Task<TemplateDto> UpdateTemplate(int id)
         {
             try
             {
                 //Call Api whit Update
                 //Update Template and its Children
-                var dbTemplate = await TemplateService.UpdatedTemplate(Id, updateTemplate);
+                var dbTemplate = await TemplateService.UpdatedTemplate(Id, TemplateDto);
                 return dbTemplate;
 
             }

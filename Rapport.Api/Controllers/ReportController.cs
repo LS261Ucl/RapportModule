@@ -13,15 +13,18 @@ namespace Rapport.Api.Controllers
     public class ReportController : ControllerBase
     {
         private readonly IGenericRepository<Report> _reportGenericRepository;
+        private readonly IGenericRepository<Template> _templatGenericRepository;
         private readonly ILogger<ReportController> _logger;
         private readonly IGenericRepository<Report> _reportRepository;
         private readonly IMapper _mapper;
 
         public ReportController(IGenericRepository<Report> reportRepository,
+            IGenericRepository<Template> templatGenericRepository,
             ILogger<ReportController> logger,
             IMapper mapper)
         {
             _reportRepository = reportRepository;
+            _templatGenericRepository = templatGenericRepository;
             _logger = logger;
             _mapper = mapper;
         }
@@ -96,18 +99,17 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-            //    var dbTemlate = await _templateRepository.GetAsync(x => x.Id == id);
+                //var dbTemplate = await _templatGenericRepository.GetAsync(x => x.Id == id);
 
-            //    var dbGroup = new CreateReportDto
-            //    {
-            //        TemplateId = dbTemlate.Id,
-            //        Titel = dbTemlate.Titel,
-            //        Description = dbTemlate.Description,
-            //        Date = DateTime.UtcNow
+                //var dbGroup = new CreateReportDto
+                //{
+                //    TemplateId = dbTemplate.Id,
+                //    Title = dbTemplate.Titel,                    
+                //    RentalPeriodStart = DateTime.UtcNow
 
-            //    };
+                //};
 
-            //    dbGroup = requestDto;
+                //dbGroup = requestDto;
 
                 var dbRequest = _mapper.Map<Report>(requestDto);
 
@@ -125,7 +127,7 @@ namespace Rapport.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Report>> UpdateReportAsync(int id, UpdateReportDto requestDto)
+        public async Task<ActionResult<Report>> UpdateReportAsync(int id, ReportDto requestDto)
         {
             try
             {
