@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Rapport.Entites;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rapport.Data
 {
@@ -21,7 +16,6 @@ namespace Rapport.Data
         public DbSet<Report>? Reports { get; set; }
         public DbSet<ReportGroup>? ReportGroups { get; set; }
         public DbSet<ReportElement>? ReportElements { get; set; }
-        public DbSet<Employee>? Employees { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -33,20 +27,12 @@ namespace Rapport.Data
         {
             modelbuilder.Entity("Rapport.Entites.Report", b =>
             {
-               
-                b.HasOne("Rapport.Entites.Employee", "Employee")
-                    .WithMany("Reports")
-                    .HasForeignKey("EmployeeId")
-                    .OnDelete(DeleteBehavior.NoAction)
-                    .IsRequired();
-
+                            
                 b.HasOne("Rapport.Entites.Template", "Template")
                     .WithMany("Reports")
                     .HasForeignKey("TemplateId")
                     .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
-
-                b.Navigation("Employee");
 
                 b.Navigation("Template");
             });

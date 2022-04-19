@@ -13,6 +13,7 @@ namespace Rapport.Shared.Dto_er.Report
 
         public bool? IsReadOnly { get; set; }
         public string? CustomerEmail { get; set; }
+        public string? EmployeeName { get; set; }
 
         [Required]
         public int TemplateId { get; set; }

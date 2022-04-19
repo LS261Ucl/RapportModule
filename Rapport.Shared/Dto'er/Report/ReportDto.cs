@@ -1,5 +1,4 @@
-﻿using Rapport.Shared.Dto_er.Employee;
-using Rapport.Shared.Dto_er.ReportGroup;
+﻿using Rapport.Shared.Dto_er.ReportGroup;
 using Rapport.Shared.Dto_er.Template;
 using System.Text.Json.Serialization;
 
@@ -19,13 +18,11 @@ namespace Rapport.Shared.Dto_er.Report
 
         public string? CustomerEmail { get; set; }
 
+        public string? EmployeeName { get; set; }
+
         [JsonIgnore]
         public TemplateDto? Template { get; set; }
    
-        public int EmployeeId { get; set; }
-       
-        [JsonIgnore]
-        public EmployeeDto? Employee { get; set; }
         public ICollection<ReportGroupDto>? ReportGroups { get; set; }
     }
 }
