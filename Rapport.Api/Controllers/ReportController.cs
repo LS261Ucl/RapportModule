@@ -12,10 +12,10 @@ namespace Rapport.Api.Controllers
     [ApiController]
     public class ReportController : ControllerBase
     {
-        private readonly IGenericRepository<Report> _reportGenericRepository;
+      
         private readonly IGenericRepository<Template> _templatGenericRepository;
         private readonly ILogger<ReportController> _logger;
-        private readonly IGenericRepository<Report> _reportRepository;
+        private readonly IGenericRepository<Report>? _reportRepository;
         private readonly IMapper _mapper;
 
         public ReportController(IGenericRepository<Report> reportRepository,
@@ -34,7 +34,7 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var reports = await _reportGenericRepository.GetAllAsync();
+                var reports = await _reportRepository.GetAllAsync();
 
                 if (reports == null)
                 {
@@ -55,7 +55,7 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var report = await _reportGenericRepository.GetAsync(x => x.Id == id);
+                var report = await _reportRepository.GetAsync(x => x.Id == id);
 
                 if (report == null)
                 {
@@ -159,7 +159,7 @@ namespace Rapport.Api.Controllers
 
             try
             {
-                bool delete = await _reportGenericRepository.DeleteAsync(id);
+                bool delete = await _reportRepository.DeleteAsync(id);
 
                 if (!delete)
                 {

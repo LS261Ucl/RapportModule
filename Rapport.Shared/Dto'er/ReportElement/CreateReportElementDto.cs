@@ -27,7 +27,7 @@ namespace Rapport.Shared.Dto_er.ReportElement
         public int TemplateElementId { get; set; }
 
         [JsonIgnore]
-        public TemplateElementDto TemplateElementDto { get; set; }
+        public TemplateElementDto? TemplateElementDto { get; set; }
 
     }
 }

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Rapport.BusinessLogig.Interfaces;
 using Rapport.Entites;
@@ -64,7 +63,7 @@ namespace Rapport.Api.Controllers
            
         }
 
-        [HttpPost]
+        [HttpPost("{id}")]
         public async Task<ActionResult<ReportGroup>> CreateReportGroup([FromBody] CreateReportGroupDto requestDto)
         {
             try

@@ -16,13 +16,11 @@ namespace Rapport.Entites
 
         public string? CustomerEmail { get; set; }
 
+        public string? EmployeeName { get; set; }
+
         [ForeignKey( nameof(TemplateId))]
         public int TemplateId { get; set; }
         public Template? Template { get; set; }
-
-        [ForeignKey(nameof(EmployeeId))]
-        public int EmployeeId { get; set; }
-        public Employee? Employee { get; set; } 
         public  ICollection<ReportGroup>? ReportGroups { get; set; }
 
 

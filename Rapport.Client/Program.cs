@@ -1,6 +1,7 @@
 global using Rapport.Client.Helpers;
 global using Rapport.Client.Interfaces;
 global using Rapport.Shared.Dto_er.Template;
+global using Rapport.Shared.Dto_er.Report;
 global using Rapport.Shared.Enums;
 global using Blazored.Modal;
 using Microsoft.AspNetCore.Components.Web;

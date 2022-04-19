@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rapport.Entites
 {
@@ -16,7 +13,10 @@ namespace Rapport.Entites
 
         [ForeignKey(nameof(TemplateGroupId))]
         public int TemplateGroupId { get; set; }
-        public TemplateGroup? TemplateGroup { get; set; }
+
+        [ForeignKey(nameof(ReportId))]
+        public int ReportId { get; set; }
+        public Report? Report { get; set; }
         public ICollection<ReportElement>? Elements { get; set; }    
     }
 }

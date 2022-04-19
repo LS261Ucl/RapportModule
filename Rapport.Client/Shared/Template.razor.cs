@@ -157,7 +157,7 @@ namespace Rapport.Client.Shared
 
                     createReportGroupDto = dbgroup;
 
-                    var dbRequest = await ReportGroupService.CreateReport(createReportGroupDto);
+                    var dbRequest = await ReportGroupService.CreateReport(group.Id, createReportGroupDto);
                     //  await Task.Delay(1000);
                     ReportGroupService.OnChange += StateHasChanged;
 

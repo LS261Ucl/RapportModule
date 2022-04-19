@@ -6,7 +6,6 @@ namespace Rapport.Client.Service
     public class TemplateService : ITemplateService
     {
          private readonly IHttpService _httpService;
-        private readonly HttpClient _httpClient;
         public event Action OnChange;
 
         public List<TemplateDto> TemplateDtos { get; set; } = new List<TemplateDto>();
@@ -15,7 +14,6 @@ namespace Rapport.Client.Service
         public TemplateService(IHttpService httpService, HttpClient httpClient)
         {
             _httpService = httpService;
-            _httpClient = httpClient;
         }
 
         public async Task<TemplateDto> CreateTemplate()

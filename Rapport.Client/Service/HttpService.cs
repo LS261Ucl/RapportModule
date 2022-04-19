@@ -20,6 +20,7 @@ namespace Rapport.Client.Service
         public async Task<HttpResponseWrapper<T>> Get<T>(string url)
         {
             try
+            
             {
                 var response = await _client.GetAsync(url);
 

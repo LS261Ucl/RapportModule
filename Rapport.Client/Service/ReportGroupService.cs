@@ -13,12 +13,12 @@ namespace Rapport.Client.Service
 
         public event Action OnChange;
 
-        public async Task<ReportGroupDto> CreateReport(CreateReportGroupDto requestDto)
+        public async Task<ReportGroupDto> CreateReport(int id, CreateReportGroupDto requestDto)
         {
             try
             {
 
-                var wrapper = await _httpService.Post<CreateReportGroupDto, ReportGroupDto>($"reportgroup", requestDto);
+                var wrapper = await _httpService.Post<CreateReportGroupDto, ReportGroupDto>($"reportgroup/{id}", requestDto);
                 return wrapper.Response ?? throw new HttpRequestException(wrapper.HttpResponseMessage.ReasonPhrase);
             }
             catch (Exception ex)

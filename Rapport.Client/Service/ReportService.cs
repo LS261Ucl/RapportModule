@@ -23,9 +23,7 @@ namespace Rapport.Client.Service
                 var dbReport = new CreateReportDto
                 {
                     TemplateId = id,
-                    Title = templateTitel
-                  
-
+                    Title = templateTitel                  
                 };
 
                 requestDto = dbReport;

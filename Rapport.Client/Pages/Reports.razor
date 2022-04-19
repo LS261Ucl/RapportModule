@@ -1,7 +1,30 @@
 ﻿@page "/reports"
 
-<div>
-    <EditForm>
-        <DataAnnotationsValidator/>
-    </EditForm>
+<div class="container">
+    <div class="info-form row col-12">
+        <h2 class="info-text">Rapporter</h2>
+    </div>
+  
+    <div class="row">
+        <table>
+            <thead>
+                <tr>
+                    <th class="col-6 border">Titel</th>
+                    <th class="col-6 border">Beskrivelse</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var report in reportList)
+            {
+                <tr>B
+                    <td class="col-6 border">@(report.Title ?? "")</td>
+                    
+                    @*<td class="col-6 border">
+                        <button class="btn btn-secondary" @onclick="(() => ShowReport(report.Id))"> vis</button>
+                    </td>*@
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
 </div>

@@ -15,14 +15,13 @@ namespace Rapport.Shared.Dto_er.ReportElement
         public double Numbers { get; set; }
         public byte[]? Image { get; set; }
         public bool IsActive { get; set; }
-
-        [JsonIgnore]
+        
         public int ReportGroupId { get; set; }
-        public ReportGroupDto? ReportGroup { get; set; }
-
         [JsonIgnore]
+        public ReportGroupDto? ReportGroup { get; set; }       
         public int TemplateElementId { get; set; }
 
+        [JsonIgnore]
         public TemplateElementDto? TemplateElement { get; set; }
     }
 }
