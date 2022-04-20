@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rapport.Client", "Rapport.C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{BFF9E738-F48F-491B-A141-D5ADC54BDD8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rapport.Server", "Rapport.Server\Rapport.Server.csproj", "{3FF1C4BA-5FB2-4703-BA5F-59EAFB6D88A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rapport.Server", "Rapport.Server\Rapport.Server.csproj", "{3FF1C4BA-5FB2-4703-BA5F-59EAFB6D88A9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
