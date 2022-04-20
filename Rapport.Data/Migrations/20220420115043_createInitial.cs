@@ -5,24 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Rapport.Data.Migrations
 {
-    public partial class CreateInitial : Migration
+    public partial class createInitial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Employees",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Employees", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Templates",
                 columns: table => new
@@ -38,6 +24,21 @@ namespace Rapport.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Reports",
                 columns: table => new
                 {
@@ -49,17 +50,12 @@ namespace Rapport.Data.Migrations
                     Remarks = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsReadOnly = table.Column<bool>(type: "bit", nullable: true),
                     CustomerEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TemplateId = table.Column<int>(type: "int", nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                    EmployeeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TemplateId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reports", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Reports_Employees_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Employees",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Reports_Templates_TemplateId",
                         column: x => x.TemplateId,
@@ -191,11 +187,6 @@ namespace Rapport.Data.Migrations
                 column: "TemplateGroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reports_EmployeeId",
-                table: "Reports",
-                column: "EmployeeId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Reports_TemplateId",
                 table: "Reports",
                 column: "TemplateId");
@@ -217,6 +208,9 @@ namespace Rapport.Data.Migrations
                 name: "ReportElements");
 
             migrationBuilder.DropTable(
+                name: "Users");
+
+            migrationBuilder.DropTable(
                 name: "ReportGroups");
 
             migrationBuilder.DropTable(
@@ -227,9 +221,6 @@ namespace Rapport.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "TemplateGroups");
-
-            migrationBuilder.DropTable(
-                name: "Employees");
 
             migrationBuilder.DropTable(
                 name: "Templates");

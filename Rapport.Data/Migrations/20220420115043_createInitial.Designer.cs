@@ -12,8 +12,8 @@ using Rapport.Data;
 namespace Rapport.Data.Migrations
 {
     [DbContext(typeof(ReportDbContext))]
-    [Migration("20220419070745_changesReport")]
-    partial class changesReport
+    [Migration("20220420115043_createInitial")]
+    partial class createInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,29 @@ namespace Rapport.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("Rapport.Entites.Identity.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<byte[]>("PasswordHash")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
 
             modelBuilder.Entity("Rapport.Entites.Report", b =>
                 {
@@ -241,19 +264,19 @@ namespace Rapport.Data.Migrations
 
             modelBuilder.Entity("Rapport.Entites.ReportGroup", b =>
                 {
-                    b.HasOne("Rapport.Entites.Report", null)
+                    b.HasOne("Rapport.Entites.Report", "Report")
                         .WithMany("ReportGroups")
                         .HasForeignKey("ReportId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Rapport.Entites.TemplateGroup", "TemplateGroup")
+                    b.HasOne("Rapport.Entites.TemplateGroup", null)
                         .WithMany("ReportGroups")
                         .HasForeignKey("TemplateGroupId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("TemplateGroup");
+                    b.Navigation("Report");
                 });
 
             modelBuilder.Entity("Rapport.Entites.TemplateElement", b =>
