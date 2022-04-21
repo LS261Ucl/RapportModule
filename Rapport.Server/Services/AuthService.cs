@@ -2,7 +2,6 @@
 using Microsoft.IdentityModel.Tokens;
 using Rapport.Data;
 using Rapport.Entites.Identity;
-using Rapport.Server.Interfaces;
 using Rapport.Shared.Response;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -12,15 +11,15 @@ namespace Rapport.Server.Services
 {
     public class AuthService : IAuthService
     {
-        private readonly ReportDbContext _dbContext;
+        private readonly ReportDbContext _context;
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AuthService(ReportDbContext dbContext,
+        public AuthService(ReportDbContext context,
             IConfiguration configuration,
             IHttpContextAccessor httpContextAccessor)
         {
-            _dbContext = dbContext;
+            _context = context;
             _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
         }
@@ -28,40 +27,11 @@ namespace Rapport.Server.Services
         public int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
         public string GetUserEmail() => _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
-        public async Task<ServiceResponse<bool>> ChangePassword(int userId, string newPassword)
-        {
-            var user = await _dbContext.Users.FindAsync(userId);
-            if (user == null)
-            {
-                return new ServiceResponse<bool>
-                {
-                    Success = false,
-                    Message = "User not found."
-                };
-            }
-
-            CreatePasswordHash(newPassword, out byte[] passwordHash, out byte[] passwordSalt);
-
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
-
-            await _dbContext.SaveChangesAsync();
-
-            return new ServiceResponse<bool> { Data = true, Message = "Password has been changed." };
-        }
-
-        public async Task<User> GetUserByEmail(string email)
-        {
-            return await _dbContext.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
-        }
-
-     
 
         public async Task<ServiceResponse<string>> Login(string email, string password)
         {
-
             var response = new ServiceResponse<string>();
-            var user = await _dbContext.Users
+            var user = await _context.Users
                 .FirstOrDefaultAsync(x => x.Email.ToLower().Equals(email.ToLower()));
             if (user == null)
             {
@@ -97,22 +67,21 @@ namespace Rapport.Server.Services
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
 
-            _dbContext.Users.Add(user);
-            await _dbContext.SaveChangesAsync();
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
 
             return new ServiceResponse<int> { Data = user.Id, Message = "Registration successful!" };
         }
 
         public async Task<bool> UserExists(string email)
         {
-            if (await _dbContext.Users.AnyAsync(user => user.Email.ToLower()
-                .Equals(email.ToLower())))
+            if (await _context.Users.AnyAsync(user => user.Email.ToLower()
+                 .Equals(email.ToLower())))
             {
                 return true;
             }
             return false;
         }
-
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
@@ -123,6 +92,7 @@ namespace Rapport.Server.Services
                     .ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             }
         }
+
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512(passwordSalt))
@@ -155,6 +125,33 @@ namespace Rapport.Server.Services
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
             return jwt;
+        }
+
+        public async Task<ServiceResponse<bool>> ChangePassword(int userId, string newPassword)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return new ServiceResponse<bool>
+                {
+                    Success = false,
+                    Message = "User not found."
+                };
+            }
+
+            CreatePasswordHash(newPassword, out byte[] passwordHash, out byte[] passwordSalt);
+
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
+
+            await _context.SaveChangesAsync();
+
+            return new ServiceResponse<bool> { Data = true, Message = "Password has been changed." };
+        }
+
+        public async Task<User> GetUserByEmail(string email)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
         }
     }
 }

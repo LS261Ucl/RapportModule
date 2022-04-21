@@ -1,7 +1,7 @@
 ﻿using Rapport.Entites.Identity;
 using Rapport.Shared.Response;
 
-namespace Rapport.Server.Interfaces
+namespace Rapport.Server.Services
 {
     public interface IAuthService
     {

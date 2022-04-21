@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Rapport.Entites.Identity;
-using Rapport.Server.Interfaces;
+using Rapport.Server.Services;
 using Rapport.Shared.Dto_er.User;
 using Rapport.Shared.Response;
 using System.Security.Claims;
@@ -13,6 +12,7 @@ namespace Rapport.Server.Controller
     [ApiController]
     public class AuthController : ControllerBase
     {
+
         private readonly IAuthService _authService;
 
         public AuthController(IAuthService authService)
@@ -41,7 +41,7 @@ namespace Rapport.Server.Controller
         [HttpPost("login")]
         public async Task<ActionResult<ServiceResponse<string>>> Login(UserLoginDto request)
         {
-            var response = await _authService.Login(request.UserName, request.Password);
+            var response = await _authService.Login(request.Email, request.Password);
             if (!response.Success)
             {
                 return BadRequest(response);
