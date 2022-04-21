@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Rapport.Data;
 using Rapport.Entites.Identity;
+using Rapport.Server.Data;
 using Rapport.Shared.Response;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -11,11 +11,11 @@ namespace Rapport.Server.Services
 {
     public class AuthService : IAuthService
     {
-        private readonly ReportDbContext _context;
+        private readonly IdentityContext _context;
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AuthService(ReportDbContext context,
+        public AuthService(IdentityContext context,
             IConfiguration configuration,
             IHttpContextAccessor httpContextAccessor)
         {
