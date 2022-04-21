@@ -24,7 +24,7 @@ namespace Rapport.Api.Controllers
             _userService = userService;
         }
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(UserDto reguest)
+        public async Task<ActionResult<User>> Register(UserLoginDto reguest)
         {
             CreatePassWordHash(reguest.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
@@ -37,7 +37,7 @@ namespace Rapport.Api.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(UserDto request)
+        public async Task<ActionResult<string>> Login(UserLoginDto request)
         {
             if(user.UserName != request.UserName)
             {

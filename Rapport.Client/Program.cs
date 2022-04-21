@@ -4,10 +4,12 @@ global using Rapport.Shared.Dto_er.Template;
 global using Rapport.Shared.Dto_er.Report;
 global using Rapport.Shared.Enums;
 global using Blazored.Modal;
+global using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Rapport.Client;
 using Rapport.Client.Service;
+using Rapport.Client.Extensions;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -23,7 +25,7 @@ builder.Services.AddHttpClient("ReportUri", (sp, cl) =>
 
 builder.Services.AddBlazoredModal();
 
-
+builder.Services.AddAuthorizationCore();    
 
 //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddScoped(
@@ -38,6 +40,8 @@ builder.Services.AddScoped<ITemplateElementService, TemplateElementService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IReportGroupService, ReportGroupService>();
 builder.Services.AddScoped<IReportElementService, ReportElementService>();
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
+
 
 //der.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddScoped(serviceProvider => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });

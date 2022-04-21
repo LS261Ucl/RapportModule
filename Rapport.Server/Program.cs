@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Rapport.Server.Data;
+using Rapport.Server.Interfaces;
+using Rapport.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,9 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
 
+
+//Service
+builder.Services.AddScoped<IAuthService, AuthService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
