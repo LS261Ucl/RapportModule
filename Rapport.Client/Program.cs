@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Rapport.Client;
 using Rapport.Client.Service;
 using Rapport.Client.Extensions;
+using Blazored.LocalStorage;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -23,6 +24,7 @@ builder.Services.AddHttpClient("ReportUri", (sp, cl) =>
     cl.BaseAddress = new Uri("https://localhost:7109/api/");
 });
 
+builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddBlazoredModal();
 
 builder.Services.AddAuthorizationCore();    
@@ -40,6 +42,7 @@ builder.Services.AddScoped<ITemplateElementService, TemplateElementService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IReportGroupService, ReportGroupService>();
 builder.Services.AddScoped<IReportElementService, ReportElementService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
 
 
