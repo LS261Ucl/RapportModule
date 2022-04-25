@@ -37,11 +37,7 @@
 
     async Task HandleRegistration()
     {
-        var result = await AuthService.Register(user);
-        message = result.Message;
-        if (result.Success)
-            messageCssClass = "text-success";
-        else
-            messageCssClass = "text-danger";
+        var result = await AuthService.RegisterUser(user);
+       
     }
 }
