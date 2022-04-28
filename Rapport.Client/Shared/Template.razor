@@ -1,5 +1,4 @@
 ﻿@page "/template/{id:int}"
-@using Rapport.Client.Pages
 
 <EditForm Model="TemplateDto" OnValidSubmit="OnInitializedAsync">
     <div>
@@ -129,12 +128,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-@*   <div class="container">
-            <div class="col-sm-6 text-right">
-                <button @onclick="@(() => Modal.Show<FetchData>("Opret gruppe"))" class="btn btn-outline-secondary">Opret gruppe</button>
-            </div>
-        </div>*@                
+        </div>               
     </EditForm>
     <EditForm Model="TemplateDto">
         <div class="container">

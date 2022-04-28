@@ -30,6 +30,9 @@
 </EditForm>
 
 @code {
+
+  
+
     UserRegisterDto user = new UserRegisterDto();
 
     string message = string.Empty;
@@ -38,6 +41,8 @@
     async Task HandleRegistration()
     {
         var result = await AuthService.RegisterUser(user);
-       
+
     }
+
+ 
 }

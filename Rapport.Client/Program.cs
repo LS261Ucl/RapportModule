@@ -4,6 +4,7 @@ global using Rapport.Shared.Dto_er.Template;
 global using Rapport.Shared.Dto_er.Report;
 global using Rapport.Shared.Enums;
 global using Blazored.Modal;
+global using Blazored.Modal.Services;
 global using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -11,6 +12,7 @@ using Rapport.Client;
 using Rapport.Client.Service;
 using Rapport.Client.Extensions;
 using Blazored.LocalStorage;
+
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -44,6 +46,7 @@ builder.Services.AddScoped<IReportGroupService, ReportGroupService>();
 builder.Services.AddScoped<IReportElementService, ReportElementService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
+builder.Services.AddScoped<IModalService, ModalService>();
 
 
 //der.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
@@ -51,3 +54,4 @@ builder.Services.AddScoped(serviceProvider => new HttpClient { BaseAddress = new
 
 
 await builder.Build().RunAsync();
+    

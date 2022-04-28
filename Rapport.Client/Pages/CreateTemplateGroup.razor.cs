@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Rapport.Shared.Dto_er.TemplateGroup;
 using System.Linq.Expressions;
 
+
 namespace Rapport.Client.Pages
 {
     public partial class CreateTemplateGroup : ComponentBase
@@ -15,9 +16,20 @@ namespace Rapport.Client.Pages
 
         [Inject]
         public NavigationManager NavigationManager { get; set; }
+
+        [Inject]
+        public IModalService ModalService { get; set; }
         
         [Parameter]
         public int Id { get; set; }
+
+        [CascadingParameter]
+        private BlazoredModal Modal { get; set; }
+
+        [CascadingParameter]
+        private ModalParameters Parameters { get; set; }
+
+        private bool ShowForm { get; set; }
 
         protected EditContext EditContext { get; set; }
 
@@ -31,8 +43,11 @@ namespace Rapport.Client.Pages
         {
             try
             {
+                Id = Parameters.Get<int>("id");
+             
              
                 EditContext = new EditContext(Group);
+
 
             }
             catch (Exception ex)
@@ -44,7 +59,7 @@ namespace Rapport.Client.Pages
 
         protected override async Task OnParametersSetAsync()
         {
-            Group = await GroupService.GetTemplateGroupById(Id);
+            Group = await GroupService.CreateTemplateGroup(Id, createTemplateGroup);
             GroupService.OnChange += StateHasChanged;
         }
 
@@ -77,13 +92,6 @@ namespace Rapport.Client.Pages
             NavigationManager.NavigateTo($"template/edit/{Template.Id}");
         }
 
-        ////private async Task HandleValidSubmit()
-        ////{
-        ////    //Call Api whit Create
-        ////    var field = await FieldService.CreateTemplateField(Id, Field);
-        ////    NavigationManager.NavigateTo($"field/edit/{field.Id}");
-        ////}
-
 
         private void Backbutton(int Id)
         {
@@ -99,5 +107,9 @@ namespace Rapport.Client.Pages
             }
             return EditContext.GetValidationMessages(fu).FirstOrDefault();
         }
+
+    
+
+ 
     }
 }

@@ -18,6 +18,8 @@ namespace Rapport.Client.Pages
 
         public int Id { get; set; }
 
+        private bool isLoading = true;
+
         protected override async Task OnInitializedAsync()
         {
             TemplateList = await TemplateService.GetTemplates();
