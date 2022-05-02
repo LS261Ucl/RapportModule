@@ -10,6 +10,6 @@ namespace Rapport.Entites.Identity
 
         public DateTime DateCreated { get; set; } = DateTime.Now;
 
-        public string Role { get; set; } = "Admin";
+        public string? Role { get; set; } 
     }
 }

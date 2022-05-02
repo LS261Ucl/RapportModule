@@ -1,11 +1,16 @@
 ﻿@using Rapport.Shared.Dto_er.Template
 @page "/templates"
+@attribute [Authorize(Roles = "user")]
+
+<AuthorizeView Roles= "Admin">
+    <NotAuthorized>
+        <p>"Du har ikke tilladelse til at se Skabelonerne!"</p>
+    </NotAuthorized>
+    <Authorized>
+        <h2 class="text-center"> Skabeloner</h2>
 
 
-<h2 class="text-center"> Skabeloner</h2>
 
-
-<EditForm Model="@TemplateList" OnValidSubmit="OnInitializedAsync">
     @if (TemplateList != null)
     {
 
@@ -47,7 +52,10 @@
         </div>
 
     }
-</EditForm>
+
+    </Authorized>
+</AuthorizeView>
+
 
 
 

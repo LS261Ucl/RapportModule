@@ -27,12 +27,23 @@
     <div class="@messageCssClass">
         <span>@message</span>
     </div>
+    <div class="md-3">
+        <label for="roles">Rolle</label>
+
+        <InputSelect placeholder="DataType" @bind-Value="@user.Role">
+            @foreach (AddRolesEnum type in Enum.GetValues(typeof(AddRolesEnum)))
+            {
+                <option value="@(type) ">@type</option>
+            }
+        </InputSelect>
+    </div>
 </EditForm>
 
 @code {
 
-  
 
+    [Inject]
+    private NavigationManager NavigationManager { get; set; }
     UserRegisterDto user = new UserRegisterDto();
 
     string message = string.Empty;
@@ -41,8 +52,9 @@
     async Task HandleRegistration()
     {
         var result = await AuthService.RegisterUser(user);
+        NavigationManager.NavigateTo("login");
 
     }
 
- 
+
 }

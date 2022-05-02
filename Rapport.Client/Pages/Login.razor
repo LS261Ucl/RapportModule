@@ -23,6 +23,7 @@
         <ValidationMessage For="@(() => user.Password)" />
     </div>
     <button type="submit" class="btn btn-primary">Login</button>
+    <button type="button" @onclick="@(() => RegisterUser())">Opret bruger</button>
 </EditForm>
 <div class="text-danger">
     <span>@errorMessage</span>
@@ -49,5 +50,10 @@
         var result = await AuthService.Login(user);
         NavigationManager.NavigateTo("/templates");
 
+    }
+
+    private async Task RegisterUser()
+    {
+        NavigationManager.NavigateTo("register");
     }
 }

@@ -51,7 +51,7 @@ namespace Rapport.Api.Services.AuthService
             return response;
         }
 
-        public async Task<ServiceResponse<int>> Register(User user, string password)
+        public async Task<ServiceResponse<int>> Register(User user, string password, string role)
         {
             if (await UserExists(user.Email))
             {
@@ -66,6 +66,7 @@ namespace Rapport.Api.Services.AuthService
 
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
+            user.Role = role;
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();

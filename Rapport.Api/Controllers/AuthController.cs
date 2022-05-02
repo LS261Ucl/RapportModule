@@ -28,7 +28,8 @@ namespace Rapport.Api.Controllers
                 {
                     Email = request.Email
                 },
-                request.Password);
+                request.Password,
+                request.Role);
 
             if (!response.Success)
             {
