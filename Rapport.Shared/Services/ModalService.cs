@@ -2,14 +2,14 @@
 
 using Microsoft.AspNetCore.Components;
 using Rapport.Shared.Configuration;
-using Rapport.Shared.Service;
+using Rapport.Shared.Services;
 
 namespace Rapport.Shared.Services
 {
     public class ModalService : IModalService
     {
-        internal event Action<ModalReference>? OnModalInstanceAdded;
-        internal event Action<ModalReference, ModalResult>? OnModalCloseRequested;
+        public event Action<ModalReference>? OnModalInstanceAdded;
+        public event Action<ModalReference, ModalResult>? OnModalCloseRequested;
 
         /// <summary>
         /// Shows the modal with the component type.

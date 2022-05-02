@@ -1,4 +1,5 @@
 ﻿@page "/template/{id:int}"
+@using Rapport.Client.Pages
 
 <EditForm Model="TemplateDto" OnValidSubmit="OnInitializedAsync">
     <div>
@@ -133,7 +134,7 @@
     <EditForm Model="TemplateDto">
         <div class="container">
             <div class="col-sm-6 text-right">
-                <button @onclick="HandleValidSubmit" class="btn btn-outline-secondary">Opret gruppe</button>
+                <button @onclick="@(()=> modal.Show<CreateTemplateGroup>("Hello world"))" class="btn btn-primary">Opret gruppe</button>
             </div>
         </div>
     </EditForm>

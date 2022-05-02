@@ -33,6 +33,9 @@ namespace Rapport.Client.Shared
         [Inject]
         private NavigationManager? NavigationManager { get; set; }
 
+        [Inject]
+        public IModalService? modal { get; set; }
+
 
         [Parameter]
         public int Id { get; set; }

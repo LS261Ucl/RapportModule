@@ -43,9 +43,9 @@ namespace Rapport.Client.Pages
         {
             try
             {
-                Id = Parameters.Get<int>("id");
-             
-             
+
+                Group = await GroupService.CreateTemplateGroup(Id, createTemplateGroup);
+
                 EditContext = new EditContext(Group);
 
 

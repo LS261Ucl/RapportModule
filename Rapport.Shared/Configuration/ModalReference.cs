@@ -11,9 +11,9 @@ namespace Rapport.Shared.Configuration
         private readonly Action<ModalResult> _closed;
         private readonly ModalService _modalService;
 
-        internal Guid Id { get; }
-        internal RenderFragment ModalInstance { get; }
-        internal BlazoredModalInstance? ModalInstanceRef { get; set; }
+        public Guid Id { get; }
+        public RenderFragment ModalInstance { get; }
+        public BlazoredModalInstance? ModalInstanceRef { get; set; }
 
         public ModalReference(Guid modalInstanceId, RenderFragment modalInstance, ModalService modalService)
         {
@@ -31,7 +31,7 @@ namespace Rapport.Shared.Configuration
 
         public Task<ModalResult> Result => _resultCompletion.Task;
 
-        internal void Dismiss(ModalResult result)
+        public void Dismiss(ModalResult result)
             => _closed.Invoke(result);
 
         private void HandleClosed(ModalResult obj)

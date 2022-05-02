@@ -1,4 +1,4 @@
-﻿﻿.blazored-modal-container {
+﻿.blazored-modal-container {
     display: flex;
     position: fixed;
     top: 0;
@@ -89,10 +89,10 @@
     max-height: calc(100% - 1rem);
 }
 
-    .blazored-modal-scrollable .blazored-modal-content {
-        overflow-y: auto;
-    }
+.blazored-modal-scrollable .blazored-modal-content {
+    overflow-y: auto;
+}
 
-    .blazored-modal-scrollable .blazored-modal-footer, .blazored-modal-scrollable .blazored-modal-header {
-        flex-shrink: 0;
-    }
+.blazored-modal-scrollable .blazored-modal-footer, .blazored-modal-scrollable .blazored-modal-header {
+    flex-shrink: 0;
+}

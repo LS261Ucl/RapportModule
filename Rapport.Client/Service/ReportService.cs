@@ -110,7 +110,7 @@ namespace Rapport.Client.Service
         {
             try
             {
-                var wrapper = await _httpServices.Get<ReportDto>($"report/{id}/groups/fields");
+                var wrapper = await _httpServices.Get<ReportDto>($"report/{id}/groups");
                 return wrapper.Response ?? throw new HttpRequestException(wrapper.HttpResponseMessage.ReasonPhrase);
             }
             catch (Exception ex)

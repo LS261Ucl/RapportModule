@@ -19,9 +19,9 @@
                 <tr>B
                     <td class="col-6 border">@(report.Title ?? "")</td>
                     
-                    @*<td class="col-6 border">
-                        <button class="btn btn-secondary" @onclick="(() => ShowReport(report.Id))"> vis</button>
-                    </td>*@
+                    <td class="col-6 border">
+                        <button class="btn btn-secondary" @onclick="(() => HandleValidSubmit(report.Id))"> vis</button>
+                    </td>
                 </tr>
             }
             </tbody>

@@ -14,9 +14,9 @@ namespace Rapport.Client.Shared
         [Parameter]
         public int Id { get; set; }
 
-        public ReportDto reportDto { get; set; } = new();
+        public ReportDto ReportDto { get; set; } = new();
 
-        private ReportElementDto elementDto { get; set; } = new();
+        private ReportElementDto ElementDto { get; set; } = new();
 
         public override Task SetParametersAsync(ParameterView parameters)
         {
@@ -25,13 +25,13 @@ namespace Rapport.Client.Shared
 
         protected override async Task OnInitializedAsync()
         {
-            reportDto = await ReportService.GetReportWhitGroupsAndFields(Id);
+            ReportDto = await ReportService.GetReportWhitGroupsAndFields(Id);
             ReportService.OnChange += StateHasChanged;
         }
 
         protected override async Task OnParametersSetAsync()
         {
-            reportDto = await ReportService.GetReportWhitGroupsAndFields(Id);
+            ReportDto = await ReportService.GetReportWhitGroupsAndFields(Id);
             ReportService.OnChange += StateHasChanged;
         }
 

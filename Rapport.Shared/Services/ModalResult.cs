@@ -1,4 +1,4 @@
-﻿namespace Rapport.Shared.Service
+﻿namespace Rapport.Shared.Services
 {
     public class ModalResult
     {
