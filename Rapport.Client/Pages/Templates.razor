@@ -1,6 +1,6 @@
 ﻿@using Rapport.Shared.Dto_er.Template
 @page "/templates"
-@attribute [Authorize(Roles = "user")]
+@attribute [Authorize(Roles = "Admin")]
 
 <AuthorizeView Roles= "Admin">
     <NotAuthorized>
