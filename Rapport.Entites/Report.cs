@@ -12,7 +12,7 @@ namespace Rapport.Entites
         public DateTime? RentalPeriodEnd { get; set; }
         public string? Remarks { get; set; }
 
-        public bool? IsReadOnly { get; set; }
+        public bool IsReadOnly { get; set; }
 
         public string? CustomerEmail { get; set; }
 

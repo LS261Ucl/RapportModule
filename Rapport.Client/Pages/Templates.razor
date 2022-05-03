@@ -1,6 +1,6 @@
 ﻿@using Rapport.Shared.Dto_er.Template
 @page "/templates"
-@attribute [Authorize(Roles = "Admin")]
+@attribute [Authorize(Roles = "admin")]
 
 <AuthorizeView Roles= "Admin">
     <NotAuthorized>
@@ -8,13 +8,8 @@
     </NotAuthorized>
     <Authorized>
         <h2 class="text-center"> Skabeloner</h2>
-
-
-
     @if (TemplateList != null)
     {
-
-
         <div class="container">
             <div class="info-form flex-column">
             </div>

@@ -1,5 +1,8 @@
 ﻿@page "/report/{id:int}"
-<div>
+@attribute [Authorize(Roles = "Admin, User")]
+
+
+        <div>
     <EditForm Model="ReportDto" OnValidSubmit="OnParametersSetAsync">
         <DataAnnotationsValidator />
         <div>
@@ -74,8 +77,8 @@
                                                                         }
                                                     </InputSelect>
                                                 </td>*@
-                                              @*  <td class="col-xl-12 border">
-                                                    <InputSelect placeholder="Type" @bind-Value="@fields.Options" disabled="@(ReportDataDto.IsReadonly)">
+                                                <td class="col-xl-12 border">
+                                                    <InputSelect placeholder="Type" @bind-Value="@fields.Options" disabled="@(ReportDto.IsReadOnly)">
                                                         @foreach (OptionsEnum options in Enum.GetValues(typeof(OptionsEnum)))
                                                                         {
                                                             <option value="@(options) ">@options</option>
@@ -83,8 +86,8 @@
                                                     </InputSelect>
                                                 </td>
                                                 <td class="col-12 border">
-                                                    <InputText @bind-Value="@fields.Remarks" placeholder="Bemærkninger" disabled="@(ReportDataDto.IsReadonly)"></InputText>
-                                                </td>*@
+                                                    <InputText @bind-Value="@fields.Remarks" placeholder="Bemærkninger" disabled="@(ReportDto.IsReadOnly)"></InputText>
+                                                </td>
                                             </tr>
                                         } @* forache fields *@
                                     } @* if group*@
@@ -100,12 +103,12 @@
                 </div>*@
             </div>
         </div>
-        <div class="container">
-           @* <div class=" row col-6">
+     @*   <div class="container">
+            <div class=" row col-6">
                 <label>Låst</label>
-                <InputCheckbox @bind-Value="@ReportDto.IsReadonly"> @ReportDataDto.IsReadonly</InputCheckbox>
-            </div>*@
-        </div>
+                <InputCheckbox @bind-Value="@(ReportDto.IsReadOnly)"> @ReportDto.IsReadonly</InputCheckbox>
+            </div>
+        </div>*@
         <ValidationSummary />
     </EditForm>
     <EditForm Model="ReportDto">
@@ -125,4 +128,6 @@
         </div>
     </EditForm>
 </div>
+ 
+
    

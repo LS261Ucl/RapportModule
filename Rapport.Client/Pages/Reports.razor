@@ -1,5 +1,5 @@
 ﻿@page "/reports"
-@attribute [Authorize(Roles = "admin, superuser")]
+@attribute [Authorize(Roles = "admin, user")]
 
 <AuthorizeView Roles="Admin, User">
     <NotAuthorized>

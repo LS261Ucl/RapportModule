@@ -1,7 +1,8 @@
 ﻿@page "/template/{id:int}"
 @using Rapport.Client.Pages
-
-<EditForm Model="TemplateDto" OnValidSubmit="OnInitializedAsync">
+@attribute [Authorize(Roles = "Admin")]
+   
+        <EditForm Model="TemplateDto" OnValidSubmit="OnInitializedAsync">
     <div>
         <div class="container">
             <div class=" text-center">
@@ -163,3 +164,4 @@
             </div>
         </div>
     </EditForm>
+

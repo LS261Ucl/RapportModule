@@ -12,18 +12,25 @@
 
 <EditForm Model="user" OnValidSubmit="HandleLogin">
     <DataAnnotationsValidator />
-    <div class="mb-3">
+    
+    <div class="col-md-3">
         <label for="email">Email</label>
         <InputText id="email" @bind-Value="user.Email" class="form-control" />
         <ValidationMessage For="@(() => user.Email)" />
     </div>
-    <div class="mb-3">
+    <div class="col-md-3">
         <label for="password">Password</label>
         <InputText id="password" @bind-Value="user.Password" class="form-control" type="password" />
         <ValidationMessage For="@(() => user.Password)" />
     </div>
-    <button type="submit" class="btn btn-primary">Login</button>
-    <button type="button" @onclick="@(() => RegisterUser())">Opret bruger</button>
+    <div class="col-md-3">
+            <button type="submit" class="btn btn-outline-primary">Login</button>
+
+    </div>
+    <div class="col-md-3">
+        <button type="button" class="btn btn-outline-secondary" @onclick="@(() => RegisterUser())">Opret bruger</button>
+</div>
+    
 </EditForm>
 <div class="text-danger">
     <span>@errorMessage</span>
