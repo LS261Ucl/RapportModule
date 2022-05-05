@@ -1,16 +1,43 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
-<body>
-    <NavMenu />
+<div class="page">
+    <div class="sidebar">
 
-    <div class="container">
-        @Body
+        <NavMenu />
     </div>
-</body>
+    <div class="main">
+        <div class="top-row px-4">        
+            <AuthorizeView>
+                <Authorized>
+                    <a href="/" @onclick="(() => Logout())">Logout</a>
+                </Authorized>
+                <NotAuthorized>
+                    <a href="/">Login</a>
+                </NotAuthorized>
+            </AuthorizeView>
 
 
-@*<footer class="border-top footer text-muted fixed-bottom">
-    <div class="container mt-4 mb-4">
-        &copy; 2019 - Blazor-Top-Menu
+            <a href="https://docs.microsoft.com/en-us/aspnet/" target="_blank">About</a>
+        </div>
+
+        <div class="content px-4">
+            @Body
+        </div>
     </div>
-</footer>*@
+
+
+</div>
+
+
+
+@code {
+    public async Task Logout()
+    {
+        await ((CustomAuthStateProvider)AuthenticationStateProvider).GetAuthenticationStateAsync();
+        NavigationManager.NavigateTo("");
+    }
+}
+
+

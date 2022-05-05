@@ -7,11 +7,6 @@
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
-
-<PageTitle>Login</PageTitle>
-
-<h3>Login</h3>
-
 <EditForm Model="user" OnValidSubmit="@ValidateUser">
     <DataAnnotationsValidator />
     <div>
@@ -23,33 +18,30 @@
     <div>
         <br />
     </div>
-    <div class="col-md-3">
-        <label for="email">Email</label>
-        <InputText id="email" @bind-Value="user.Email" class="form-control" />
-        <ValidationMessage For="@(() => user.Email)" />
+      <div class="col-12 row">
+        <input class="form-control col-12" @bind="user.Email" placeholder="email address" />
     </div>
     <br />
-    <div class="col-md-3">
-        <label for="password">Password</label>
-        <InputText id="password" @bind-Value="user.Password" class="form-control" type="password" />
-        <ValidationMessage For="@(() => user.Password)" />
+    <div class="col-12 row">
+        <input type="password" class="form-control col-12" @bind="user.Password" placeholder="password" />
     </div>
     <br />
-    <div class="col-md-3">
-            <button type="submit" class="btn btn-outline-primary">Login</button>
-            <a href="/register" class="col-3">Opret bruger</a>
+    <div class="col-12 row">
+        <span class="col-12"></span>
+        <input type="submit" class="form-control col-6 btn btn-primary" value="Login" />
+        <a href="/register" class="col-3">Opret</a>
     </div>
- 
-<div class="text-danger">
-    <span>@errorMessage</span>
-</div>
+    <br />
+    <div class="col-12 row" style="text-align:left; font-weight:bold">
+        <span class="col-12">@errorMessage</span>
+    </div>
     
 </EditForm>
 
 
 @code {
     private UserLoginDto user = new UserLoginDto();
-    ClaimsPrincipal claimsPrincipal;
+    ClaimsPrincipal? claimsPrincipal;
 
     [CascadingParameter]
     private Task<AuthenticationState> AuthenticationState { get; set; }
@@ -68,10 +60,7 @@
         {
             NavigationManager.NavigateTo("/index");
         }
-        {
-            user.Email = "Admin@test.dk";
-            user.Password = "Test123";
-        }
+       
 
     }
 

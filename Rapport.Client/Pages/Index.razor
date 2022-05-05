@@ -1,5 +1,42 @@
 ﻿@page "/index"
+@using System.Security.Claims
 
+@if(isUserAuthenticated)
+{
+    <h3><b>@user.Identity.Name</b> Er loggede ind</h3>
+    <br />
+ 
+}
 
 
 <link href="_content/BlazorPro.Spinkit/spinkit.min.css" rel="stylesheet" />
+
+@code{
+    [CascadingParameter]
+    private Task<AuthenticationState> AuthenticationState { get; set; }
+
+    ClaimsPrincipal user;
+
+    bool isUserAuthenticated;
+    bool isAdmin;
+    bool isUser;
+
+    protected override async Task OnInitializedAsync()
+    {
+        user = (await AuthenticationState).User;
+
+        if(user.Identity.IsAuthenticated)
+        {
+            isUserAuthenticated = true;
+        }
+        if(user.IsInRole("Admin"))
+        {
+            isAdmin = true;
+        }
+        if(user.IsInRole("User"))
+        {
+            isUser = true;
+        }
+
+    }
+}
