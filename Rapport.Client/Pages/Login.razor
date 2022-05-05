@@ -1,6 +1,8 @@
-﻿@page "/login"
+﻿@page "/"
+@layout CenteredCardLayout
 @using Microsoft.AspNetCore.WebUtilities
 @using Rapport.Shared.Dto_er.User
+@using System.Security.Claims
 @inject IAuthService AuthService
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
@@ -10,53 +12,87 @@
 
 <h3>Login</h3>
 
-<EditForm Model="user" OnValidSubmit="HandleLogin">
+<EditForm Model="user" OnValidSubmit="@ValidateUser">
     <DataAnnotationsValidator />
-    
+    <div>
+            <br /><br /><br /><br /><br />
+    </div>
+    <div>
+        <h3 style="font-weight: bold; color:royalblue">Login</h3>
+    </div>
+    <div>
+        <br />
+    </div>
     <div class="col-md-3">
         <label for="email">Email</label>
         <InputText id="email" @bind-Value="user.Email" class="form-control" />
         <ValidationMessage For="@(() => user.Email)" />
     </div>
+    <br />
     <div class="col-md-3">
         <label for="password">Password</label>
         <InputText id="password" @bind-Value="user.Password" class="form-control" type="password" />
         <ValidationMessage For="@(() => user.Password)" />
     </div>
+    <br />
     <div class="col-md-3">
             <button type="submit" class="btn btn-outline-primary">Login</button>
-
+            <a href="/register" class="col-3">Opret bruger</a>
     </div>
-    <div class="col-md-3">
-        <button type="button" class="btn btn-outline-secondary" @onclick="@(() => RegisterUser())">Opret bruger</button>
-</div>
-    
-</EditForm>
+ 
 <div class="text-danger">
     <span>@errorMessage</span>
 </div>
+    
+</EditForm>
+
 
 @code {
     private UserLoginDto user = new UserLoginDto();
+    ClaimsPrincipal claimsPrincipal;
+
+    [CascadingParameter]
+    private Task<AuthenticationState> AuthenticationState { get; set; }
 
     private string errorMessage = string.Empty;
 
     private string returnUrl = string.Empty;
 
-    protected override void OnInitialized()
+    protected override async void OnInitialized()
     {
-        var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
-        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("returnUrl", out var url))
+        user = new UserLoginDto();
+
+        claimsPrincipal = (await AuthenticationState).User;
+
+        if(claimsPrincipal.Identity.IsAuthenticated)
         {
-            returnUrl = url;
+            NavigationManager.NavigateTo("/index");
         }
+        {
+            user.Email = "Admin@test.dk";
+            user.Password = "Test123";
+        }
+
     }
 
-    private async Task HandleLogin()
+    private async Task<bool> ValidateUser()
     {
-        var result = await AuthService.Login(user);
-        NavigationManager.NavigateTo("/templates");
+        //Assume that user is valid
+        //call an Api
 
+        var returnedUser = await AuthService.Login(user);
+
+        if(returnedUser.Email != null)
+        {
+            await ((CustomAuthStateProvider)AuthenticationStateProvider).GetAuthenticationStateAsync();
+            NavigationManager.NavigateTo("/index");
+        }
+        else
+        {
+            errorMessage = "Brugernavn eller password er ikke korrekt";
+        }
+
+        return await Task.FromResult(true);
     }
 
     private async Task RegisterUser()
