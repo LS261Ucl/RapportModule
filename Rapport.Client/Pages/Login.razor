@@ -7,7 +7,7 @@
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
-<EditForm Model="user" OnValidSubmit="@ValidateUser">
+<EditForm Model="user" OnValidSubmit="ValidateUser">
     <DataAnnotationsValidator />
     <div>
             <br /><br /><br /><br /><br />
@@ -56,11 +56,10 @@
 
         claimsPrincipal = (await AuthenticationState).User;
 
-        if(claimsPrincipal.Identity.IsAuthenticated)
+        if(!claimsPrincipal.Identity.IsAuthenticated)
         {
-            NavigationManager.NavigateTo("/index");
+             NavigationManager.NavigateTo("/index");
         }
-       
 
     }
 
