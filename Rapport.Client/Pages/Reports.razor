@@ -1,11 +1,7 @@
 ﻿@page "/reports"
-@attribute [Authorize(Roles = "admin, user")]
 
-<AuthorizeView Roles="Admin, User">
-    <NotAuthorized>
-        <p>"Du har ikke tilladelse"</p>
-    </NotAuthorized>
-    <Authorized>
+
+
         <div class="container">
             <div class="info-form row col-12">
                 <h2 class="info-text">Rapporter</h2>
@@ -35,5 +31,4 @@
                 </table>
             </div>
         </div>
-    </Authorized>
-</AuthorizeView>
+

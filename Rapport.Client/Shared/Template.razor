@@ -1,6 +1,6 @@
 ﻿@page "/template/{id:int}"
 @using Rapport.Client.Pages
-@attribute [Authorize(Roles = "Admin")]
+
    
         <EditForm Model="TemplateDto" OnValidSubmit="OnInitializedAsync">
     <div>

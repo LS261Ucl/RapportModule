@@ -1,12 +1,8 @@
 ﻿@using Rapport.Shared.Dto_er.Template
 @page "/templates"
-@attribute [Authorize(Roles = "admin")]
 
-<AuthorizeView Roles= "Admin">
-    <NotAuthorized>
-        <p>"Du har ikke tilladelse til at se Skabelonerne!"</p>
-    </NotAuthorized>
-    <Authorized>
+
+
         <h2 class="text-center"> Skabeloner</h2>
     @if (TemplateList != null)
     {
@@ -48,8 +44,7 @@
 
     }
 
-    </Authorized>
-</AuthorizeView>
+
 
 
 

@@ -1,7 +1,7 @@
 ﻿@page "/group/edit/{id:int}"
 
 <div class="container">
-    <EditForm EditContext="@EditContext" OnSubmit="OnInitializedAsync">
+    <EditForm Model="@Group" OnSubmit="OnInitializedAsync">
         <DataAnnotationsValidator/>
         <label>Gruppe titel</label>
         <div class="sign-validation">
