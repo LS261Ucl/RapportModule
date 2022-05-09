@@ -13,14 +13,14 @@ namespace Rapport.Shared.Dto_er.ReportGroup
         [Required]
         public int ReportId { get; set; }
 
-        [JsonIgnore]
-        public ReportDto? ReportDto { get; set; }
+        //[JsonIgnore]
+        //public ReportDto? ReportDto { get; set; }
 
         [Required]
         public int TemplateGroupId { get; set; }
 
-        [JsonIgnore]
-        public TemplateGroupDto? TemplateGroupDto { get; set; }
+        //[JsonIgnore]
+        //public TemplateGroupDto? TemplateGroupDto { get; set; }
 
 
     }
