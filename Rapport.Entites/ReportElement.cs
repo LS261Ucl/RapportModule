@@ -14,8 +14,7 @@ namespace Rapport.Entites
         public string? Options { get; set; }
         public string? Remarks { get; set; }
         public double Numbers { get; set; }
-        public byte[]? Image { get; set; }
-        public bool IsActive { get; set; }
+        public bool? IsActive { get; set; }
 
         [ForeignKey(nameof(ReportGroupId))]
         public int ReportGroupId { get; set; }

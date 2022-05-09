@@ -14,8 +14,7 @@ namespace Rapport.Shared.Dto_er.ReportElement
         public string? Options { get; set; }
         public string? Remarks { get; set; }
         public double Numbers { get; set; }
-        public byte[]? Image { get; set; }
-        public bool IsActive { get; set; }
+        public bool? IsActive { get; set; }
       
         [Required]
         public int ReportGroupId { get; set; }

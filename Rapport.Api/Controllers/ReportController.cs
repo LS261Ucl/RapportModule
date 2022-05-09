@@ -99,18 +99,7 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                //var dbTemplate = await _templatGenericRepository.GetAsync(x => x.Id == id);
-
-                //var dbGroup = new CreateReportDto
-                //{
-                //    TemplateId = dbTemplate.Id,
-                //    Title = dbTemplate.Titel,                    
-                //    RentalPeriodStart = DateTime.UtcNow
-
-                //};
-
-                //dbGroup = requestDto;
-
+               
                 var dbRequest = _mapper.Map<Report>(requestDto);
 
                 var dbResult = await _reportRepository.CreateAsync(dbRequest);
