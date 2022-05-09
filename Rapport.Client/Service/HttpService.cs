@@ -56,9 +56,17 @@ namespace Rapport.Client.Service
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var responseDeserialized = await Deserialize<TResponse>(response);
+                    try
+                    {
+                        var responseDeserialized = await Deserialize<TResponse>(response);
 
-                    return new HttpResponseWrapper<TResponse>(true, responseDeserialized, response);
+                        return new HttpResponseWrapper<TResponse>(true, responseDeserialized, response);
+                    }
+                    catch(Exception ex)
+                    {
+                        throw new Exception("",ex);
+                    }
+                  
                 }
                 else
                 {
@@ -128,10 +136,18 @@ namespace Rapport.Client.Service
         // Deserialize HttpResponse from json to C# objects 
         private static async Task<T> Deserialize<T>(HttpResponseMessage httpResponse)
         {
-            var serializerOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true, ReferenceHandler = ReferenceHandler.Preserve };
-            string response = await httpResponse.Content.ReadAsStringAsync();
+            try
+            {
+                var serializerOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true, ReferenceHandler = ReferenceHandler.Preserve };
+                string response = await httpResponse.Content.ReadAsStringAsync();
 
-            return JsonSerializer.Deserialize<T>(response, serializerOptions);
+                return JsonSerializer.Deserialize<T>(response, serializerOptions);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
         }
 
         private static JsonSerializerOptions IgnoreNullSerializerOption()

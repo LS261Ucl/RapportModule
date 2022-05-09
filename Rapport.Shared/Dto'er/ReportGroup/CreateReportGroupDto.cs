@@ -7,6 +7,7 @@ namespace Rapport.Shared.Dto_er.ReportGroup
 {
     public class CreateReportGroupDto
     {
+        [Required]
         public string? Titel { get; set; }
 
         [Required]
@@ -17,6 +18,7 @@ namespace Rapport.Shared.Dto_er.ReportGroup
 
         [Required]
         public int TemplateGroupId { get; set; }
+
         [JsonIgnore]
         public TemplateGroupDto? TemplateGroupDto { get; set; }
 

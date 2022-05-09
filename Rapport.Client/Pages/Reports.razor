@@ -3,7 +3,7 @@
 
 
         <div class="container">
-            <div class="info-form row col-12">
+            <div class="info-form grid col-12">
                 <h2 class="info-text">Rapporter</h2>
             </div>
 
@@ -11,18 +11,18 @@
                 <table>
                     <thead>
                         <tr>
-                            <th class="col-6 border">Titel</th>
-                            <th class="col-6 border">Beskrivelse</th>
+                            <th class="col-6 top-row border">Titel</th>
+                            <th class="col-6 top-row border">Dato</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var report in reportList)
                         {
                             <tr>
-                                B
+                                
                                 <td class="col-6 border">@(report.Title ?? "")</td>
-
-                                <td class="col-6 border">
+                                <td class="col-6  border">@(report.RentalPeriodStart)</td>
+                                <td class="col-6">
                                     <button class="btn btn-secondary" @onclick="(() => HandleValidSubmit(report.Id))"> vis</button>
                                 </td>
                             </tr>
