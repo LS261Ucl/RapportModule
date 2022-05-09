@@ -5,8 +5,8 @@
         <EditForm Model="TemplateDto" OnValidSubmit="OnInitializedAsync">
     <div>
         <div class="container">
-            <div class=" text-center">
-                <InputText class="form-control"
+            <div class="row justify-content-center">
+                <InputText class="form-control text-md-center text-dark"
                            placeholder="titel"
                            @bind-Value="@TemplateDto.Title">@(TemplateDto?.Title ?? "")</InputText>
             </div>
@@ -14,13 +14,13 @@
         </div>
         <div class="text.start">
             <div class="container">
-                <div class="row ">
+                <div >
                     <table>
                         <thead>
-                            <tr>
-                                <th class="col-md-2 border">Id</th>
-                                <th class="col-md-4 border">Titel</th>
-                                <th class="col-md-10 border">Beskrivelse</th>
+                            <tr class="row align-items-md-baseline">
+                                <th class="col-md-2 top-row border text-dark">Id</th>
+                                <th class="col-md-4 top-row border text-dark">Titel</th>
+                                <th class="col-md-6 top-row border text-dark">Beskrivelse</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -31,24 +31,25 @@
                                      @foreach (var group in TemplateDto.TemplateGroups)
                                 {
                                     
-                                    <tr>
-                                        <td>
+                                    <tr class="row align-items-baseline">
+                                        <td class="col-md-2">
                                             <label> @(group.Id)</label>
                                         </td>
-                                        <td class="col-md-4 border">
-                                            <InputText @bind-Value="group.Titel">@(group?.Titel ?? "")</InputText>
+                                        <td class=" col-md-4">
+                                           
+                                            <InputTextArea  type="text" class="form-control" placeholder="Titel" @bind-Value="group.Titel">@(group?.Titel ?? "")</InputTextArea>
                                         </td>
-                                        <td class="col-md-10 border">
+                                        <td class=" col-md-6">
                                             <InputTextArea  type="text"
                                                            class="form-control"
                                                            placeholder="Beskrivelse"
                                                            @bind-Value="@group.Description"
                                                            rows="3">@(group.Description ?? "")</InputTextArea>
                                         </td>                                                                                   
-                                        <td>
+                                        <td col-md-4>
                                             <button class="btn btn-outline-danger"
                                                     @onclick="(() => DeleteGroup(group.Id))">
-                                                Delete
+                                                Slet
                                             </button>
 
 
@@ -60,18 +61,17 @@
                                         @if (group.Elements!= null)
                                         {
 
-                                        <tr>
-                                            <th class="col-md-2 border text-dark">Id</th>
-                                            <th class="col-md-4 border text-dark">Titel</th>
-                                            <th class="col-md-10 border text-dark">Beskrivelse</th>
-                                            <th class="col-md-6 border text-dark"> DataType</th>
-                                            <th class="col-md-6 border text-dark">muligheder</th>
+                                        <tr class="row align-items-md-center">
+                                            <th class="col-md-2 top-row border text-dark">Id</th>
+                                            <th class="col-md-4 top-row border text-dark">Titel</th>
+                                            <th class="col-md-6 top-row border text-dark">Beskrivelse</th>
+                                            <th class="col-md-4 top-row border text-dark"> DataType</th>
                                         </tr>
 
 
                                         @foreach (var elements in group.Elements)
                                         {
-                                            <tr>
+                                            <tr class="row align-items-baseline">
                                                 <td class="col-md-2">
                                                     <label> @(elements.Id)</label>
                                                 </td>
@@ -94,10 +94,6 @@
 
                                                                         }
                                                     </InputSelect>
-                                                </td>
-                                                <td class="col-md-6 border">
-                                                    <InputTextArea placeholder="Valg mulighder"
-                                                                   @bind-Value="@elements.Options">@(elements?.Options ?? "")</InputTextArea>
                                                 </td>
                                                 <td>
                                                     <button class="btn btn-outline-danger"

@@ -3,28 +3,30 @@
 
 
         <div class="container">
-            <div class="info-form grid col-12">
-                <h2 class="info-text">Rapporter</h2>
+            <div class="row justify-content-center">
+                <h2 class="col-md-4">Rapporter</h2>
             </div>
 
             <div class="row">
                 <table>
                     <thead>
                         <tr>
-                            <th class="col-6 top-row border">Titel</th>
-                            <th class="col-6 top-row border">Dato</th>
+                            <th class="col-2 top-row">Id</th>
+                            <th class="col-md-4 top-row">Titel</th>
+                            <th class="col-md-4 top-row">Dato</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var report in reportList)
                         {
                             <tr>
-                                
-                                <td class="col-6 border">@(report.Title ?? "")</td>
-                                <td class="col-6  border">@(report.RentalPeriodStart)</td>
-                                <td class="col-6">
-                                    <button class="btn btn-secondary" @onclick="(() => HandleValidSubmit(report.Id))"> vis</button>
+                             
+                                <td> 
+                                    <div class="col-md-4 btn btn-primary" @onclick="(() => HandleValidSubmit(report.Id))"> @(report?.Id)</div>
                                 </td>
+                                <td class="col-md-4">@(report.Title ?? "")</td>
+                                <td class="col-md-4">@(report.RentalPeriodStart)</td>
+                              
                             </tr>
                         }
                     </tbody>
