@@ -1,5 +1,4 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Rapport.Shared.Dto_er.Template
 {
@@ -7,7 +6,9 @@ namespace Rapport.Shared.Dto_er.Template
     {     
       
         public string? Title { get; set; }
-        public int LayoutId { get; set; }
+
+        [Required ]
+        public int? LayoutId { get; set; }
      
     }
 }

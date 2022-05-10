@@ -6,16 +6,16 @@ namespace Rapport.Client.Shared
     public partial class Report : ComponentBase
     {
         [Inject]
-        private IReportService ReportService { get; set; }
+        private IReportService? ReportService { get; set; }
 
         [Inject]
-        private NavigationManager NavigationManager { get; set; }
+        private NavigationManager? NavigationManager { get; set; }
 
         [Parameter]
         public int Id { get; set; }
 
         public ReportDto ReportDto { get; set; } = new();
-        public TemplateDto TemplateDto { get; set; }
+        public TemplateDto TemplateDto { get; set; } = new();
 
         private ReportElementDto ElementDto { get; set; } = new();
 

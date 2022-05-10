@@ -140,7 +140,7 @@ namespace Rapport.Client.Shared
         private async Task ValidSubmit(TemplateDto currentTemplateDto)
         {
 
-            var report = await ReportService.CreateReport(Id, TemplateDto.Title, TemplateDto.LayoutId, createReportDto);
+            var report = await ReportService.CreateReport(Id, TemplateDto.Title,TemplateDto.LayoutId, createReportDto);
 
             if (report != null)
             {
@@ -185,9 +185,9 @@ namespace Rapport.Client.Shared
             NavigationManager.NavigateTo($"report/{report.Id}");
         }
 
-        
 
-           
-        
+
+
+
     }
 }

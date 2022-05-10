@@ -1,9 +1,18 @@
 ﻿@page "/report/{id:int}"
 
+@if( TemplateDto != null && TemplateDto?.LayoutId == 1)
+{
+    <PreparationReport></PreparationReport>
+}
 
-     <EditForm Model="ReportDto" OnValidSubmit="OnParametersSetAsync">
+else
+{
+   <EditForm Model="ReportDto" OnValidSubmit="OnParametersSetAsync">
         <DataAnnotationsValidator />
-        <div>
+       
+            <div>
+
+
             <div class="container  info-form">
                 <div class=" text-center">
                     <h2 class="text-center">@ReportDto?.Title </h2>
@@ -124,7 +133,10 @@
                 </button>
             </div>
         </div>
-    </EditForm>
+    </EditForm>  
+}
+
+    
 
 
    

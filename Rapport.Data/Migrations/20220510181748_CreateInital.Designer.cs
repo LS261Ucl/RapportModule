@@ -12,8 +12,8 @@ using Rapport.Data;
 namespace Rapport.Data.Migrations
 {
     [DbContext(typeof(ReportDbContext))]
-    [Migration("20220509055950_changesToElement")]
-    partial class changesToElement
+    [Migration("20220510181748_CreateInital")]
+    partial class CreateInital
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,22 @@ namespace Rapport.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("Rapport.Entites.FinalReport", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<byte[]>("Data")
+                        .HasColumnType("varbinary(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FinalReports");
+                });
 
             modelBuilder.Entity("Rapport.Entites.Identity.User", b =>
                 {
@@ -53,6 +69,22 @@ namespace Rapport.Data.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Rapport.Entites.Image", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<byte[]>("Img")
+                        .HasColumnType("varbinary(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Images");
+                });
+
             modelBuilder.Entity("Rapport.Entites.Report", b =>
                 {
                     b.Property<int>("Id")
@@ -64,20 +96,20 @@ namespace Rapport.Data.Migrations
                     b.Property<string>("CustomerEmail")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("Date")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("EmployeeName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("IsReadOnly")
                         .HasColumnType("bit");
 
+                    b.Property<int>("LayoutId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Remarks")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("RentalPeriodEnd")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("RentalPeriodStart")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("TemplateId")
                         .HasColumnType("int");

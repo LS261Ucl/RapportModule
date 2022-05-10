@@ -14,6 +14,7 @@ namespace Rapport.Shared.Dto_er.User
         [Compare("Password", ErrorMessage = "Password passer ikke")]
         public string ConfirmPassword { get; set; } = string.Empty;
 
+        
         public string Role { get; set; } = string.Empty;
     }
 }

@@ -16,7 +16,7 @@ namespace Rapport.Client.Service
             _httpServices = httpServices;
         }
 
-        public async Task<ReportDto> CreateReport(int id, string templateTitel,int layoutId, CreateReportDto requestDto)
+        public async Task<ReportDto> CreateReport(int id, string templateTitel, int? layoutId, CreateReportDto requestDto)
         {
             try
             {
@@ -24,6 +24,7 @@ namespace Rapport.Client.Service
                 {
                     TemplateId = id,
                     Title = templateTitel,
+                    Date = DateTime.Now,
                     LayoutId = layoutId
                     
                 };

@@ -7,10 +7,10 @@ namespace Rapport.Shared.Dto_er.Report
     public class CreateReportDto
     {
         public string? Title { get; set; }
-        public DateTime? RentalPeriodStart { get; set; }
+        public DateTime? Date { get; set; }
 
         [Required]
-        public int LayoutId { get; set; }
+        public int? LayoutId { get; set; }
         public string? Remarks { get; set; }
         public bool? IsReadOnly { get; set; }
         public string? CustomerEmail { get; set; }

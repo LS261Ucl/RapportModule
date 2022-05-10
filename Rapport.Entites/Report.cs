@@ -10,7 +10,7 @@ namespace Rapport.Entites
         public string? Title { get; set; }
         public DateTime? Date { get; set; }
 
-        public int LayoutId { get; set; }
+        public int? LayoutId { get; set; }
 
         public string? Remarks { get; set; }
 

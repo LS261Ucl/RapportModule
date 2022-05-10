@@ -12,7 +12,7 @@ namespace Rapport.Client.Interfaces
         Task<ReportDto> GetReportGroupByReportId(int id);
 
         Task<List<ReportDto>> GetReports();
-        Task<ReportDto> CreateReport(int id, string templateTitel, int layoutId, CreateReportDto requestDto);
+        Task<ReportDto> CreateReport(int id, string templateTitel, int? layoutId, CreateReportDto requestDto);
 
         Task<ReportDto> UpdatedReport(int id, ReportDto requestDto);
         Task<bool> DeletedReport(int id);
