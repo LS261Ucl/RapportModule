@@ -18,6 +18,8 @@ namespace Rapport.Data
         public DbSet<ReportGroup>? ReportGroups { get; set; }
         public DbSet<ReportElement>? ReportElements { get; set; }
         public DbSet<User>? Users { get; set; }
+        public DbSet<Image>? Images { get; set; }
+        public DbSet<FinalReport>? FinalReports { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
