@@ -15,6 +15,7 @@ namespace Rapport.Client.Shared
         public int Id { get; set; }
 
         public ReportDto ReportDto { get; set; } = new();
+        public TemplateDto TemplateDto { get; set; }
 
         private ReportElementDto ElementDto { get; set; } = new();
 

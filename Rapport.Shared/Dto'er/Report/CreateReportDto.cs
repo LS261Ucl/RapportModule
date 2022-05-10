@@ -8,9 +8,10 @@ namespace Rapport.Shared.Dto_er.Report
     {
         public string? Title { get; set; }
         public DateTime? RentalPeriodStart { get; set; }
-        public DateTime? RentalPeriodEnd { get; set; }
-        public string? Remarks { get; set; }
 
+        [Required]
+        public int Layout { get; set; }
+        public string? Remarks { get; set; }
         public bool? IsReadOnly { get; set; }
         public string? CustomerEmail { get; set; }
         public string? EmployeeName { get; set; }

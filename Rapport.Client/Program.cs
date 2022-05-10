@@ -13,7 +13,6 @@ using Rapport.Client.Service;
 using Rapport.Client.Extensions;
 using Rapport.Shared.Services;
 using Rapport.Shared.Configuration;
-using Blazored.LocalStorage;
 
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);

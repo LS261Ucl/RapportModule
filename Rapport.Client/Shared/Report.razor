@@ -1,9 +1,7 @@
 ﻿@page "/report/{id:int}"
 
 
-
-        <div>
-    <EditForm Model="ReportDto" OnValidSubmit="OnParametersSetAsync">
+     <EditForm Model="ReportDto" OnValidSubmit="OnParametersSetAsync">
         <DataAnnotationsValidator />
         <div>
             <div class="container  info-form">
@@ -19,7 +17,7 @@
             <div class="container">
                 <div>
                     <label>Ankomst</label>
-                    <InputDate @bind-Value="@ReportDto.RentalPeriodStart" placeholder="Start Dato">@ReportDto.RentalPeriodStart</InputDate>
+                    <InputDate @bind-Value="@ReportDto.Date" placeholder="Start Dato">@ReportDto.Date</InputDate>
                 </div>
             </div>
             <div class="container ">
@@ -127,7 +125,10 @@
             </div>
         </div>
     </EditForm>
-</div>
+
+
+   
+
  
 
    

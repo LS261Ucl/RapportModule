@@ -5,10 +5,14 @@
         <EditForm Model="TemplateDto" OnValidSubmit="OnInitializedAsync">
     <div>
         <div class="container">
-            <div class="row justify-content-center">
-                <InputText class="form-control text-md-center text-dark"
+            <div class="row align-items-center">
+                <div class="col-md-10">    <InputText class="form-control text-md-center text-dark"
                            placeholder="titel"
-                           @bind-Value="@TemplateDto.Title">@(TemplateDto?.Title ?? "")</InputText>
+                           @bind-Value="@TemplateDto.Title">@(TemplateDto?.Title ?? "")</InputText></div>
+            
+                           <div class="col-md-4">
+                               <InputNumber @bind-Value="@TemplateDto.LayoutId">@(TemplateDto.LayoutId)</InputNumber>
+                           </div>
             </div>
             
         </div>
