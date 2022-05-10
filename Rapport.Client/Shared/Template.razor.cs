@@ -44,13 +44,13 @@ namespace Rapport.Client.Shared
         private CreateTemplateElementDto createTemplateElementDto = new();
         private CreateReportDto createReportDto = new();
         private CreateReportGroupDto createReportGroupDto = new();
-        private CreateReportElementDto createReportElementDto = new();
-        private TemplateGroupDto updateTemplateGroupDto = new();
+        private CreateReportElementDto CreateReportElementDto = new();
 
         private TemplateDto TemplateDto { get; set; } = new();
         public TemplateGroupDto GroupDto { get; set; } = new();
         private UpdateTemplateDto updateTemplate = new();
         private ReportDto ReportDto { get; set; } = new();
+        
 
         public List<TemplateGroupDto> TemplateGroups = new();
 
@@ -140,7 +140,7 @@ namespace Rapport.Client.Shared
         private async Task ValidSubmit(TemplateDto currentTemplateDto)
         {
 
-            var report = await ReportService.CreateReport(Id, TemplateDto.Title, createReportDto);
+            var report = await ReportService.CreateReport(Id, TemplateDto.Title, TemplateDto.LayoutId, createReportDto);
 
             if (report != null)
             {
@@ -173,7 +173,7 @@ namespace Rapport.Client.Shared
 
                         };
 
-                        createReportElementDto = dbelement;
+                        CreateReportElementDto = dbelement;
 
                         await ReportElementService.CreateElementAsync(dbelement);
                         // await Task.Delay(1000);

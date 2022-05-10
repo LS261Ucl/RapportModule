@@ -9,6 +9,6 @@ namespace Rapport.Shared.Dto_er.Template
 
         [Required(ErrorMessage = "Husk at Titel")]
         public string? Title { get; set; }
-        public int? LayoutId { get; set; }
+        public int LayoutId { get; set; }
     }
 }

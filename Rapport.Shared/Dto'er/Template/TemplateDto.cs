@@ -13,7 +13,7 @@ namespace Rapport.Shared.Dto_er.Template
         
         public int Id { get; set; }
         public string? Title { get; set; }
-        public int? LayoutId { get; set; }
+        public int LayoutId { get; set; }
 
 
         public ICollection<TemplateGroupDto>? TemplateGroups { get; set; }

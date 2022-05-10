@@ -10,7 +10,7 @@ namespace Rapport.Shared.Dto_er.Report
         public string? Title { get; set; }
         public DateTime? Date { get; set; }
 
-        public int Layout { get; set; }
+        public int LayoutId { get; set; }
 
         public string? Remarks { get; set; }
 

@@ -16,14 +16,16 @@ namespace Rapport.Client.Service
             _httpServices = httpServices;
         }
 
-        public async Task<ReportDto> CreateReport(int id, string templateTitel, CreateReportDto requestDto)
+        public async Task<ReportDto> CreateReport(int id, string templateTitel,int layoutId, CreateReportDto requestDto)
         {
             try
             {
                 var dbReport = new CreateReportDto
                 {
                     TemplateId = id,
-                    Title = templateTitel                  
+                    Title = templateTitel,
+                    LayoutId = layoutId
+                    
                 };
 
                 requestDto = dbReport;
