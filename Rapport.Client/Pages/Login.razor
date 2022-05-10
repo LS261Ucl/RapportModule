@@ -26,10 +26,14 @@
         <input type="password" class="form-control col-12" @bind="user.Password" placeholder="password" />
     </div>
     <br />
-    <div class="col-12 row">
+    <div class="col-12 row align-content-center">
         <span class="col-12"></span>
         <input type="submit" class="form-control col-6 btn btn-primary" value="Login" />
-        <a href="/register" class="col-3">Opret</a>
+        <a href="/register" class="col-md-6">Opret</a>
+    </div>
+    <div class="col-12 align-content-end">
+     <div class="col-4" @onclick="@ChangePassword">Ændre password</div>
+
     </div>
     <br />
     <div class="col-12 row" style="text-align:left; font-weight:bold">
@@ -58,7 +62,7 @@
 
         if(!claimsPrincipal.Identity.IsAuthenticated)
         {
-             NavigationManager.NavigateTo("/index");
+            NavigationManager.NavigateTo("/index");
         }
 
     }
@@ -86,5 +90,10 @@
     private async Task RegisterUser()
     {
         NavigationManager.NavigateTo("register");
+    }
+
+    private async Task ChangePassword()
+    {
+        NavigationManager.NavigateTo("profile");
     }
 }
