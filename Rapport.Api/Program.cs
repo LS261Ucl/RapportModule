@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Rapport.BusinessLogig.Interfaces;
+using Rapport.BusinessLogig.Services;
 using Rapport.Data;
 using Rapport.Data.Identity;
 using Swashbuckle.AspNetCore.Filters;
@@ -79,7 +80,10 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-
+//Services
+builder.Services.AddScoped<ITemplateService, TemplateService>();
+builder.Services.AddScoped<ITemplateGroupService, TemplateGroupService>();
+builder.Services.AddScoped<ITemplateElementService, TemplateElementService>();
 
 
 

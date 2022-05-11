@@ -14,11 +14,14 @@ namespace Rapport.Api.Controllers
         private readonly IMapper _mapper;
         private readonly ILogger<TemplateElementController> _logger;
         private readonly IGenericRepository<TemplateElement> _templateElementRepository;
+        private readonly ITemplateElementService _templateElementService;   
         public TemplateElementController(IGenericRepository<TemplateElement> templateElementRepository, 
+            ITemplateElementService templateElementService,
             IMapper mapper,
             ILogger<TemplateElementController> logger)
         {
             _templateElementRepository = templateElementRepository;
+            _templateElementService = templateElementService;
             _mapper = mapper;
             _logger = logger;
         }
@@ -49,7 +52,7 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-               var element = await _templateElementRepository.GetAsync(x => x.Id == id);
+                var element = await _templateElementService.GetTemplateElementById(id);
 
                 if(element == null)
                 {
@@ -57,7 +60,7 @@ namespace Rapport.Api.Controllers
                     return NotFound();
                 }
 
-                return Ok(_mapper.Map<TemplateElement>(element));
+                return Ok(element);
 
             }//try
             catch (Exception ex)
@@ -72,9 +75,7 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var element = _mapper.Map<TemplateElement>(requestDto);
-
-                var created = await _templateElementRepository.CreateAsync(element);
+                var created = await _templateElementService.CreateTemplateElement(requestDto);
 
                 if(created == null)
                 {
@@ -82,7 +83,7 @@ namespace Rapport.Api.Controllers
                     return BadRequest();
                 }
 
-                return Ok(_mapper.Map<TemplateElementDto>(created));
+                return Ok(created);
 
             }//try
             catch (Exception ex)

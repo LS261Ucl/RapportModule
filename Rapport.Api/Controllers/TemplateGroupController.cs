@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Rapport.BusinessLogig.Interfaces;
 using Rapport.Entites;
@@ -12,14 +11,17 @@ namespace Rapport.Api.Controllers
     public class TemplateGroupController : ControllerBase
     {
         private readonly IGenericRepository<TemplateGroup> _templateGroupRepository;
+        private readonly ITemplateGroupService _templateGroupService;
         private readonly ILogger<TemplateGroupController> _logger;
         private readonly IMapper _mapper;
 
         public TemplateGroupController(IGenericRepository<TemplateGroup> templateGroupRepository, 
+            ITemplateGroupService templateGroupService, 
             ILogger<TemplateGroupController> logger,
             IMapper mapper)
         {
             _templateGroupRepository = templateGroupRepository;
+            _templateGroupService = templateGroupService;
             _logger = logger;
             _mapper = mapper;
         }
@@ -51,7 +53,7 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var templateGroup = await _templateGroupRepository.GetAsync(x => x.Id == id);
+                var templateGroup = await _templateGroupService.GetTemplateGroupById(id);
 
                 if (templateGroup == null)
                 {
@@ -59,7 +61,7 @@ namespace Rapport.Api.Controllers
                     return NotFound();
                 }
 
-                return Ok(_mapper.Map<TemplateGroup>(templateGroup));
+                return Ok(templateGroup);
             }
             catch(Exception ex)
             {
@@ -73,9 +75,9 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var group = _mapper.Map<TemplateGroup>(requestDto);
+               
 
-                var request = await _templateGroupRepository.CreateAsync(group);
+                var request = await _templateGroupService.CreateTemplateGroup(requestDto);
                 
                 if(request == null)
                 {
@@ -83,7 +85,7 @@ namespace Rapport.Api.Controllers
                     return BadRequest();
                 }
 
-                return Ok(_mapper.Map<TemplateGroup>(request));
+                return Ok(request);
 
             }//try
             catch (Exception ex)
