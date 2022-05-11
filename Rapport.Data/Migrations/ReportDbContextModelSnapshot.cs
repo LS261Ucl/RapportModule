@@ -38,35 +38,6 @@ namespace Rapport.Data.Migrations
                     b.ToTable("FinalReports");
                 });
 
-            modelBuilder.Entity("Rapport.Entites.Identity.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("PasswordHash")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<byte[]>("PasswordSalt")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Role")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-                });
-
             modelBuilder.Entity("Rapport.Entites.Image", b =>
                 {
                     b.Property<int>("Id")
@@ -103,7 +74,7 @@ namespace Rapport.Data.Migrations
                     b.Property<bool?>("IsReadOnly")
                         .HasColumnType("bit");
 
-                    b.Property<int>("LayoutId")
+                    b.Property<int?>("LayoutId")
                         .HasColumnType("int");
 
                     b.Property<string>("Remarks")

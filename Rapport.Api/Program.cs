@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Rapport.Api.Services.AuthService;
 using Rapport.BusinessLogig.Interfaces;
 using Rapport.Data;
+using Rapport.Data.Identity;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -14,6 +15,7 @@ using System.Text.Json.Serialization;
 
 
 var builder = WebApplication.CreateBuilder(args);
+ConfigurationManager configuration = builder.Configuration;
 
 // Add services to the container.
 
@@ -34,19 +36,6 @@ builder.Services.AddSwaggerGen(options => {
 
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
-                .GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value)),
-            ValidateIssuer = false,
-            ValidateAudience = false
-        };
-    });
-
 
 //add in to Sqlserver in cloud       
 builder.Services.AddDbContext<ReportDbContext>(options =>
@@ -54,6 +43,43 @@ builder.Services.AddDbContext<ReportDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ReportConnection"));
 
 });
+//Add in to sqlserver in cloud for Identity
+builder.Services.AddDbContext<ReportIdentityDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection"));
+
+});
+
+
+// For Identity
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<ReportIdentityDbContext>()
+    .AddDefaultTokenProviders();
+
+// Adding Authentication
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+
+// Adding Jwt Bearer
+.AddJwtBearer(options =>
+{
+    options.SaveToken = true;
+    options.RequireHttpsMetadata = false;
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidAudience = configuration["JWT:ValidAudience"],
+        ValidIssuer = configuration["JWT:ValidIssuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]))
+    };
+});
+
+
 
 
 
@@ -68,8 +94,6 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 //GenericRepository
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
-//Services
-builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddHttpContextAccessor();
 

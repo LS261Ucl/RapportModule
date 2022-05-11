@@ -12,8 +12,8 @@ using Rapport.Data;
 namespace Rapport.Data.Migrations
 {
     [DbContext(typeof(ReportDbContext))]
-    [Migration("20220510181748_CreateInital")]
-    partial class CreateInital
+    [Migration("20220511082937_initialCreate")]
+    partial class initialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,35 +38,6 @@ namespace Rapport.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("FinalReports");
-                });
-
-            modelBuilder.Entity("Rapport.Entites.Identity.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("PasswordHash")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<byte[]>("PasswordSalt")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Role")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Rapport.Entites.Image", b =>
@@ -105,7 +76,7 @@ namespace Rapport.Data.Migrations
                     b.Property<bool?>("IsReadOnly")
                         .HasColumnType("bit");
 
-                    b.Property<int>("LayoutId")
+                    b.Property<int?>("LayoutId")
                         .HasColumnType("int");
 
                     b.Property<string>("Remarks")

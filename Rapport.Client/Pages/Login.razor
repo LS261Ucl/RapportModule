@@ -44,7 +44,7 @@
 
 
 @code {
-    private UserLoginDto user = new UserLoginDto();
+    private LoginDto user = new LoginDto();
     ClaimsPrincipal? claimsPrincipal;
 
     [CascadingParameter]
@@ -56,7 +56,7 @@
 
     protected override async void OnInitialized()
     {
-        user = new UserLoginDto();
+        user = new LoginDto();
 
         claimsPrincipal = (await AuthenticationState).User;
 

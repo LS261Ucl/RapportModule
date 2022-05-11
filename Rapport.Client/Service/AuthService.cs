@@ -31,11 +31,11 @@ namespace Rapport.Client.Service
             return (await _authStateProvider.GetAuthenticationStateAsync()).User.Identity.IsAuthenticated;
         }
 
-        public async Task<UserLoginDto> Login(UserLoginDto requestDto)
+        public async Task<LoginDto> Login(LoginDto requestDto)
         {
             try
             {
-                var wrapper = await _httpService.Post<UserLoginDto, UserLoginDto>("auth/login", requestDto);
+                var wrapper = await _httpService.Post<LoginDto, LoginDto>("auth/login", requestDto);
                 return wrapper.Response ?? throw new HttpRequestException(wrapper.HttpResponseMessage.ReasonPhrase);
             }
             catch (Exception ex)
@@ -44,13 +44,13 @@ namespace Rapport.Client.Service
             }
         }
 
-        public async Task<UserRegisterDto> RegisterUser(UserRegisterDto requestDto)
+        public async Task<RegisterDto> RegisterUser(RegisterDto requestDto)
         {
 
             try
             {
 
-                var wrapper = await _httpService.Post<UserRegisterDto, UserRegisterDto>("auth/register", requestDto);
+                var wrapper = await _httpService.Post<RegisterDto, RegisterDto>("auth/register", requestDto);
                 return wrapper.Response ?? throw new HttpRequestException(wrapper.HttpResponseMessage.ReasonPhrase);
             }
             catch (Exception ex)

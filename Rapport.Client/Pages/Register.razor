@@ -2,7 +2,7 @@
 @using Rapport.Shared.Dto_er.User
 @inject IAuthService AuthService
 
-<PageTitle>Register</PageTitle>
+@*<PageTitle>Register</PageTitle>
 
 <h3>Register</h3>
 
@@ -37,14 +37,14 @@
             }
         </InputSelect>
     </div>
-</EditForm>
+</EditForm>*@
 
 @code {
 
 
     [Inject]
     private NavigationManager NavigationManager { get; set; }
-    UserRegisterDto user = new UserRegisterDto();
+    RegisterDto user = new RegisterDto();
 
     string message = string.Empty;
     string messageCssClass = string.Empty;

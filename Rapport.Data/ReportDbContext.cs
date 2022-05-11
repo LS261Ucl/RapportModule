@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Rapport.Entites;
 using Rapport.Entites.Identity;
 
@@ -10,16 +11,16 @@ namespace Rapport.Data
         {
         }
 
-        
         public DbSet<Template>? Templates{ get; set; }
         public DbSet<TemplateGroup>? TemplateGroups { get; set; }
         public DbSet<TemplateElement>? TemplateElements { get; set; }
         public DbSet<Report>? Reports { get; set; }
         public DbSet<ReportGroup>? ReportGroups { get; set; }
         public DbSet<ReportElement>? ReportElements { get; set; }
-        public DbSet<User>? Users { get; set; }
         public DbSet<Image>? Images { get; set; }
         public DbSet<FinalReport>? FinalReports { get; set; }
+
+
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

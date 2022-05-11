@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Rapport.Data.Migrations
 {
-    public partial class CreateInital : Migration
+    public partial class initialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -50,23 +50,6 @@ namespace Rapport.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
-                    PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
-                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Role = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Reports",
                 columns: table => new
                 {
@@ -74,7 +57,7 @@ namespace Rapport.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LayoutId = table.Column<int>(type: "int", nullable: false),
+                    LayoutId = table.Column<int>(type: "int", nullable: true),
                     Remarks = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsReadOnly = table.Column<bool>(type: "bit", nullable: true),
                     CustomerEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -239,9 +222,6 @@ namespace Rapport.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "ReportElements");
-
-            migrationBuilder.DropTable(
-                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "ReportGroups");
