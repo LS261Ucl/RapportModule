@@ -81,39 +81,33 @@ namespace Rapport.Api.Controllers
             if (userExists != null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new IdentityResponse { Status = "Error", Message = "User already exists!" });
 
-            IdentityUser user = new()
+            AppUser user = new AppUser()
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = model.Email
             };
+            var result = await _userManager.CreateAsync(user, model.Password);
 
-            try
+            if (result.Succeeded)
             {
-                await _userManager.CreateAsync(user, model.Password);
+                return Ok(new IdentityResponse { Status = "Success", Message = "User created successfully!" });
             }
-            catch (Exception ex)
+              else
             {
-                throw new Exception("", ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, new IdentityResponse { Status = "Error", Message = "User creation failed! Please check user details and try again." });
             }
+         
+              
 
-            return Ok(new IdentityResponse { Status = "Success", Message = "User created successfully!" });
-            //var result = await _userManager.CreateAsync(user, model.Password);
-
-            //if (result.Succeeded)
-            //{
-            //    return Ok(new IdentityResponse { Status = "Success", Message = "User created successfully!" });
-            //}
-            //else
-            //{
-            //    return StatusCode(StatusCodes.Status500InternalServerError, new IdentityResponse { Status = "Error", Message = "User creation failed! Please check user details and try again." });
-
-            //}
-
-
+           
         }
 
-        [HttpPost]
+
+
+    
+
+    [HttpPost]
         [Route("register-admin")]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterDto model)
         {
@@ -121,11 +115,11 @@ namespace Rapport.Api.Controllers
             if (userExists != null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new IdentityResponse { Status = "Error", Message = "User already exists!" });
 
-            IdentityUser user = new()
+            AppUser user = new()
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.FullName
+                UserName = model.Email
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             //if (result.Succeeded)

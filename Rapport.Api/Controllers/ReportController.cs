@@ -12,18 +12,20 @@ namespace Rapport.Api.Controllers
     [ApiController]
     public class ReportController : ControllerBase
     {
-      
+        private readonly IReportService _reportService;
         private readonly IGenericRepository<Template> _templatGenericRepository;
         private readonly ILogger<ReportController> _logger;
         private readonly IGenericRepository<Report>? _reportRepository;
         private readonly IMapper _mapper;
 
         public ReportController(IGenericRepository<Report> reportRepository,
+            IReportService reportService,
             IGenericRepository<Template> templatGenericRepository,
             ILogger<ReportController> logger,
             IMapper mapper)
         {
             _reportRepository = reportRepository;
+            _reportService = reportService;
             _templatGenericRepository = templatGenericRepository;
             _logger = logger;
             _mapper = mapper;
@@ -34,7 +36,7 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var reports = await _reportRepository.GetAllAsync();
+                var reports = await _reportService.GetReports();
 
                 if (reports == null)
                 {
@@ -55,7 +57,7 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var report = await _reportRepository.GetAsync(x => x.Id == id);
+                var report = await _reportService.GetReportyId(id);
 
                 if (report == null)
                 {
@@ -76,7 +78,7 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var dbReport = await _reportRepository.GetAsync(x => x.Id == id, x => x.Include(r => r.ReportGroups).ThenInclude(g => g.Elements));
+                var dbReport = await _reportService.GetReportAndItsChilderen(id);
 
                 if (dbReport == null)
                 {
@@ -102,7 +104,7 @@ namespace Rapport.Api.Controllers
                
                 var dbRequest = _mapper.Map<Report>(requestDto);
 
-                var dbResult = await _reportRepository.CreateAsync(dbRequest);
+                var dbResult = await _reportService.CreateReport(requestDto);
 
 
                 return Ok(_mapper.Map<Report>(dbResult));

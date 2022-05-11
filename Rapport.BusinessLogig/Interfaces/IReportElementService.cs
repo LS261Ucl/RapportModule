@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
+using Rapport.Entites;
+using Rapport.Shared.Dto_er.ReportElement;
 
 namespace Rapport.BusinessLogig.Interfaces
 {
-    public class IReportElementService
+    public interface IReportElementService
     {
+        Task<ReportElementDto> GetReportElementById(int id);
+        Task<ReportElement> CreateReportElement([FromBody] CreateReportElementDto requestDto);
+        //  Task<Template> UpdateTemplate(int id, TemplateDto requestDto);
+        Task DeleteReportElement(int id);
     }
 }

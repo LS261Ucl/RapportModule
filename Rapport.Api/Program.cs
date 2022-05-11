@@ -84,6 +84,9 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddScoped<ITemplateService, TemplateService>();
 builder.Services.AddScoped<ITemplateGroupService, TemplateGroupService>();
 builder.Services.AddScoped<ITemplateElementService, TemplateElementService>();
+builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddScoped<IReportGroupService, ReportGroupService>();
+builder.Services.AddScoped<IReportElementService, ReportElementService>();
 
 
 
@@ -116,6 +119,9 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+app.UseAuthentication();
+
+app.UseAuthorization();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -125,9 +131,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication();
 
-app.UseAuthorization();
 
 
 app.MapControllers();
