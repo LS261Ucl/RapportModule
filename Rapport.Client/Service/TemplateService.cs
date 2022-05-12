@@ -16,11 +16,11 @@ namespace Rapport.Client.Service
             _httpService = httpService;
         }
 
-        public async Task<TemplateDto> CreateTemplate()
+        public async Task<TemplateDto> CreateTemplate(CreateTemplateDto createTemplateDto)
         {
             try
             {
-                var wrapper = await _httpService.Post<TemplateDto, TemplateDto>($"template", new TemplateDto());
+                var wrapper = await _httpService.Post<CreateTemplateDto, TemplateDto>($"template", createTemplateDto);
 
                 return wrapper.Response ?? throw new HttpRequestException(wrapper.HttpResponseMessage.ReasonPhrase);
             }

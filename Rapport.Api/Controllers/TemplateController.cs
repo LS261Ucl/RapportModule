@@ -92,7 +92,7 @@ namespace Rapport.Api.Controllers
         }
 
 
-            [HttpPost]
+        [HttpPost]
         public async Task<ActionResult<Template>> CreateTemplate([FromBody] CreateTemplateDto requestDto)
         {
             try

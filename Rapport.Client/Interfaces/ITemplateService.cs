@@ -11,7 +11,7 @@ namespace Rapport.Client.Interfaces
         Task<TemplateDto> GetTemplateGroupByTemplateId(int id);
 
         Task<List<TemplateDto>> GetTemplates();
-        Task<TemplateDto> CreateTemplate();
+        Task<TemplateDto> CreateTemplate(CreateTemplateDto createTemplateDto);
 
         Task<TemplateDto> UpdatedTemplate(int id, TemplateDto updateDto);
         Task<bool> DeletedTemplate(int id);

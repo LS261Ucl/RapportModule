@@ -14,6 +14,8 @@ namespace Rapport.Client.Pages
         [Parameter]
         public EventCallback<TemplateDto> OnTemplateCreated { get; set; }
 
+        private CreateTemplateDto? createTemplateDto { get; set; } = new();
+
        public List<TemplateDto> TemplateList { get; set; } = new List<TemplateDto>();
 
         public int Id { get; set; }
@@ -44,7 +46,7 @@ namespace Rapport.Client.Pages
             try
             {
                 //Call API with create
-                var template = await TemplateService.CreateTemplate();
+                var template = await TemplateService.CreateTemplate(createTemplateDto);
 
                 NavigationManager?.NavigateTo($"template/{template.Id}");
             }
