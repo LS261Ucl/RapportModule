@@ -175,7 +175,7 @@ namespace Rapport.Client.Shared
 
                         CreateReportElementDto = dbelement;
 
-                        await ReportElementService.CreateElementAsync(dbelement);
+                        //await ReportElementService.CreateElementAsync(dbelement);
                         // await Task.Delay(1000);
                         ReportElementService.OnChange += StateHasChanged;
                     }//forache

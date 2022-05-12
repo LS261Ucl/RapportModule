@@ -1,4 +1,5 @@
-﻿using Rapport.Shared.Dto_er.ReportGroup;
+﻿using Rapport.Entites;
+using Rapport.Shared.Dto_er.ReportGroup;
 
 namespace Rapport.Client.Service
 {
@@ -27,7 +28,10 @@ namespace Rapport.Client.Service
             }
         }
 
-
+        public Task DeleteReportGroup(int id)
+        {
+            throw new NotImplementedException();
+        }
 
         public async Task<ReportGroupDto> GetReportGroupById(int id)
         {
@@ -41,6 +45,16 @@ namespace Rapport.Client.Service
                 throw new Exception("unable to get HttpService", ex);
             }
 
+        }
+
+        public Task<ReportGroup> UpdateReportGroupById(string id, ReportGroupDto requestDto)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<ReportGroup> IReportGroupService.CreateReport(int id, CreateReportGroupDto requestDto)
+        {
+            throw new NotImplementedException();
         }
     }
 }

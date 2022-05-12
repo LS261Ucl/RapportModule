@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Rapport.Entites\Rapport.Entites.csproj" />
     <ProjectReference Include="..\Rapport.Shared\Rapport.Shared.csproj" />
   </ItemGroup>
 

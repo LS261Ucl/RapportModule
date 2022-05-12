@@ -1,30 +1,85 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Rapport.BusinessLogig.Interfaces;
 using Rapport.Entites;
 using Rapport.Shared.Dto_er.ReportElement;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rapport.BusinessLogig.Services
 {
     public class ReportElementService : IReportElementService
     {
-        public Task<ReportElement> CreateReportElement([FromBody] CreateReportElementDto requestDto)
+        private readonly IGenericRepository<ReportElement> _repository;
+        private readonly IMapper _mapper;
+
+        public ReportElementService(IGenericRepository<ReportElement> repository, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _repository = repository;
+            _mapper = mapper;
+        }
+        public async Task<ReportElement> CreateReportElement([FromBody] CreateReportElementDto requestDto)
+        {
+            try
+            {
+
+                var dbRequest = _mapper.Map<ReportElement>(requestDto);
+
+                var dbResult = await _repository.CreateAsync(dbRequest);
+
+
+                return _mapper.Map<ReportElement>(dbResult);
+
+            }//try
+            catch (Exception ex)
+            {
+                throw new Exception("Error on Api", ex);
+            }//catch
         }
 
-        public Task DeleteReportElement(int id)
+        public async Task DeleteReportElement(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                bool delete = await _repository.DeleteAsync(id);
+
+            }//try
+            catch (Exception ex)
+            {
+                throw new Exception("Error on Api", ex);
+            }//catch
         }
 
-        public Task<ReportElementDto> GetReportElementById(int id)
+        public async Task<ReportElementDto> GetReportElementById(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var report = await _repository.GetAsync(x => x.Id == id);
+
+                return _mapper.Map<ReportElementDto>(report);
+            }//try
+            catch (Exception ex)
+            {
+                throw new Exception("Error on Api", ex);
+            }//catch
+        }
+
+        public async Task<ReportElement> UpdateReport(int id, ReportElementDto requestDto)
+        {
+            try
+            {
+                var dbReport = await _repository.GetAsync(x => x.Id == id);
+
+                _mapper.Map(requestDto, dbReport);
+
+                var updated = await _repository.UpdateAsync(dbReport);
+
+                return updated;
+
+
+            }//try
+            catch (Exception ex)
+            {
+                throw new Exception("Error on Api", ex);
+            }//catchthrow new NotImplementedException();
         }
     }
 }

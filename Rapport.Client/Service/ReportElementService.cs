@@ -1,4 +1,5 @@
 ﻿using Rapport.Client.Interfaces;
+using Rapport.Entites;
 using Rapport.Shared.Dto_er.ReportElement;
 
 namespace Rapport.Client.Service
@@ -29,6 +30,26 @@ namespace Rapport.Client.Service
                 throw new Exception("unable to get httpservice", ex);
             }
 
+        }
+
+        public Task<ReportElementDto> CreateReportElementAsync(CreateReportElementDto requestDto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ReportElementDto> GetReportElementDto(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteReportElement(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ReportElement> UpdateReportElementById(string id, ReportElementDto requestDto)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -4,11 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Rapport.BusinessLogig.Interfaces;
 using Rapport.Entites;
 using Rapport.Shared.Dto_er.Report;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rapport.BusinessLogig.Services
 {
@@ -42,9 +37,17 @@ namespace Rapport.BusinessLogig.Services
             }//catch
         }
 
-        public Task DeleteReport(int id)
+        public async Task DeleteReport(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                bool delete = await _repository.DeleteAsync(id);
+
+            }//try
+            catch (Exception ex)
+            {
+                throw new Exception("Error on Api", ex);
+            }//catch
         }
 
         public async Task<ReportDto> GetReportAndItsChilderen(int id)
@@ -62,14 +65,53 @@ namespace Rapport.BusinessLogig.Services
             }//catch
         }
 
-        public Task<List<ReportDto>> GetReports()
+        public async Task<List<ReportDto>> GetReports()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var report = await _repository.GetAllAsync();
+
+                return _mapper.Map<List<ReportDto>>(report);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("Error on service, businesslogig", ex);
+            }
+
         }
 
-        public Task<ReportDto> GetReportyId(int id)
+        public async Task<ReportDto> GetReportyId(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var report = await _repository.GetAsync(x => x.Id == id);
+
+                return _mapper.Map<ReportDto>(report);
+            }//try
+            catch (Exception ex)
+            {
+                throw new Exception("Error on Api", ex);
+            }//catch
+        }
+
+        public async Task<Report> UpdateReport(int id, ReportDto requestDto)
+        {
+            try
+            {
+                var dbReport = await _repository.GetAsync(x => x.Id == id);
+
+                _mapper.Map(requestDto, dbReport);
+
+                var updated = await _repository.UpdateAsync(dbReport);
+
+                return updated;
+
+
+            }//try
+            catch (Exception ex)
+            {
+                throw new Exception("Error on Api", ex);
+            }//catch
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Rapport.BusinessLogig.Interfaces
         Task<ReportDto> GetReportyId(int id);
         Task<ReportDto> GetReportAndItsChilderen(int id);
         Task<Report> CreateReport([FromBody] CreateReportDto requestDto);
-        //  Task<Template> UpdateTemplate(int id, TemplateDto requestDto);
+        Task<Report> UpdateReport(int id, ReportDto requestDto);
         Task DeleteReport(int id);
     }
 }

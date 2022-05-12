@@ -8,7 +8,7 @@ namespace Rapport.BusinessLogig.Interfaces
     {
         Task<ReportElementDto> GetReportElementById(int id);
         Task<ReportElement> CreateReportElement([FromBody] CreateReportElementDto requestDto);
-        //  Task<Template> UpdateTemplate(int id, TemplateDto requestDto);
+        Task<ReportElement> UpdateReport(int id, ReportElementDto requestDto);
         Task DeleteReportElement(int id);
     }
 }
