@@ -16,7 +16,7 @@ namespace Rapport.Client.Service
         }
 
 
-        public async Task<ReportElementDto> CreateElementAsync(CreateReportElementDto requestDto)
+        public async Task<ReportElementDto> CreateReportElementAsync(CreateReportElementDto requestDto)
         {
 
             try
@@ -32,22 +32,17 @@ namespace Rapport.Client.Service
 
         }
 
-        public Task<ReportElementDto> CreateReportElementAsync(CreateReportElementDto requestDto)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ReportElementDto> GetReportElementDto(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task DeleteReportElement(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ReportElement> UpdateReportElementById(string id, ReportElementDto requestDto)
+        public Task<ReportElementDto> UpdateReportElementById(string id, ReportElementDto requestDto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ReportElementDto> GetReportElement(int id)
         {
             throw new NotImplementedException();
         }

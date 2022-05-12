@@ -8,10 +8,10 @@ namespace Rapport.Client.Interfaces
         event Action OnChange;
         Task<ReportElementDto> CreateReportElementAsync(CreateReportElementDto requestDto);
 
-        Task<ReportElementDto> GetReportElementDto(int id);
+        Task<ReportElementDto> GetReportElement(int id);
 
         Task DeleteReportElement(int id);
 
-        Task<ReportElement> UpdateReportElementById(string id, ReportElementDto requestDto);
+        Task<ReportElementDto> UpdateReportElementById(string id, ReportElementDto requestDto);
     }
 }

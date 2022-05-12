@@ -52,9 +52,5 @@ namespace Rapport.Client.Service
             throw new NotImplementedException();
         }
 
-        Task<ReportGroup> IReportGroupService.CreateReport(int id, CreateReportGroupDto requestDto)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

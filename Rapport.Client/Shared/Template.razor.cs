@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Rapport.Shared.Dto_er.Report;
 using Rapport.Shared.Dto_er.ReportElement;
 using Rapport.Shared.Dto_er.ReportGroup;
 using Rapport.Shared.Dto_er.TemplateElement;
@@ -148,8 +147,6 @@ namespace Rapport.Client.Shared
                 //currentTemplateDto.Groups
                 foreach (var group in currentTemplateDto.TemplateGroups)
                 {
-                    //Id bliver 0
-                    //   var templateGroup = await GroupService.GetTemplateGroupById();
                     var dbgroup = new CreateReportGroupDto
                     {
                         TemplateGroupId = group.Id,
@@ -175,8 +172,8 @@ namespace Rapport.Client.Shared
 
                         CreateReportElementDto = dbelement;
 
-                        //await ReportElementService.CreateElementAsync(dbelement);
-                        // await Task.Delay(1000);
+                        await ReportElementService.CreateReportElementAsync(dbelement);
+                        await Task.Delay(1000);
                         ReportElementService.OnChange += StateHasChanged;
                     }//forache
 

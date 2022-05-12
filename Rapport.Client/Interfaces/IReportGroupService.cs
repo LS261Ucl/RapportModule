@@ -6,7 +6,7 @@ namespace Rapport.Client.Interfaces
     public interface IReportGroupService
     {
         event Action OnChange;
-        Task<ReportGroup> CreateReport(int id, CreateReportGroupDto requestDto);
+        Task<ReportGroupDto> CreateReport(int id, CreateReportGroupDto requestDto);
 
         Task<ReportGroupDto> GetReportGroupById(int id);
 

@@ -1,10 +1,13 @@
 ﻿@page "/report/{id:int}"
 
-@if( TemplateDto != null && TemplateDto?.LayoutId == 1)
+@if( ReportDto != null && ReportDto?.LayoutId == 1)
 {
     <PreparationReport></PreparationReport>
 }
-
+@if( ReportDto != null && ReportDto?.LayoutId == 2 )
+{
+    <CleaningReport></CleaningReport>
+}
 else
 {
    <EditForm Model="ReportDto" OnValidSubmit="OnParametersSetAsync">
@@ -17,12 +20,12 @@ else
                 <div class=" text-center">
                     <h2 class="text-center">@ReportDto?.Title </h2>
                 </div>
-                @*<div class=" text-center">
+        @*        <div class=" text-center">
                     <h3>@ReportDto?.Description</h3>
                 </div>*@
             </div>
         </div>
-        <div>
+        
             <div class="container">
                 <div>
                     <label>Ankomst</label>
@@ -76,14 +79,14 @@ else
                                                 <td class="col-6 border">
                                                     @(fields?.Description ?? "")
                                                 </td>
-                                              @*  <td class="col-xl-12 border">
-                                                    <InputSelect placeholder="DataType" @bind-Value="@fields.DataType" disabled="@(ReportDataDto.IsReadonly)">
+                                                <td class="col-xl-12 border">
+                          @*                          <InputSelect placeholder="DataType" @bind-Value="@fields.DataType" disabled="@(ReportDto.IsReadonly)">
                                                         @foreach (DataTypeEnum type in Enum.GetValues(typeof(DataTypeEnum)))
                                                                         {
                                                             <option value="@(type) ">@type</option>
                                                                         }
-                                                    </InputSelect>
-                                                </td>*@
+                                                    </InputSelect>*@
+                                                </td>
                                                 <td class="col-xl-12 border">
                                                     <InputSelect placeholder="Type" @bind-Value="@fields.Options" disabled="@(ReportDto.IsReadOnly)">
                                                         @foreach (OptionsEnum options in Enum.GetValues(typeof(OptionsEnum)))
@@ -103,19 +106,19 @@ else
                         </tbody>
                     </table>
                 </div>
-               @* <div class="container">
+  @*              <div class="container">
                     <div class=" row col-12">
                         <InputTextArea class="col-12" @bind-Value="@ReportFieldDto.Notes" placeholder="Noter fra værksted" disabled="@(ReportDataDto.IsReadonly)">@ReportFieldDto.Notes</InputTextArea>
                     </div>
-                </div>*@
-            </div>
+                </div>
+            </div>*@
         </div>
-     @*   <div class="container">
+  @*      <div class="container">
             <div class=" row col-6">
                 <label>Låst</label>
                 <InputCheckbox @bind-Value="@(ReportDto.IsReadOnly)"> @ReportDto.IsReadonly</InputCheckbox>
             </div>
-        </div>*@
+        </div*@>
         <ValidationSummary />
     </EditForm>
     <EditForm Model="ReportDto">
@@ -135,7 +138,6 @@ else
         </div>
     </EditForm>  
 }
-
     
 
 
