@@ -11,15 +11,18 @@ namespace Rapport.Api.Controllers
     public class ReportGroupController : ControllerBase
     {
         private readonly IGenericRepository<ReportGroup> _reportGroupRepository;
+        private readonly IReportGroupService _reportGroupService;
         private readonly ILogger<ReportGroupController> _logger;
         private readonly IMapper _mapper;
 
         public ReportGroupController(
             IGenericRepository<ReportGroup> reportGroupRepository,
+            IReportGroupService reportGroupService,
             IMapper mapper,
             ILogger<ReportGroupController> logger)
         {
             _reportGroupRepository = reportGroupRepository;
+            _reportGroupService = reportGroupService;
             _mapper = mapper;
             _logger = logger;
         }
@@ -28,7 +31,7 @@ namespace Rapport.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<List<ReportGroupDto>>> GetReportGroups()
         {
-            var reportGroups = await _reportGroupRepository.GetAllAsync();
+            var reportGroups = await _reportGroupService.GetReportGroups();
 
 
             if (reportGroups == null)
@@ -46,7 +49,7 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var reportGroup = await _reportGroupRepository.GetAsync(x => x.Id == id);
+                var reportGroup = await _reportGroupService.GetReportGroupById(id);
 
                 if (reportGroup == null)
                 {
@@ -70,7 +73,7 @@ namespace Rapport.Api.Controllers
             {
                 var dbRequest = _mapper.Map<ReportGroup>(requestDto);
 
-                var dbResult = await _reportGroupRepository.CreateAsync(dbRequest);
+                var dbResult = await _reportGroupService.CreateReportGroup(requestDto);
                 if (dbResult == null)
                 {
                     _logger.LogInformation("Unable to create ReportGroup in Api");

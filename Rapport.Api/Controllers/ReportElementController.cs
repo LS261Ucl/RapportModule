@@ -11,11 +11,13 @@ namespace Rapport.Api.Controllers
     [ApiController]
     public class ReportElementController : ControllerBase
     {
+        private readonly IReportElementService _reportElementService;
         private readonly IGenericRepository<ReportElement> _reportElementRepository;
         private readonly ILogger<ReportElementController> _logger;
         private readonly IMapper _mapper;
 
         public ReportElementController(IGenericRepository<ReportElement> reportElementRepository, 
+            IReportElementService reportElementService,
             ILogger<ReportElementController> logger,
             IMapper mapper)
         {
@@ -53,7 +55,7 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var reportElement = await _reportElementRepository.GetAsync(x => x.Id == id);
+                var reportElement = await _reportElementService.GetReportElementById(id);
 
                 if (reportElement == null)
                 {
@@ -75,9 +77,9 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var dbRequest = _mapper.Map<ReportElement>(requestDto);
+              //  var dbRequest = _mapper.Map<ReportElement>(requestDto);
 
-                var dbResult = await _reportElementRepository.CreateAsync(dbRequest);
+                var dbResult = await _reportElementService.CreateReportElement(requestDto);
 
                 if (dbResult == null)
                 {
