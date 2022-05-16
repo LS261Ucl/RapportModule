@@ -112,12 +112,13 @@ namespace Rapport.BusinessLogig.Services
         //{
         //    try
         //    {
-        //        var dbTemplate = await _repository.GetAsync(x => x.Id == id);
+        //        //var dbTemplate = await _repository.GetAsync(x => x.Id == id);
 
-        //        _mapper.Map(requestDto, dbTemplate);
-        //        var dbRequest = await _repository.UpdateAsync(dbTemplate);
+        //        //_mapper.Map(requestDto, dbTemplate);
+        //        //var dbRequest = await _repository.UpdateAsync(dbTemplate);
 
-        //         _mapper.Map<TemplateDto>(dbTemplate);
+        //        //return _mapper.Map<Template>(dbTemplate);
+
         //    }//if
         //    catch (Exception ex)
         //    {

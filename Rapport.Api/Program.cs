@@ -9,6 +9,7 @@ using Rapport.BusinessLogig.Interfaces;
 using Rapport.BusinessLogig.Services;
 using Rapport.Data;
 using Rapport.Data.Identity;
+using Rapport.Entites.Identity;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -51,11 +52,16 @@ builder.Services.AddDbContext<ReportIdentityDbContext>(options =>
 
 });
 
-
 // For Identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ReportIdentityDbContext>()
     .AddDefaultTokenProviders();
+
+
+
+
+
+
 
 // Adding Authentication
 builder.Services.AddAuthentication(options =>
@@ -118,7 +124,6 @@ builder.Services.AddCors(options =>
 
 
 var app = builder.Build();
-
 app.UseAuthentication();
 
 app.UseAuthorization();

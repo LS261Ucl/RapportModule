@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Rapport.BusinessLogig.Interfaces;
 using Rapport.Entites;
 using Rapport.Shared.Dto_er.Report;
@@ -65,7 +63,7 @@ namespace Rapport.Api.Controllers
                     return NotFound();
                 }//if
 
-                return Ok(_mapper.Map<ReportDto>(report));
+                return Ok(report);
             }//try
             catch (Exception ex)
             {
@@ -86,7 +84,7 @@ namespace Rapport.Api.Controllers
                     return NotFound();
                 }
 
-                return Ok(_mapper.Map<ReportDto>(dbReport));
+                return Ok(dbReport);
 
             }//try
             catch (Exception ex)
@@ -107,7 +105,7 @@ namespace Rapport.Api.Controllers
                 var dbResult = await _reportService.CreateReport(requestDto);
 
 
-                return Ok(_mapper.Map<Report>(dbResult));
+                return Ok(dbResult);
 
             }//try
             catch (Exception ex)
@@ -122,49 +120,38 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var dbReport = await _reportRepository.GetAsync(x => x.Id == id);
-
-                if (dbReport == null)
+                if(id != null)
                 {
-                    _logger.LogInformation($"No {nameof(Report)} was found whit this id: {id}");
-                    return NotFound();
-                }//if
+                    await _reportService.UpdateReport(id, requestDto);
 
-                _mapper.Map(requestDto, dbReport);
+                    return NoContent();
+                }
+                else
+                {
+                    return BadRequest();
+                }
 
-                var updated = await _reportRepository.UpdateAsync(dbReport);
-
-                return Ok(_mapper.Map<ReportDto>(dbReport));
-
-            
-            }//try
-            catch (Exception ex)
+            }
+            catch(Exception ex)
             {
-                throw new Exception("Error on Api", ex);
-            }//catch
+                throw new Exception("Error on controller", ex);
+            }
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteReportAsync(int id)
         {
-
             try
             {
-                bool delete = await _reportRepository.DeleteAsync(id);
-
-                if (!delete)
-                {
-                    _logger.LogInformation($"Unable to find or delete {nameof(Report)} whit this id : {id}");
-                    return NotFound();
-                }//if
-
+                await _reportService.DeleteReport(id);
                 return NoContent();
-            }//try
-            catch (Exception ex)
+            }
+            catch(Exception ex)
             {
-                throw new Exception("Error on Api", ex);
-            }//catch
+                throw new Exception("Error on Controller", ex);
+            }
         }
+
     }
 
 

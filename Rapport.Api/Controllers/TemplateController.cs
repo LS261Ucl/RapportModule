@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Rapport.BusinessLogig.Interfaces;
 using Rapport.Entites;
 using Rapport.Shared.Dto_er.Template;
@@ -120,7 +118,7 @@ namespace Rapport.Api.Controllers
         //{
         //    try
         //    {
-        //        var dbTemplate = await _templateRepository.GetAsync(x => x.Id == id);
+        //        var dbTemplate = await _templateService.GetTemplateById(id);
 
         //        if (dbTemplate == null)
         //        {
@@ -129,7 +127,7 @@ namespace Rapport.Api.Controllers
         //        }//if
 
         //        _mapper.Map(requestDto, dbTemplate);
-        //        var dbRequest = await _templateRepository.UpdateAsync(dbTemplate);
+        //        var dbRequest = await _genericRepository.UpdateAsync(dbTemplate);
 
         //        return Ok(_mapper.Map<TemplateDto>(dbTemplate));
         //    }//if

@@ -97,14 +97,8 @@ namespace Rapport.Api.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new IdentityResponse { Status = "Error", Message = "User creation failed! Please check user details and try again." });
             }
-         
-              
-
-           
+                    
         }
-
-
-
     
 
     [HttpPost]

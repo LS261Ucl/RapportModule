@@ -2,7 +2,6 @@ global using Rapport.Client.Helpers;
 global using Rapport.Client.Interfaces;
 global using Rapport.Shared.Dto_er.Template;
 global using Rapport.Shared.Dto_er.Report;
-global using Rapport.Shared.Enums;
 global using Blazored.Modal;
 global using Blazored.Modal.Services;
 global using Microsoft.AspNetCore.Components.Authorization;
@@ -11,8 +10,6 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Rapport.Client;
 using Rapport.Client.Service;
 using Rapport.Client.Extensions;
-using Rapport.Shared.Services;
-using Rapport.Shared.Configuration;
 
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
