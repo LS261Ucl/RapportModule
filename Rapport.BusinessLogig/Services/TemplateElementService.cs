@@ -66,5 +66,10 @@ namespace Rapport.BusinessLogig.Services
                 throw new Exception($"Kunne ikke finde Skabelon med følgende id {id}", ex);
             }//catch
         }
+
+        public Task<Template> UpdateTemplateElement(int id, TemplateElementDto requestDto)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

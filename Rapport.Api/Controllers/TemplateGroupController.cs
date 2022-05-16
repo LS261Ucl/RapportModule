@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Rapport.BusinessLogig.Interfaces;
 using Rapport.Entites;
 using Rapport.Shared.Dto_er.TemplateGroup;
@@ -13,17 +12,14 @@ namespace Rapport.Api.Controllers
         private readonly IGenericRepository<TemplateGroup> _templateGroupRepository;
         private readonly ITemplateGroupService _templateGroupService;
         private readonly ILogger<TemplateGroupController> _logger;
-        private readonly IMapper _mapper;
 
         public TemplateGroupController(IGenericRepository<TemplateGroup> templateGroupRepository, 
             ITemplateGroupService templateGroupService, 
-            ILogger<TemplateGroupController> logger,
-            IMapper mapper)
+            ILogger<TemplateGroupController> logger)
         {
             _templateGroupRepository = templateGroupRepository;
             _templateGroupService = templateGroupService;
             _logger = logger;
-            _mapper = mapper;
         }
 
         [HttpGet]
@@ -39,7 +35,7 @@ namespace Rapport.Api.Controllers
                     return NotFound();
                 }
 
-                return Ok(_mapper.Map<IReadOnlyList<TemplateGroupDto>>(dbTemplateGroup));
+                return Ok(dbTemplateGroup);
             }//try
             catch (Exception ex)
             {
@@ -94,54 +90,54 @@ namespace Rapport.Api.Controllers
             }//catch
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateTemplateGroup(int id, TemplateGroupDto requestDto)
-        {
+        //[HttpPut("{id}")]
+        //public async Task<ActionResult> UpdateTemplateGroup(int id, TemplateGroupDto requestDto)
+        //{
 
-            try
-            {
-                var dbTemplateGroup = await _templateGroupRepository.GetAsync(x => x.Id == id);
+        //    try
+        //    {
+        //        var dbTemplateGroup = await _templateGroupRepository.GetAsync(x => x.Id == id);
 
-                if (dbTemplateGroup == null)
-                {
-                    _logger.LogInformation($"Kunne ikke finde {nameof(TemplateGroup)} med følgnede Id : {id}");
-                    return NotFound();
-                }//if
+        //        if (dbTemplateGroup == null)
+        //        {
+        //            _logger.LogInformation($"Kunne ikke finde {nameof(TemplateGroup)} med følgnede Id : {id}");
+        //            return NotFound();
+        //        }//if
 
 
-                _mapper.Map(requestDto, dbTemplateGroup);
+        //        _mapper.Map(requestDto, dbTemplateGroup);
 
-                var updated = await _templateGroupRepository.UpdateAsync(dbTemplateGroup);
+        //        var updated = await _templateGroupRepository.UpdateAsync(dbTemplateGroup);
 
-                return Ok(_mapper.Map<TemplateGroup>(dbTemplateGroup));
-            }//try
-            catch (Exception ex)
-            {
-                throw new Exception($"Kunne ikke finde gruppen med følgende id: {id}, fra Api'et", ex);
-            }//catch
-        }
+        //        return Ok(_mapper.Map<TemplateGroup>(dbTemplateGroup));
+        //    }//try
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception($"Kunne ikke finde gruppen med følgende id: {id}, fra Api'et", ex);
+        //    }//catch
+        //}
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteTemplateGroup(int id)
-        {
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult> DeleteTemplateGroup(int id)
+        //{
 
-            try
-            {
-                bool delete = await _templateGroupRepository.DeleteAsync(id);
+        //    try
+        //    {
+        //        bool delete = await _templateGroupRepository.DeleteAsync(id);
 
-                if (!delete)
-                {
-                    _logger.LogInformation($"Unable to find or delete {nameof(TemplateGroup)} whit this id : {id}");
-                    return NotFound();
-                }//if
+        //        if (!delete)
+        //        {
+        //            _logger.LogInformation($"Unable to find or delete {nameof(TemplateGroup)} whit this id : {id}");
+        //            return NotFound();
+        //        }//if
 
-                return NoContent();
-            }//try
-            catch (Exception ex)
-            {
-                throw new Exception("Error on Api", ex);
-            }//catch
-        }
+        //        return NoContent();
+        //    }//try
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("Error on Api", ex);
+        //    }//catch
+        //}
     }
 
 

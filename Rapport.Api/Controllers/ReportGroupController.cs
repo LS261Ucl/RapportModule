@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using Rapport.BusinessLogig.Interfaces;
 using Rapport.Entites;
@@ -13,17 +13,16 @@ namespace Rapport.Api.Controllers
         private readonly IGenericRepository<ReportGroup> _reportGroupRepository;
         private readonly IReportGroupService _reportGroupService;
         private readonly ILogger<ReportGroupController> _logger;
-        private readonly IMapper _mapper;
+
 
         public ReportGroupController(
             IGenericRepository<ReportGroup> reportGroupRepository,
             IReportGroupService reportGroupService,
-            IMapper mapper,
+
             ILogger<ReportGroupController> logger)
         {
             _reportGroupRepository = reportGroupRepository;
             _reportGroupService = reportGroupService;
-            _mapper = mapper;
             _logger = logger;
         }
 
@@ -70,8 +69,7 @@ namespace Rapport.Api.Controllers
         public async Task<ActionResult<ReportGroup>> CreateReportGroup([FromBody] CreateReportGroupDto requestDto)
         {
             try
-            {
-                var dbRequest = _mapper.Map<ReportGroup>(requestDto);
+            { 
 
                 var dbResult = await _reportGroupService.CreateReportGroup(requestDto);
                 if (dbResult == null)
@@ -80,7 +78,7 @@ namespace Rapport.Api.Controllers
                     return BadRequest();
                 }
 
-                return Ok(_mapper.Map<ReportGroup>(dbResult));
+                return Ok(dbResult);
             }
             catch (Exception ex)
             {
@@ -89,59 +87,59 @@ namespace Rapport.Api.Controllers
            
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateReportGroup(int id, ReportGroupDto requestDto)
-        {
-            try
-            {
-                var dbGroup = await _reportGroupRepository.GetAsync(x => x.Id == id);
+        //[HttpPut("{id}")]
+        //public async Task<ActionResult> UpdateReportGroup(int id, ReportGroupDto requestDto)
+        //{
+        //    try
+        //    {
+        //        var dbGroup = await _reportGroupRepository.GetAsync(x => x.Id == id);
 
-                if (dbGroup == null)
-                {
-                    _logger.LogInformation($"No {nameof(ReportGroup)} was found whit this id: {id}");
-                    return NotFound();
-                }
+        //        if (dbGroup == null)
+        //        {
+        //            _logger.LogInformation($"No {nameof(ReportGroup)} was found whit this id: {id}");
+        //            return NotFound();
+        //        }
 
-                _mapper.Map(requestDto, dbGroup);
+        //        _mapper.Map(requestDto, dbGroup);
 
-                var updated = await _reportGroupRepository.UpdateAsync(dbGroup);
+        //        var updated = await _reportGroupRepository.UpdateAsync(dbGroup);
 
-                if (updated == null)
-                {
-                    _logger.LogError($"Unable to Update ReportGroup whit this id: {id}");
-                    return BadRequest();
-                }
+        //        if (updated == null)
+        //        {
+        //            _logger.LogError($"Unable to Update ReportGroup whit this id: {id}");
+        //            return BadRequest();
+        //        }
 
-                return Ok(_mapper.Map<ReportGroup>(dbGroup));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error on Api", ex);
-            }
+        //        return Ok(_mapper.Map<ReportGroup>(dbGroup));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("Error on Api", ex);
+        //    }
           
-        }
+        //}
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteReportGroup(int id)
-        {
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult> DeleteReportGroup(int id)
+        //{
 
-            try
-            {
-                bool delete = await _reportGroupRepository.DeleteAsync(id);
+        //    try
+        //    {
+        //        bool delete = await _reportGroupRepository.DeleteAsync(id);
 
-                if (!delete)
-                {
-                    _logger.LogInformation($"Unable to find or delete {nameof(ReportGroup)} whit this id : {id}");
-                    return NotFound();
-                }//if
+        //        if (!delete)
+        //        {
+        //            _logger.LogInformation($"Unable to find or delete {nameof(ReportGroup)} whit this id : {id}");
+        //            return NotFound();
+        //        }//if
 
-                return NoContent();
-            }//try
-            catch (Exception ex)
-            {
-                throw new Exception("Error on Api", ex);
-            }//catch
-        }
+        //        return NoContent();
+        //    }//try
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("Error on Api", ex);
+        //    }//catch
+        //}
 
 
     }

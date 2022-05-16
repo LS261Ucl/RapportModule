@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using Rapport.BusinessLogig.Interfaces;
 using Rapport.Entites;
@@ -13,16 +13,15 @@ namespace Rapport.Api.Controllers
         private readonly IReportElementService _reportElementService;
         private readonly IGenericRepository<ReportElement> _reportElementRepository;
         private readonly ILogger<ReportElementController> _logger;
-        private readonly IMapper _mapper;
 
         public ReportElementController(IGenericRepository<ReportElement> reportElementRepository, 
             IReportElementService reportElementService,
-            ILogger<ReportElementController> logger,
-            IMapper mapper)
+            ILogger<ReportElementController> logger)
         {
             _reportElementRepository = reportElementRepository;
+            _reportElementService = reportElementService;
             _logger = logger;
-            _mapper = mapper;
+
         }
         
         [HttpGet]
@@ -86,7 +85,7 @@ namespace Rapport.Api.Controllers
                     return BadRequest();
                 }//if
 
-                return Ok(_mapper.Map<ReportElement>(dbResult));
+                return Ok(dbResult);
             }
             catch (Exception ex)
             {
@@ -95,52 +94,52 @@ namespace Rapport.Api.Controllers
 
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<ReportElement>> UpdateReportElement(int id, ReportElementDto requestDto)
-        {
-            try
-            {
-                var dbElement = await _reportElementRepository.GetAsync(x => x.Id == id);
+        //[HttpPut("{id}")]
+        //public async Task<ActionResult<ReportElement>> UpdateReportElement(int id, ReportElementDto requestDto)
+        //{
+        //    try
+        //    {
+        //        var dbElement = await _reportElementRepository.GetAsync(x => x.Id == id);
 
-                if (dbElement == null)
-                {
-                    _logger.LogInformation($"Unable to finde ReportField whit this id: {id}");
-                    return NotFound();
-                }//if
+        //        if (dbElement == null)
+        //        {
+        //            _logger.LogInformation($"Unable to finde ReportField whit this id: {id}");
+        //            return NotFound();
+        //        }//if
 
-                _mapper.Map(requestDto, dbElement);
+        //        _mapper.Map(requestDto, dbElement);
 
-                var updated = await _reportElementRepository.UpdateAsync(dbElement);
+        //        var updated = await _reportElementRepository.UpdateAsync(dbElement);
 
-                return Ok(_mapper.Map<ReportElement>(dbElement));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error on Api", ex);
-            }
+        //        return Ok(_mapper.Map<ReportElement>(dbElement));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("Error on Api", ex);
+        //    }
 
-        }
+        //}
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteReportElement(int id)
-        {
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult> DeleteReportElement(int id)
+        //{
 
-            try
-            {
-                bool delete = await _reportElementRepository.DeleteAsync(id);
+        //    try
+        //    {
+        //        bool delete = await _reportElementRepository.DeleteAsync(id);
 
-                if (!delete)
-                {
-                    _logger.LogInformation($"Unable to find or delete {nameof(ReportElement)} whit this id : {id}");
-                    return NotFound();
-                }//if
+        //        if (!delete)
+        //        {
+        //            _logger.LogInformation($"Unable to find or delete {nameof(ReportElement)} whit this id : {id}");
+        //            return NotFound();
+        //        }//if
 
-                return NoContent();
-            }//try
-            catch (Exception ex)
-            {
-                throw new Exception("Error on Api", ex);
-            }//catch
-        }
+        //        return NoContent();
+        //    }//try
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("Error on Api", ex);
+        //    }//catch
+       // }
     }
 }

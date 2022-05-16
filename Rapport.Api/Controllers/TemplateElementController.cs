@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Rapport.BusinessLogig.Interfaces;
 using Rapport.Entites;
 using Rapport.Shared.Dto_er.TemplateElement;
@@ -10,18 +9,16 @@ namespace Rapport.Api.Controllers
     [ApiController]
     public class TemplateElementController : ControllerBase
     {
-        private readonly IMapper _mapper;
+     
         private readonly ILogger<TemplateElementController> _logger;
         private readonly IGenericRepository<TemplateElement> _templateElementRepository;
         private readonly ITemplateElementService _templateElementService;   
         public TemplateElementController(IGenericRepository<TemplateElement> templateElementRepository, 
             ITemplateElementService templateElementService,
-            IMapper mapper,
             ILogger<TemplateElementController> logger)
         {
             _templateElementRepository = templateElementRepository;
             _templateElementService = templateElementService;
-            _mapper = mapper;
             _logger = logger;
         }
 
@@ -38,7 +35,7 @@ namespace Rapport.Api.Controllers
                     return NotFound();  
                 }
 
-                return Ok(_mapper.Map<TemplateElement>(elements));
+                return Ok(elements);
             }//if
             catch (Exception ex)
             {
@@ -92,30 +89,6 @@ namespace Rapport.Api.Controllers
 
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateTemplateElementAsync(int id, TemplateElementDto requestDto)
-        {
-            try
-            {
-                var templateElement = await _templateElementRepository.GetAsync(x => x.Id == id);
-
-                if(templateElement == null)
-                {
-                    _logger.LogError($"Kunne ikke finde {nameof(templateElement)} med følgende id: {id}");
-                    return NotFound();
-                }
-
-                _mapper.Map(requestDto, templateElement);
-
-                var dbRequest = await _templateElementRepository.UpdateAsync(templateElement);
-
-                return Ok(_mapper.Map<TemplateElement>(templateElement));
-            }//if
-            catch (Exception ex)
-            {
-                throw new Exception($"kunne enten ikke finde følgende skabelon med id: {id}, eller fik ikke lov til at opdatere den, fra Api'et", ex);
-            }//catch
-        }
 
         [HttpDelete]
         public async Task<ActionResult> DeleteTemplateElementAsync(int id)
@@ -123,13 +96,9 @@ namespace Rapport.Api.Controllers
 
             try
             {
-                bool delete = await _templateElementRepository.DeleteAsync(id);
+                await _templateElementService.DeleteTemplateElement(id);
 
-                if (!delete)
-                {
-                    _logger.LogInformation($"Unable to find or delete {nameof(TemplateElement)} whit this id : {id}");
-                    return NotFound();
-                }//if
+              
 
                 return NoContent();
             }//try

@@ -3,11 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Rapport.BusinessLogig.Interfaces;
 using Rapport.Entites;
 using Rapport.Shared.Dto_er.TemplateGroup;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rapport.BusinessLogig.Services
 {
@@ -63,6 +58,11 @@ namespace Rapport.BusinessLogig.Services
         }
 
         public Task<List<TemplateGroupDto>> GetTemplategroups()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Template> UpdateTemplateGroup(int id, TemplateGroupDto requestDto)
         {
             throw new NotImplementedException();
         }

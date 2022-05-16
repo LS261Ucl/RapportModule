@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Rapport.BusinessLogig.Interfaces;
 using Rapport.Entites;
 using Rapport.Shared.Dto_er.Report;
@@ -14,19 +13,17 @@ namespace Rapport.Api.Controllers
         private readonly IGenericRepository<Template> _templatGenericRepository;
         private readonly ILogger<ReportController> _logger;
         private readonly IGenericRepository<Report>? _reportRepository;
-        private readonly IMapper _mapper;
-
         public ReportController(IGenericRepository<Report> reportRepository,
             IReportService reportService,
             IGenericRepository<Template> templatGenericRepository,
-            ILogger<ReportController> logger,
-            IMapper mapper)
+            ILogger<ReportController> logger
+          )
         {
             _reportRepository = reportRepository;
             _reportService = reportService;
             _templatGenericRepository = templatGenericRepository;
             _logger = logger;
-            _mapper = mapper;
+   
         }
 
         [HttpGet]
@@ -99,8 +96,6 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-               
-                var dbRequest = _mapper.Map<Report>(requestDto);
 
                 var dbResult = await _reportService.CreateReport(requestDto);
 

@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Rapport.BusinessLogig.Interfaces;
 using Rapport.Entites;
 using Rapport.Shared.Dto_er.Template;
@@ -11,18 +10,13 @@ namespace Rapport.Api.Controllers
     public class TemplateController : ControllerBase
     {
         private readonly ITemplateService _templateService;
-        private readonly IGenericRepository<Template> _genericRepository;
         private readonly ILogger<TemplateController> _logger;
-        private readonly IMapper _mapper;
 
-        public TemplateController(ITemplateService templateService, IGenericRepository<Template> genericRepository,
-            ILogger<TemplateController> logger,
-            IMapper mapper)
+        public TemplateController(ITemplateService templateService, 
+            ILogger<TemplateController> logger)
         {
             _templateService = templateService;
-            _genericRepository = genericRepository;
             _logger = logger;
-            _mapper = mapper;
         }
 
         [HttpGet]
@@ -38,9 +32,9 @@ namespace Rapport.Api.Controllers
                     return NotFound();
                 }
 
-                var dto = _mapper.Map<List<TemplateDto>>(dbTemplate);
+              
 
-                return Ok(dto);
+                return Ok(dbTemplate);
             }//try
             catch (Exception ex)
             {
@@ -61,7 +55,7 @@ namespace Rapport.Api.Controllers
                     return NotFound();
                 }//if
 
-                return Ok(_mapper.Map<Template>(dbTemplate));
+                return Ok(dbTemplate);
             }//try
             catch (Exception ex)
             {
@@ -77,9 +71,13 @@ namespace Rapport.Api.Controllers
                 var dbTemplate = await _templateService.GetTemplateAndItsChilderen(id);
                 if (dbTemplate != null)
                 {
-                    return _mapper.Map<TemplateDto>(dbTemplate);
+                    return Ok(dbTemplate);
                 }
-                return _mapper.Map<TemplateDto>(null);
+                else
+                {
+                    return NotFound();
+                }
+           
 
 
             }//try
@@ -95,7 +93,7 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var dbRequest = _mapper.Map<Template>(requestDto);
+               
 
                 var dbTemplate = await _templateService.CreateTemplate(requestDto);
 
@@ -105,7 +103,7 @@ namespace Rapport.Api.Controllers
                     return BadRequest();
                 }//if
 
-                return Ok(_mapper.Map<TemplateDto>(dbTemplate));
+                return Ok(dbTemplate);
             }//try
             catch (Exception ex)
             {
@@ -113,51 +111,41 @@ namespace Rapport.Api.Controllers
             }//catch
         }
 
-        //[HttpPut("{id}")]
-        //public async Task<ActionResult> UpdateTemplateAsync(int id, TemplateDto requestDto)
-        //{
-        //    try
-        //    {
-        //        var dbTemplate = await _templateService.GetTemplateById(id);
-
-        //        if (dbTemplate == null)
-        //        {
-        //            _logger.LogInformation($"Kunne ikke finde {nameof(Template)} med følgende id : {id}");
-        //            return NotFound();
-        //        }//if
-
-        //        _mapper.Map(requestDto, dbTemplate);
-        //        var dbRequest = await _genericRepository.UpdateAsync(dbTemplate);
-
-        //        return Ok(_mapper.Map<TemplateDto>(dbTemplate));
-        //    }//if
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception($"kunne enten ikke finde følgende skabelon med id: {id}, eller fik ikke lov til at opdatere den, fra Api'et", ex);
-        //    }//catch
-
-        //}
-
-        [HttpDelete]
-        public async Task<ActionResult> DeleteTemplateAsync(int id)
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Template>> UpdateReportAsync(int id, TemplateDto requestDto)
         {
-
             try
             {
-                var delete = await _genericRepository.DeleteAsync(id);
-
-                if (!delete)
+                if (id != null)
                 {
-                    _logger.LogInformation($"Kunne ikke få lov til at slette {nameof(Template)} med følgende id : {id}");
-                    return NotFound();
-                }//if
+                    await _templateService.UpdateTemplate(id, requestDto);
 
-                return NoContent();
-            }//try
+                    return NoContent();
+                }
+                else
+                {
+                    return BadRequest();
+                }
+
+            }
             catch (Exception ex)
             {
-                throw new Exception("Fejl på Api'et", ex);
-            }//catch
+                throw new Exception("Error on controller", ex);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteTemplateAsync(int id)
+        {
+            try
+            {
+                await _templateService.DeleteTemplate(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error on Controller", ex);
+            }
         }
 
     }

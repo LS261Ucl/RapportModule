@@ -4,11 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Rapport.BusinessLogig.Interfaces;
 using Rapport.Entites;
 using Rapport.Shared.Dto_er.Template;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rapport.BusinessLogig.Services
 {
@@ -108,22 +103,25 @@ namespace Rapport.BusinessLogig.Services
             }//catch
         }
 
-        //public async Task<ActionResult> UpdateTemplate(int id, TemplateDto requestDto)
-        //{
-        //    try
-        //    {
-        //        //var dbTemplate = await _repository.GetAsync(x => x.Id == id);
+        public async Task<Template> UpdateTemplate(int id, TemplateDto requestDto)
+        {
+            try
+            {
+                var dbTemplate = await _repository.GetAsync(x => x.Id ==id);
 
-        //        //_mapper.Map(requestDto, dbTemplate);
-        //        //var dbRequest = await _repository.UpdateAsync(dbTemplate);
+                _mapper.Map(requestDto, dbTemplate);
 
-        //        //return _mapper.Map<Template>(dbTemplate);
+                var updated = await _repository.UpdateAsync(dbTemplate);
 
-        //    }//if
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception($"kunne enten ikke finde følgende skabelon med id: {id}, eller fik ikke lov til at opdatere den, fra Api'et", ex);
-        //    }//catch
-        //}
+                return updated;
+            }
+            
+            catch(Exception ex)
+            {
+                throw new Exception("Error on Controller", ex);
+            }
+                
+        }
+
     }
 }

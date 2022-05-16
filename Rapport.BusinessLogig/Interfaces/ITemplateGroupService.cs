@@ -9,7 +9,7 @@ namespace Rapport.BusinessLogig.Interfaces
         Task<List<TemplateGroupDto>> GetTemplategroups();
         Task<TemplateGroupDto> GetTemplateGroupById(int id);
         Task<TemplateGroup> CreateTemplateGroup([FromBody] CreateTemplateGroupDto requestDto);
-        //  Task<Template> UpdateTemplate(int id, TemplateDto requestDto);
+        Task<Template> UpdateTemplateGroup(int id, TemplateGroupDto requestDto);
         Task DeleteTemplateGroup(int id);
     }
 }
