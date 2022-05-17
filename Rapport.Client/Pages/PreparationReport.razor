@@ -1,10 +1,46 @@
 ﻿@inherits ReportBase
 @page "/report/preparation/{id:int}"
 
-<div class="container">
+<EditForm Model="@reportDto" OnValidSubmit="@OnInitializedAsync">
+    <DataAnnotationsValidator/>
+    <div class="container">
    <div class="d-lg-grid welcome-text list-unstyled text-black">
        <label>@reportDto?.Title</label>
    </div>
+      <div>
+            <br /><br />
+    </div>
+    <div class="form-control edit-input">
+        <InputTextArea @bind-Value="@reportDto.Remarks" DisplayName="Bemærkinger til personale!">@reportDto.Remarks</InputTextArea>
+    </div>
+    <div class="row col-md-12">
+        @if(reportDto.ReportGroups != null)
+        {
+            @foreach(var group in reportDto.ReportGroups)
+            {
+                    <label>@group.Titel</label>
+                    @if(group.Elements != null)
+                    {
+                    @foreach(var element in group.Elements)
+                    {
+                        <div >
+                            <label>@element.Titel</label>
+                            <InputNumber @bind-Value="@element.Numbers">@element.Numbers</InputNumber>
+                        </div>
+                    }
+                }
+            }
+        }
+        <div class="container">
+            <div class="row align-content-center">
+                <InputTextArea @bind-Value="@reportDto.Remarks" placeholder="Bemærkinger fra Personale"> @reportDto.Remarks</InputTextArea>
+            </div>
+        </div>
+   
+    </div>
 </div>
+    <ValidationSummary/>
+</EditForm>
+
 
 

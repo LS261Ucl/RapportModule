@@ -20,6 +20,9 @@ namespace Rapport.Shared.Dto_er.User
         [Required]
         public string? Password { get; set; }
 
+        [Required(ErrorMessage = "Husk at anføre role til brugeren")]
+        public string? Role { get; set; }
+
     
     }
 }

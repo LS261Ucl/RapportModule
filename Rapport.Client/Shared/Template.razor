@@ -35,7 +35,7 @@
                                      @foreach (var group in TemplateDto.TemplateGroups)
                                 {
                                     
-                                    <tr class="row align-items-baseline">
+                                    <tr class="row align-content-lg-center">
                                         <td class="col-md-2">
                                             <label> @(group.Id)</label>
                                         </td>
@@ -65,7 +65,7 @@
                                         @if (group.Elements!= null)
                                         {
 
-                                        <tr class="row align-items-md-center">
+                                        <tr class="row align-items-lg-center">
                                             <th class="col-md-2 top-row border text-dark">Id</th>
                                             <th class="col-md-4 top-row border text-dark">Titel</th>
                                             <th class="col-md-6 top-row border text-dark">Beskrivelse</th>
@@ -140,26 +140,29 @@
         </div>
     </EditForm>
     <EditForm Model="UpdateTemplate">
+        <br /><br />
         <div class="container">
-            <div class="col-12 text-right">
+            <div class="col-12 text-right align-content-center">
                 <button class="btn btn-outline-primary" @onclick="(() => UpdateTemplate(Id))">
                     Gem skabelon
                 </button>
             </div>
         </div>
-        <div class="container">
-            <div class="col-12 text-right">
-                <button class="btn btn-outline-danger" @onclick="(() => DeleteTemplate(TemplateDto))">
-                    Slet Skabelon
+        <br />
+           <div class="container">
+            <div class="col-12 text-center align-content-center">
+                <button class="btn btn-primary" @onclick="(() => ValidSubmit(TemplateDto))">
+                    Opret Rapport
                 </button>
             </div>
         </div>
     </EditForm>
     <EditForm Model="TemplateDto">
-        <div class="container">
-            <div class="col-12 text-center">
-                <button class="btn btn-primary" @onclick="(() => ValidSubmit(TemplateDto))">
-                    Opret Rapport
+             <div class="container">
+                 <br /><br />
+            <div class="col-12 text-right align-content-lg-end">
+                <button class="btn btn-outline-danger" @onclick="(() => DeleteTemplate(TemplateDto))">
+                    Slet Skabelon
                 </button>
             </div>
         </div>

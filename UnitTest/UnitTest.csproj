@@ -20,4 +20,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Rapport.Api\Rapport.Api.csproj" />
+    <ProjectReference Include="..\Rapport.BusinessLogig\Rapport.BusinessLogig.csproj" />
+  </ItemGroup>
+
 </Project>

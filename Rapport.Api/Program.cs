@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Rapport.Api.Services;
 using Rapport.BusinessLogig.Interfaces;
 using Rapport.BusinessLogig.Services;
 using Rapport.Data;
@@ -75,9 +75,12 @@ builder.Services.AddScoped<ITemplateGroupService, TemplateGroupService>();
 builder.Services.AddScoped<ITemplateElementService, TemplateElementService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IReportGroupService, ReportGroupService>();
-builder.Services.AddScoped<IReportElementService, ReportElementService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
 
+
+builder.Services.AddScoped<IReportElementService, ReportElementService>();
+
+
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 
 builder.Services.AddHttpClient();

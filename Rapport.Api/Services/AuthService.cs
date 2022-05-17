@@ -8,7 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 
-namespace Rapport.BusinessLogig.Services
+namespace Rapport.Api.Services
 {
     public class AuthService : IAuthService
     {
