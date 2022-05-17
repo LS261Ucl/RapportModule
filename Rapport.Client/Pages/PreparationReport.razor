@@ -1,7 +1,10 @@
 ﻿@inherits ReportBase
+@page "/report/preparation/{id:int}"
 
-<EditForm Model="reportDto" OnValidSubmit="OnParametersSetAsync">
-    <DataAnnotationsValidator />
-   
-    <ValidationSummary />
-</EditForm>
+<div class="container">
+   <div class="d-lg-grid welcome-text list-unstyled text-black">
+       <label>@reportDto?.Title</label>
+   </div>
+</div>
+
+

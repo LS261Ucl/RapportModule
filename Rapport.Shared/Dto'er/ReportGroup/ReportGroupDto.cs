@@ -10,7 +10,7 @@ namespace Rapport.Shared.Dto_er.ReportGroup
         public int Id { get; set; }
         public string? Titel { get; set; }
 
-        public string? ReportId { get; set; }
+        public int? ReportId { get; set; }
 
         [JsonIgnore]
         public ReportDto? ReportDto { get; set; }

@@ -1,15 +1,9 @@
 ﻿@page "/report/{id:int}"
 @inherits ReportBase
 
-@if( reportDto != null && reportDto?.LayoutId == 1)
-{
-    <PreparationReport></PreparationReport>
-}
-@if( reportDto != null && reportDto?.LayoutId == 2 )
-{
-    <CleaningReport></CleaningReport>
-}
+<EditForm Model="reportDto" OnValidSubmit="@OnInitializedAsync">
 
+</EditForm>
     
 
 

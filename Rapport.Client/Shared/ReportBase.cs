@@ -30,11 +30,11 @@ namespace Rapport.Client.Shared
             reportDto = await ReportService.GetReportWhitGroupsAndFields(Id);
             if(reportDto != null && reportDto.LayoutId == 1)
             {
-                NavigationManager.NavigateTo("/preparationreport");
+                NavigationManager.NavigateTo($"/report/preparation/{reportDto.Id}");
             }
             if(reportDto != null && reportDto.LayoutId == 2)
             {
-                NavigationManager.NavigateTo("/cleaningreport");
+                NavigationManager.NavigateTo($"/report/cleaningreport/{reportDto.Id}");
             }
 
             ReportService.OnChange += StateHasChanged;
