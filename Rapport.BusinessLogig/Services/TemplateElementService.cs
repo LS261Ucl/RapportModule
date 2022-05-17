@@ -38,9 +38,17 @@ namespace Rapport.BusinessLogig.Services
             }//catch
         }
 
-        public Task DeleteTemplateElement(int id)
+        public async Task DeleteTemplateElement(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                bool delete = await _repository.DeleteAsync(id);
+
+            }//try
+            catch (Exception ex)
+            {
+                throw new Exception("Fejl på TemplateService, Bussnieslogin", ex);
+            }//catch
         }
 
         public Task<List<TemplateElementDto>> GetTemplateElemens()

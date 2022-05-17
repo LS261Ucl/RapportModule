@@ -108,21 +108,22 @@ namespace Rapport.BusinessLogig.Services
             }//catch
         }
 
-        //public async Task<ActionResult> UpdateTemplate(int id, TemplateDto requestDto)
-        //{
-        //    try
-        //    {
-        //        var dbTemplate = await _repository.GetAsync(x => x.Id == id);
+        public async Task<Template> UpdateTemplate(int id, TemplateDto requestDto)
+        {
+            try
+            {
+                var dbTemplate = await _repository.GetAsync(x => x.Id == id);
 
-        //        _mapper.Map(requestDto, dbTemplate);
-        //        var dbRequest = await _repository.UpdateAsync(dbTemplate);
+                _mapper.Map(requestDto, dbTemplate);
+            
+                var dbRequest = await _repository.UpdateAsync(dbTemplate);
 
-        //         _mapper.Map<TemplateDto>(dbTemplate);
-        //    }//if
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception($"kunne enten ikke finde følgende skabelon med id: {id}, eller fik ikke lov til at opdatere den, fra Api'et", ex);
-        //    }//catch
-        //}
+                return (dbTemplate);
+            }//if
+            catch (Exception ex)
+            {
+                throw new Exception($"kunne enten ikke finde følgende skabelon med id: {id}, eller fik ikke lov til at opdatere den, fra Api'et", ex);
+            }//catch
+        }
     }
 }

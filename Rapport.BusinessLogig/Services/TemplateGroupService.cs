@@ -38,9 +38,17 @@ namespace Rapport.BusinessLogig.Services
             }//catch
         }
 
-        public Task DeleteTemplateGroup(int id)
+        public async Task DeleteTemplateGroup(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                bool delete = await _templateGroupsRepository.DeleteAsync(id);
+
+            }//try
+            catch (Exception ex)
+            {
+                throw new Exception("Fejl på TemplateService, Bussnieslogin", ex);
+            }//catch
         }
 
         public async Task<TemplateGroupDto> GetTemplateGroupById(int id)

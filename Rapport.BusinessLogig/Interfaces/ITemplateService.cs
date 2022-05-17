@@ -11,7 +11,7 @@ namespace Rapport.BusinessLogig.Interfaces
         Task<TemplateDto> GetTemplateById(int id);
         Task<TemplateDto> GetTemplateAndItsChilderen(int id);
         Task<Template> CreateTemplate([FromBody] CreateTemplateDto requestDto);
-      //  Task<Template> UpdateTemplate(int id, TemplateDto requestDto);
+        Task<Template> UpdateTemplate(int id, TemplateDto requestDto);
         Task DeleteTemplate(int id);
 
 
