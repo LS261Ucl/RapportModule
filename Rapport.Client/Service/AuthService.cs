@@ -40,7 +40,7 @@ namespace Rapport.Client.Service
             }
             catch (Exception ex)
             {
-                throw new HttpRequestException("Fikk ikke lov til logge ind");
+                throw new HttpRequestException("Fik ikke lov til logge ind");
             }
         }
 

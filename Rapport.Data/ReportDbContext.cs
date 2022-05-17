@@ -19,6 +19,7 @@ namespace Rapport.Data
         public DbSet<ReportElement>? ReportElements { get; set; }
         public DbSet<Image>? Images { get; set; }
         public DbSet<FinalReport>? FinalReports { get; set; }
+        public DbSet<AppUser>? AppUsers { get; set; }
 
 
 

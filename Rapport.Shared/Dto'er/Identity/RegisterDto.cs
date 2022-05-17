@@ -14,8 +14,8 @@ namespace Rapport.Shared.Dto_er.User
         [Required, EmailAddress]
         public string?Email { get; set; }
 
-        [Required, EmailAddress]
-        public string? ConformEmail { get; set; }
+        [Required]
+        public string? ConformPassword { get; set; }
 
         [Required]
         public string? Password { get; set; }

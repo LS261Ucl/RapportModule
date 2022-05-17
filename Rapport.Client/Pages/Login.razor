@@ -1,4 +1,4 @@
-﻿@page "/Login"
+﻿@page "/"
 @layout CenteredCardLayout
 @using Microsoft.AspNetCore.WebUtilities
 @using Rapport.Shared.Dto_er.User
@@ -62,7 +62,7 @@
 
         if(!claimsPrincipal.Identity.IsAuthenticated)
         {
-            NavigationManager.NavigateTo("/index");
+            NavigationManager.NavigateTo("/");
         }
 
     }

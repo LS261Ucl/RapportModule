@@ -8,7 +8,6 @@ using Microsoft.OpenApi.Models;
 using Rapport.BusinessLogig.Interfaces;
 using Rapport.BusinessLogig.Services;
 using Rapport.Data;
-using Rapport.Data.Identity;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -44,18 +43,8 @@ builder.Services.AddDbContext<ReportDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ReportConnection"));
 
 });
-//Add in to sqlserver in cloud for Identity
-builder.Services.AddDbContext<ReportIdentityDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection"));
-
-});
 
 
-// For Identity
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<ReportIdentityDbContext>()
-    .AddDefaultTokenProviders();
 
 // Adding Authentication
 builder.Services.AddAuthentication(options =>
@@ -87,6 +76,7 @@ builder.Services.AddScoped<ITemplateElementService, TemplateElementService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IReportGroupService, ReportGroupService>();
 builder.Services.AddScoped<IReportElementService, ReportElementService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 
 

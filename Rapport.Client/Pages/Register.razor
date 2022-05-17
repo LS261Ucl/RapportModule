@@ -20,8 +20,8 @@
     </div>
     <div class="mb-3">
         <label for="confirmPassword">Confirm Password</label>
-        <InputText id="confirmPassword" @bind-Value="user.ConformEmail" class="form-control" type="password" />
-        <ValidationMessage For="@(() => user.ConformEmail)" />
+        <InputText id="confirmPassword" @bind-Value="user.ConformPassword" class="form-control" type="password" />
+        <ValidationMessage For="@(() => user.ConformPassword)" />
     </div>
     <button type="submit" class="btn btn-primary">Register</button>
     <div class="@messageCssClass">
@@ -44,9 +44,18 @@
 
     async Task HandleRegistration()
     {
+        try
+        {
+   
         var result = await AuthService.RegisterUser(user);
+     
         NavigationManager.NavigateTo("login");
-
+        }
+        catch(Exception ex)
+        {
+            throw new Exception($"Fejl på registering", ex);
+     
+        }
     }
 
 
