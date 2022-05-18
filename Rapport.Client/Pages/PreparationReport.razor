@@ -36,11 +36,28 @@
                 <InputTextArea @bind-Value="@reportDto.Remarks" placeholder="Bemærkinger fra Personale"> @reportDto.Remarks</InputTextArea>
             </div>
         </div>
-   
+        <div class="md-0">
+            <label for="imageUrl">Image Url</label>
+            <InputText id="imageUrl" @bind-Value="reportDto.ImageUrl" class="form-control"></InputText>
+        </div>
+              <div class="mb-0" style="display: flex; flex-wrap: wrap; flex-direction: row; justify-content: center;">
+            @if (!string.IsNullOrEmpty(product.ImageUrl))
+            {
+                <img src="@product.ImageUrl" />
+            }
+            else
+            {
+                foreach (var image in product.Images)
+                {
+                  <img src="@image.img" />
+                }
+            }
+        </div>
+        <div class="mb-0">
+            <label for="images">Image(s)</label>
+            <InputFile id="images" OnChange="OnFileChange" multiple class="form-control"></InputFile>
+        </div>   
     </div>
 </div>
     <ValidationSummary/>
 </EditForm>
-
-
-

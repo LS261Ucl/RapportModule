@@ -1,4 +1,5 @@
-﻿using Rapport.Shared.Dto_er.ReportGroup;
+﻿using Rapport.Shared.Dto_er.Image;
+using Rapport.Shared.Dto_er.ReportGroup;
 using Rapport.Shared.Dto_er.Template;
 using System.Text.Json.Serialization;
 
@@ -19,6 +20,7 @@ namespace Rapport.Shared.Dto_er.Report
         public int TemplateId { get; set; }
 
         public string? CustomerEmail { get; set; }
+        public string ImageUrl { get; set; } = string.Empty;
 
         public string? EmployeeName { get; set; }
 
@@ -26,5 +28,7 @@ namespace Rapport.Shared.Dto_er.Report
         public TemplateDto? Template { get; set; }
    
         public ICollection<ReportGroupDto>? ReportGroups { get; set; }
+
+        public List<ImageDto> Images { get; set; } = new List<ImageDto>();
     }
 }

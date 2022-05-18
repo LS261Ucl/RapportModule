@@ -16,6 +16,8 @@ namespace Rapport.Entites
 
         public bool? IsReadOnly { get; set; }
 
+        public string ImageUrl{ get; set; } = string.Empty;
+
         public string? CustomerEmail { get; set; }
 
         public string? EmployeeName { get; set; }
@@ -24,7 +26,7 @@ namespace Rapport.Entites
         public int TemplateId { get; set; }
         public Template? Template { get; set; }
         public  ICollection<ReportGroup>? ReportGroups { get; set; }
-
+        public List<Image> Images { get; set; } = new List<Image>();
 
 
 

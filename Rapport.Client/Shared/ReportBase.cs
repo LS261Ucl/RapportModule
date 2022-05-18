@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+using Rapport.Shared.Dto_er.Image;
 using Rapport.Shared.Dto_er.ReportElement;
 
 namespace Rapport.Client.Shared
@@ -46,7 +48,19 @@ namespace Rapport.Client.Shared
             ReportService.OnChange += StateHasChanged;
         }
 
-
-
+        private async Task OnFileChange(InputFileChangeEventArgs e)
+        {
+            var format = "image/png";
+            foreach (var image in e.GetMultipleFiles(int.MaxValue))
+            {
+                var resizedImage = await image.RequestImageFileAsync(format, 200, 200);
+                var buffer = new byte[resizedImage.Size];
+                await resizedImage.OpenReadStream().ReadAsync(buffer);
+                var imageDate = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+                reportDto.Images.Add(new ImageDto { Img = imageDate});
+            }
+ 
+        }
     }
+
 }

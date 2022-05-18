@@ -1,4 +1,5 @@
-﻿using Rapport.Shared.Dto_er.Template;
+﻿using Rapport.Shared.Dto_er.Image;
+using Rapport.Shared.Dto_er.Template;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
@@ -8,6 +9,7 @@ namespace Rapport.Shared.Dto_er.Report
     {
         public string? Title { get; set; }
         public DateTime? Date { get; set; }
+        public string ImageUrl { get; set; } = string.Empty;
 
         [Required]
         public int? LayoutId { get; set; }
@@ -22,6 +24,7 @@ namespace Rapport.Shared.Dto_er.Report
         [JsonIgnore]
         public TemplateDto? Template { get; set; }
 
+        public List<ImageDto> Images { get; set; } = new List<ImageDto>();
 
     }
 }
