@@ -24,6 +24,7 @@ namespace UnitTest.MoqTest
 
         private readonly Mock<IMapper> _mapperMock = new Mock<IMapper>();
 
+        private readonly CreateTemplateDto createTemplateDto;
         private int Id;
         public TemplateControllerTest()
         {
@@ -64,7 +65,7 @@ namespace UnitTest.MoqTest
 
         //    };
 
-        //    _templateService.Setup(x => x.CreateTemplate(It.IsAny<Template>()))
+        //    _templateService.Setup(x => x.CreateTemplate(createTemplateDto).
         //         .ReturnsAsync(() => true);
 
         //}

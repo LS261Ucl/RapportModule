@@ -55,18 +55,32 @@ namespace UnitTest.MoqTest
         }
 
         [Fact]
-        public async Task Create_WhenTemplateIsCreated_ShouldReturnCategory()
+        public async Task GetAllAsync_ShouldReturnTemplates_WhenTemplatsExist()
         {
             //Arrange
-
+            var templateId = Id;
             var templateTitel = "Test";
 
-            var requestDto = new CreateTemplateDto
+            var template1 = new Template
             {
-
-                Title = templateTitel
+                Id = 1,
+                Title = "Test1"
             };
-           
+
+            var template2 = new Template
+            {
+                Id = 2,
+                Title = "Test2"
+            };
+
+
+            //Act
+            var templateTest = await _sut.GetTemplateById(templateId);
+
+
+            //Assert
+            Assert.Equal(templateTest!.Id, templateId);
+            Assert.Equal(templateTest!.Title, templateTitel);
 
         }
     }
