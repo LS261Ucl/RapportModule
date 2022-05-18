@@ -8,54 +8,67 @@ namespace Rapport.Client.Service
     {
 
         private readonly HttpClient _http;
-        private readonly IHttpService _httpService;
         private readonly AuthenticationStateProvider _authStateProvider;
 
-        public AuthService(HttpClient http, 
-            IHttpService httpService,
-            AuthenticationStateProvider authStateProvider)
+        public AuthService(HttpClient http, AuthenticationStateProvider authStateProvider)
         {
             _http = http;
-            _httpService = httpService;
             _authStateProvider = authStateProvider;
         }
 
         public async Task<ServiceResponse<bool>> ChangePassword(UserChangePassword request)
         {
-            var result = await _http.PostAsJsonAsync("auth/change-password", request.Password);
-            return await result.Content.ReadFromJsonAsync<ServiceResponse<bool>>();
+            try
+            {
+                var result = await _http.PostAsJsonAsync("api/auth/change-password", request.Password);
+                return await result.Content.ReadFromJsonAsync<ServiceResponse<bool>>();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Kunne ikke få lov til at logge på", ex);
+            }
+
+       
         }
 
         public async Task<bool> IsUserAuthenticated()
         {
-            return (await _authStateProvider.GetAuthenticationStateAsync()).User.Identity.IsAuthenticated;
-        }
-
-        public async Task<LoginDto> Login(LoginDto requestDto)
-        {
             try
             {
-                var wrapper = await _httpService.Post<LoginDto, LoginDto>("auth/login", requestDto);
-                return wrapper.Response ?? throw new HttpRequestException(wrapper.HttpResponseMessage.ReasonPhrase);
+                return (await _authStateProvider.GetAuthenticationStateAsync()).User.Identity.IsAuthenticated;
             }
             catch (Exception ex)
             {
-                throw new HttpRequestException("Fik ikke lov til logge ind");
+                throw new Exception("Kunne ikke få lov til at logge på", ex);
             }
+
+    
         }
 
-        public async Task<RegisterDto> RegisterUser(RegisterDto requestDto)
+        public async Task<ServiceResponse<string>> Login(LoginDto request)
         {
-
             try
             {
+                var result = await _http.PostAsJsonAsync("/auth/login", request);
+                return await result.Content.ReadFromJsonAsync<ServiceResponse<string>>();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("Kunne ikke få lov til at logge på", ex);
+            }
+  
+        }
 
-                var wrapper = await _httpService.Post<RegisterDto, RegisterDto>("auth/register", requestDto);
-                return wrapper.Response ?? throw new HttpRequestException(wrapper.HttpResponseMessage.ReasonPhrase);
+        public async Task<ServiceResponse<int>> Register(RegisterDto request)
+        {
+            try
+            {
+                var result = await _http.PostAsJsonAsync("api/auth/register", request);
+                return await result.Content.ReadFromJsonAsync<ServiceResponse<int>>();
             }
             catch (Exception ex)
             {
-                throw new Exception("unable to get httpservice", ex);
+                throw new Exception("Kunne ikke få lov til at logge på", ex);
             }
 
         }

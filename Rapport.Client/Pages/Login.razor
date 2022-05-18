@@ -1,99 +1,66 @@
-﻿@page "/"
-@layout CenteredCardLayout
+﻿@page "/Login"
 @using Microsoft.AspNetCore.WebUtilities
 @using Rapport.Shared.Dto_er.User
 @using System.Security.Claims
+@inject ILocalStorageService LocalStorage
 @inject IAuthService AuthService
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
-<EditForm Model="user" OnValidSubmit="ValidateUser">
+<PageTitle>Login</PageTitle>
+
+<h3>Login</h3>
+
+<EditForm Model="user" OnValidSubmit="HandleLogin">
     <DataAnnotationsValidator />
-    <div>
-            <br /><br /><br /><br /><br />
+    <div class="mb-3">
+        <label for="email">Email</label>
+        <InputText id="email" @bind-Value="user.Email" class="form-control" />
+        <ValidationMessage For="@(() => user.Email)" />
     </div>
-    <div>
-        <h3 style="font-weight: bold; color:royalblue">Login</h3>
+    <div class="mb-3">
+        <label for="password">Password</label>
+        <InputText id="password" @bind-Value="user.Password" class="form-control" type="password" />
+        <ValidationMessage For="@(() => user.Password)" />
     </div>
-    <div>
-        <br />
-    </div>
-      <div class="col-12 row">
-        <input class="form-control col-12" @bind="user.Email" placeholder="email address" />
-    </div>
-    <br />
-    <div class="col-12 row">
-        <input type="password" class="form-control col-12" @bind="user.Password" placeholder="password" />
-    </div>
-    <br />
-    <div class="col-12 row align-content-center">
-        <span class="col-12"></span>
-        <input type="submit" class="form-control col-6 btn btn-primary" value="Login" />
-        <a href="/register" class="col-md-6">Opret</a>
-    </div>
-    <div class="col-12 align-content-end">
-     <div class="col-4" @onclick="@ChangePassword">Ændre password</div>
-
-    </div>
-    <br />
-    <div class="col-12 row" style="text-align:left; font-weight:bold">
-        <span class="col-12">@errorMessage</span>
-    </div>
-    
+    <button type="submit" class="btn btn-primary">Login</button>
 </EditForm>
-
+<div class="text-danger">
+    <span>@errorMessage</span>
+</div>
 
 @code {
     private LoginDto user = new LoginDto();
-    ClaimsPrincipal? claimsPrincipal;
-
-    [CascadingParameter]
-    private Task<AuthenticationState> AuthenticationState { get; set; }
 
     private string errorMessage = string.Empty;
 
     private string returnUrl = string.Empty;
 
-    protected override async void OnInitialized()
+    protected override void OnInitialized()
     {
-        user = new LoginDto();
-
-        claimsPrincipal = (await AuthenticationState).User;
-
-        if(!claimsPrincipal.Identity.IsAuthenticated)
+        var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("returnUrl", out var url))
         {
-            NavigationManager.NavigateTo("/");
+            returnUrl = url;
         }
-
     }
 
-    private async Task<bool> ValidateUser()
+    private async Task HandleLogin()
     {
-        //Assume that user is valid
-        //call an Api
-
-        var returnedUser = await AuthService.Login(user);
-
-        if(returnedUser.Email != null)
+        var result = await AuthService.Login(user);
+        if (result.Success)
         {
-            await ((CustomAuthStateProvider)AuthenticationStateProvider).GetAuthenticationStateAsync();
-            NavigationManager.NavigateTo("/index");
+            errorMessage = string.Empty;
+
+            
+            await LocalStorage.SetItemAsync("authToken", result.Data);
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+
+            NavigationManager.NavigateTo(returnUrl);
         }
         else
         {
-            errorMessage = "Brugernavn eller password er ikke korrekt";
+            errorMessage = result.Message;
         }
-
-        return await Task.FromResult(true);
-    }
-
-    private async Task RegisterUser()
-    {
-        NavigationManager.NavigateTo("register");
-    }
-
-    private async Task ChangePassword()
-    {
-        NavigationManager.NavigateTo("profile");
     }
 }

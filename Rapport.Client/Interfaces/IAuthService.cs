@@ -5,9 +5,8 @@ namespace Rapport.Client.Interfaces
 {
     public interface IAuthService
     {
-        Task<RegisterDto> RegisterUser(RegisterDto requestDto);
-
-        Task<LoginDto> Login(LoginDto requestDto);
+        Task<ServiceResponse<int>> Register(RegisterDto request);
+        Task<ServiceResponse<string>> Login(LoginDto request);
         Task<ServiceResponse<bool>> ChangePassword(UserChangePassword request);
         Task<bool> IsUserAuthenticated();
     }
