@@ -26,4 +26,8 @@
     <ProjectReference Include="..\Rapport.BusinessLogig\Rapport.BusinessLogig.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="IntregrationTest\" />
+  </ItemGroup>
+
 </Project>
