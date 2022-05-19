@@ -6,6 +6,6 @@ namespace Rapport.Entites
         
         public int Id { get; set; }
 
-        public byte[]? Data { get; set; }
+        public string[]? Data { get; set; }
     }
 }

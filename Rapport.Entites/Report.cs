@@ -27,6 +27,7 @@ namespace Rapport.Entites
         public Template? Template { get; set; }
         public  ICollection<ReportGroup>? ReportGroups { get; set; }
         public List<Image> Images { get; set; } = new List<Image>();
+        public List<FinalReport> FinalReports { get; set; } = new List<FinalReport>();
 
 
 
