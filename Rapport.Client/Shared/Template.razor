@@ -1,27 +1,30 @@
 ﻿@page "/template/{id:int}"
-@using Rapport.Client.Pages
 
-   
-        <EditForm Model="TemplateDto" OnValidSubmit="OnInitializedAsync">
-    <div>
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-10">    <InputText class="form-control text-md-center text-dark"
-                           placeholder="titel"
-                           @bind-Value="@TemplateDto.Title">@(TemplateDto?.Title ?? "")</InputText></div>
-            
-                           <div class="col-md-4">
-                               <InputNumber @bind-Value="@TemplateDto.LayoutId">@(TemplateDto.LayoutId)</InputNumber>
-                           </div>
+
+   <EditForm Model="@TemplateDto" OnValidSubmit="@OnInitializedAsync">
+       <DataAnnotationsValidator/>
+       <div class="col-md-12">
+           <label for="titel">Titel</label>
+           <InputText id="titel" @bind-Value="@TemplateDto.Title"  class="form-control"></InputText>
+       </div>
+            <br />
+           <div class="container">
+            <div class="col-12 text-center align-content-center">
+                <button class="btn btn-primary" @onclick="(() => ValidSubmit(TemplateDto))">
+                    Opret Rapport
+                </button>
             </div>
-            
         </div>
-        <div class="text.start">
+       <div class="col-md-3">
+                <label for="layoutId">Layout Id</label>
+       <InputNumber id="layoutId" @bind-Value="TemplateDto.LayoutId" class="form-control"></InputNumber>
+       </div>
             <div class="container">
                 <div >
                     <table>
                         <thead>
-                            <tr class="row align-items-md-baseline">
+                            <tr class="row align-items-lg-baseline">
+                                <MudBlazor.MudInputLabel>Gruppe</MudBlazor.MudInputLabel>
                                 <th class="col-md-2 top-row border text-dark">Id</th>
                                 <th class="col-md-4 top-row border text-dark">Titel</th>
                                 <th class="col-md-6 top-row border text-dark">Beskrivelse</th>
@@ -66,16 +69,17 @@
                                         {
 
                                         <tr class="row align-items-lg-center">
+                                            <MudBlazor.MudInputLabel>Elementer</MudBlazor.MudInputLabel>
                                             <th class="col-md-2 top-row border text-dark">Id</th>
                                             <th class="col-md-4 top-row border text-dark">Titel</th>
                                             <th class="col-md-6 top-row border text-dark">Beskrivelse</th>
-                                            <th class="col-md-4 top-row border text-dark"> DataType</th>
+                                            <th class="col-md-3 top-row border text-dark"> DataType</th>
                                         </tr>
 
 
                                         @foreach (var elements in group.Elements)
                                         {
-                                            <tr class="row align-items-baseline">
+                                            <tr class="row">
                                                 <td class="col-md-2">
                                                     <label> @(elements.Id)</label>
                                                 </td>
@@ -86,11 +90,11 @@
                                                 
                                                 
                                               
-                                                <td class="col-md-10 border ">
+                                                <td class="col-md-6">
                                                     <InputTextArea placeholder="Beskrivelse"
                                                                    @bind-Value="@elements.Description">@(elements?.Description ?? "")</InputTextArea>
                                                 </td>
-                                                <td class="col-md-6 border">
+                                                <td class="col-md-3">
                                                     <InputSelect placeholder="Type" @bind-Value="@elements.Datatype">
                                                         @foreach (DataTypeEnum datatype in Enum.GetValues(typeof(DataTypeEnum)))
                                                                         {
@@ -102,18 +106,18 @@
                                                 <td>
                                                     <button class="btn btn-outline-danger"
                                                             @onclick="(() => DeleteField(elements.Id))">
-                                                        Delete
+                                                        Slet Element
                                                     </button>
                                                 </td>
                                             </tr>
                                         }@* Forache fields *@
                                            <tr class="container">
                                             <td class="col-sm-6 text-right">
-                                                <button class="btn btn-outline-secondary"
+                                                <div class="col-1"
                                                         type="button"
                                                         @onclick="(() => OnSubmit(group.Id))">
                                                     Nyt felt
-                                                </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     } @* if groups *@
@@ -129,33 +133,24 @@
                     </table>
                     </div>
                 </div>
-            </div>
-        </div>               
+                     
     </EditForm>
     <EditForm Model="TemplateDto">
         <div class="container">
             <div class="col-sm-6 text-right">
-                <button @onclick="@(()=> modal.Show<CreateTemplateGroup>("Hello world"))" class="btn btn-primary">Opret gruppe</button>
+                <div @onclick="@HandleValidSubmit" class="col-md-4">Opret gruppe</div>
             </div>
         </div>
-    </EditForm>
-    <EditForm Model="UpdateTemplate">
-        <br /><br />
+   </EditForm>
+       <EditForm Model="UpdateTemplate">
+        <br />
         <div class="container">
             <div class="col-12 text-right align-content-center">
                 <button class="btn btn-outline-primary" @onclick="(() => UpdateTemplate(Id))">
                     Gem skabelon
                 </button>
             </div>
-        </div>
-        <br />
-           <div class="container">
-            <div class="col-12 text-center align-content-center">
-                <button class="btn btn-primary" @onclick="(() => ValidSubmit(TemplateDto))">
-                    Opret Rapport
-                </button>
-            </div>
-        </div>
+        </div>  
     </EditForm>
     <EditForm Model="TemplateDto">
              <div class="container">
@@ -167,4 +162,3 @@
             </div>
         </div>
     </EditForm>
-

@@ -66,7 +66,7 @@ namespace Rapport.Api.Controllers
            
         }
 
-        [HttpPost("{id}")]
+        [HttpPost]
         public async Task<ActionResult<ReportGroup>> CreateReportGroup([FromBody] CreateReportGroupDto requestDto)
         {
             try

@@ -78,17 +78,7 @@ namespace Rapport.Api.Controllers
         //{
         //    try
         //    {
-        //        var templateElement = await _templateElementRepository.GetAsync(x => x.Id == id);
-
-        //        if(templateElement == null)
-        //        {
-        //            _logger.LogError($"Kunne ikke finde {nameof(templateElement)} med følgende id: {id}");
-        //            return NotFound();
-        //        }
-
-        //        _mapper.Map(requestDto, templateElement);
-
-        //        var dbRequest = await _templateElementRepository.UpdateAsync(templateElement);
+        //       var dbTemplateElement = await _templateElementService.U
 
         //        return Ok(_mapper.Map<TemplateElement>(templateElement));
         //    }//if

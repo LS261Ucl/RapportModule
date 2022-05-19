@@ -19,7 +19,7 @@ namespace Rapport.Client.Service
             try
             {
 
-                var wrapper = await _httpService.Post<CreateReportGroupDto, ReportGroupDto>($"reportgroup/{id}", requestDto);
+                var wrapper = await _httpService.Post<CreateReportGroupDto, ReportGroupDto>($"reportgroup", requestDto);
                 return wrapper.Response ?? throw new HttpRequestException(wrapper.HttpResponseMessage.ReasonPhrase);
             }
             catch (Exception ex)

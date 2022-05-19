@@ -9,6 +9,10 @@ namespace Rapport.Client.Shared
 {
     public partial class Template : ComponentBase
     {
+
+        private bool loading = true;
+        private string msg = "Loading...";
+
         [Inject]
         private ITemplateService? TemplateService { get; set; }
 
@@ -141,44 +145,44 @@ namespace Rapport.Client.Shared
 
             var report = await ReportService.CreateReport(Id, TemplateDto.Title,TemplateDto.LayoutId, createReportDto);
 
-            //if (report != null)
-            //{
+            if (report != null)
+            {
 
-            //    //currentTemplateDto.Groups
-            //    foreach (var group in currentTemplateDto.TemplateGroups)
-            //    {
-            //        var dbgroup = new CreateReportGroupDto
-            //        {
-            //            TemplateGroupId = group.Id,
-            //            Titel = group.Titel,
-            //            ReportId = report.Id
-            //        };
+                //currentTemplateDto.Groups
+                foreach (var group in currentTemplateDto.TemplateGroups)
+                {
+                    var dbgroup = new CreateReportGroupDto
+                    {
+                        TemplateGroupId = group.Id,
+                        Titel = group.Titel,
+                        ReportId = report.Id
+                    };
 
-            //        createReportGroupDto = dbgroup;
+                    createReportGroupDto = dbgroup;
 
-            //        var dbRequest = await ReportGroupService.CreateReport(group.Id, createReportGroupDto);
-            //        //  await Task.Delay(1000);
-            //        ReportGroupService.OnChange += StateHasChanged;
+                    var dbRequest = await ReportGroupService.CreateReport(group.Id, createReportGroupDto);
+                      await Task.Delay(1000);
+                    ReportGroupService.OnChange += StateHasChanged;
 
-            //        foreach (var element in group.Elements)
-            //        {
-            //            var dbelement = new CreateReportElementDto
-            //            {
-            //                TemplateElementId = element.Id,
-            //                ReportGroupId = dbRequest.Id,
-            //                Titel = element.Titel,
+                    //foreach (var element in group.Elements)
+                    //{
+                    //    var dbelement = new CreateReportElementDto
+                    //    {
+                    //        TemplateElementId = element.Id,
+                    //        ReportGroupId = dbRequest.Id,
+                    //        Titel = element.Titel,
 
-            //            };
+                    //    };
 
-            //            CreateReportElementDto = dbelement;
+                    //    CreateReportElementDto = dbelement;
 
-            //            await ReportElementService.CreateReportElementAsync(dbelement);
-            //            await Task.Delay(1000);
-            //            ReportElementService.OnChange += StateHasChanged;
-            //        }//forache
+                    //    await ReportElementService.CreateReportElementAsync(dbelement);
+                    //    await Task.Delay(1000);
+                    //    ReportElementService.OnChange += StateHasChanged;
+                    //}//forache
 
-            //    }//forache
-            //}//if
+                }//forache
+            }//if
             NavigationManager.NavigateTo($"report/{report.Id}");
         }
 
