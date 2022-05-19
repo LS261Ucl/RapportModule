@@ -40,7 +40,7 @@ namespace Rapport.Client.Service
             try
             {
                 //Call Api whit Delete
-                var wrapper = await _httpService.Delete($"templateElement/{id}");
+                var wrapper = await _httpService.Delete($"templateelement/{id}");
 
                 return wrapper.Success;
             }//try

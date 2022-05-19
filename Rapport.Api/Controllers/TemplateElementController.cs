@@ -73,20 +73,28 @@ namespace Rapport.Api.Controllers
 
         }
 
-        //[HttpPut("{id}")]
-        //public async Task<ActionResult> UpdateTemplateElementAsync(int id, TemplateElementDto requestDto)
-        //{
-        //    try
-        //    {
-        //       var dbTemplateElement = await _templateElementService.U
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateTemplateElementAsync(int id, TemplateElementDto requestDto)
+        {
 
-        //        return Ok(_mapper.Map<TemplateElement>(templateElement));
-        //    }//if
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception($"kunne enten ikke finde følgende skabelon med id: {id}, eller fik ikke lov til at opdatere den, fra Api'et", ex);
-        //    }//catch
-        //}
+            try
+            {
+                var dbTemplate = await _templateElementService.UpdateTemplate(id, requestDto);
+
+                if (dbTemplate == null)
+                {
+                    _logger.LogError($"Error on Api");
+                    return NotFound();
+
+                }
+
+                return Ok(_mapper.Map<TemplateElementDto>(dbTemplate));
+            }//if
+            catch (Exception ex)
+            {
+                throw new Exception($"kunne enten ikke finde følgende skabelon med id: {id}, eller fik ikke lov til at opdatere den, fra Api'et", ex);
+            }//catch
+        }
 
         [HttpDelete]
         public async Task<ActionResult> DeleteTemplateElementAsync(int id)

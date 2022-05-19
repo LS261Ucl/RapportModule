@@ -12,43 +12,20 @@ namespace Rapport.Api.Controllers
     public class ReportElementController : ControllerBase
     {
         private readonly IReportElementService _reportElementService;
-        private readonly IGenericRepository<ReportElement> _reportElementRepository;
         private readonly ILogger<ReportElementController> _logger;
         private readonly IMapper _mapper;
 
-        public ReportElementController(IGenericRepository<ReportElement> reportElementRepository, 
+        public ReportElementController(
             IReportElementService reportElementService,
             ILogger<ReportElementController> logger,
             IMapper mapper)
         {
-            _reportElementRepository = reportElementRepository;
+            
             _logger = logger;
+            _reportElementService = reportElementService;
             _mapper = mapper;
         }
-        
-        [HttpGet]
-        public async Task<ActionResult<List<ReportElementDto>>> GetReportElements()
-        {
-            try
-            {
-                var reportElements = await _reportElementRepository.GetAllAsync();
-
-
-                if (reportElements == null)
-                {
-                    _logger.LogError("Unable to get TemplateElements");
-                    return NotFound();
-                }
-
-                return Ok(reportElements);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error on Api");
-            }
-            
-
-        }
+       
 
         [HttpGet("{id}")]
         public async Task<ActionResult<ReportElementDto>> GetReportElement(int id)
@@ -95,53 +72,5 @@ namespace Rapport.Api.Controllers
             }
 
         }
-
-        //[HttpPut("{id}")]
-        //public async Task<ActionResult<ReportElement>> UpdateReportElement(int id, ReportElementDto requestDto)
-        //{
-        //    try
-        //    {
-        //        var dbElement = await _reportElementRepository.GetAsync(x => x.Id == id);
-
-        //        if (dbElement == null)
-        //        {
-        //            _logger.LogInformation($"Unable to finde ReportField whit this id: {id}");
-        //            return NotFound();
-        //        }//if
-
-        //        _mapper.Map(requestDto, dbElement);
-
-        //        var updated = await _reportElementRepository.UpdateAsync(dbElement);
-
-        //        return Ok(_mapper.Map<ReportElement>(dbElement));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("Error on Api", ex);
-        //    }
-
-        //}
-
-        //[HttpDelete("{id}")]
-        //public async Task<ActionResult> DeleteReportElement(int id)
-        //{
-
-        //    try
-        //    {
-        //        bool delete = await _reportElementRepository.DeleteAsync(id);
-
-        //        if (!delete)
-        //        {
-        //            _logger.LogInformation($"Unable to find or delete {nameof(ReportElement)} whit this id : {id}");
-        //            return NotFound();
-        //        }//if
-
-        //        return NoContent();
-        //    }//try
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("Error on Api", ex);
-        //    }//catch
-        //}
     }
 }

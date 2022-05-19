@@ -166,7 +166,7 @@ namespace Rapport.Client.Shared
 
                     foreach (var element in group.Elements)
                     {
-                        var dbelement = new CreateReportElementDto
+                        var dbElement = new CreateReportElementDto
                         {
                             TemplateElementId = element.Id,
                             ReportGroupId = dbRequest.Id,
@@ -174,9 +174,9 @@ namespace Rapport.Client.Shared
 
                         };
 
-                        CreateReportElementDto = dbelement;
+                        CreateReportElementDto = dbElement;
 
-                        await ReportElementService.CreateReportElementAsync(dbelement);
+                        await ReportElementService.CreateReportElementAsync(dbElement);
                         await Task.Delay(1000);
                         ReportElementService.OnChange += StateHasChanged;
                     }//forache

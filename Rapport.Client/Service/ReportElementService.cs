@@ -22,7 +22,7 @@ namespace Rapport.Client.Service
             try
             {
 
-                var wrapper = await _httpService.Post<CreateReportElementDto, ReportElementDto>("reportfield", requestDto);
+                var wrapper = await _httpService.Post<CreateReportElementDto, ReportElementDto>("reportelement", requestDto);
                 return wrapper.Response ?? throw new HttpRequestException(wrapper.HttpResponseMessage.ReasonPhrase);
             }
             catch (Exception ex)

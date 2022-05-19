@@ -76,7 +76,7 @@ namespace Rapport.Client.Service
             }
             catch (HttpRequestException ex)
             {
-                throw new HttpRequestException("kunne ikke få fat i httpservice", ex);
+                throw new HttpRequestException("Kunne ikke få fat i httpservice", ex);
             }
 
         }
@@ -103,7 +103,7 @@ namespace Rapport.Client.Service
             }
             catch (HttpRequestException ex)
             {
-                throw new HttpRequestException("kunne ikke få fat i httpservice", ex);
+                throw new HttpRequestException("Kunne ikke få fat i httpservice", ex);
             }
         }
 
@@ -115,7 +115,15 @@ namespace Rapport.Client.Service
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return new HttpResponseWrapper<object>(true, response.IsSuccessStatusCode, response);
+                    try
+                    {
+                        return new HttpResponseWrapper<object>(true, response.IsSuccessStatusCode, response);
+                    }
+                    catch(Exception ex)
+                    {
+                        throw new Exception("Fejl på HttpService", ex);
+                    }
+               
 
                 }
                 else
@@ -126,7 +134,7 @@ namespace Rapport.Client.Service
             }
             catch (HttpRequestException ex)
             {
-                throw new HttpRequestException("kunne ikke få fat i httpservice", ex);
+                throw new HttpRequestException("Kunne ikke få fat i httpservice", ex);
             }
 
 

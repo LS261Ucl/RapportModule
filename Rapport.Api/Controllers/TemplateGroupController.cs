@@ -72,12 +72,28 @@ namespace Rapport.Api.Controllers
             }//catch
         }
 
-        //[HttpPut("{id}")]
-        //public async Task<ActionResult> UpdateTemplateGroup(int id, TemplateGroupDto requestDto)
-        //{
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateTemplateGroup(int id, TemplateGroupDto requestDto)
+        {
+            try 
+            {
+                var dbTemplate = await _templateGroupService.UpdateTemplate(id, requestDto);
 
+                if (dbTemplate == null)
+                {
+                    _logger.LogError($"Error on Api");
+                    return NotFound();
 
-        //}
+                }//if
+
+                return Ok(_mapper.Map<TemplateGroupDto>(dbTemplate));
+            }//try
+            catch (Exception ex)
+            {
+                throw new Exception($"kunne enten ikke finde følgende skabelon med id: {id}, eller fik ikke lov til at opdatere den, fra Api'et", ex);
+            }//catch
+        }
+         
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteTemplateGroup(int id)

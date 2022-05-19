@@ -13,20 +13,15 @@ namespace Rapport.Api.Controllers
     public class ReportController : ControllerBase
     {
         private readonly IReportService _reportService;
-        private readonly IGenericRepository<Template> _templatGenericRepository;
         private readonly ILogger<ReportController> _logger;
-        private readonly IGenericRepository<Report>? _reportRepository;
         private readonly IMapper _mapper;
 
-        public ReportController(IGenericRepository<Report> reportRepository,
+        public ReportController(
             IReportService reportService,
-            IGenericRepository<Template> templatGenericRepository,
             ILogger<ReportController> logger,
             IMapper mapper)
         {
-            _reportRepository = reportRepository;
             _reportService = reportService;
-            _templatGenericRepository = templatGenericRepository;
             _logger = logger;
             _mapper = mapper;
         }
@@ -122,25 +117,20 @@ namespace Rapport.Api.Controllers
         {
             try
             {
-                var dbReport = await _reportRepository.GetAsync(x => x.Id == id);
+                var dbReport = await _reportService.UpdateReport(id, requestDto);
 
                 if (dbReport == null)
                 {
-                    _logger.LogInformation($"No {nameof(Report)} was found whit this id: {id}");
+                    _logger.LogError($"Error on Api");
                     return NotFound();
+
                 }//if
 
-                _mapper.Map(requestDto, dbReport);
-
-                var updated = await _reportRepository.UpdateAsync(dbReport);
-
                 return Ok(_mapper.Map<ReportDto>(dbReport));
-
-            
             }//try
             catch (Exception ex)
             {
-                throw new Exception("Error on Api", ex);
+                throw new Exception($"kunne enten ikke finde følgende skabelon med id: {id}, eller fik ikke lov til at opdatere den, fra Api'et", ex);
             }//catch
         }
 
@@ -150,19 +140,13 @@ namespace Rapport.Api.Controllers
 
             try
             {
-                bool delete = await _reportRepository.DeleteAsync(id);
-
-                if (!delete)
-                {
-                    _logger.LogInformation($"Unable to find or delete {nameof(Report)} whit this id : {id}");
-                    return NotFound();
-                }//if
+                await _reportService.DeleteReport(id);
 
                 return NoContent();
             }//try
             catch (Exception ex)
             {
-                throw new Exception("Error on Api", ex);
+                throw new Exception("Fejl på Api'et", ex);
             }//catch
         }
     }
