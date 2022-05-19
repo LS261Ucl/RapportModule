@@ -8,6 +8,6 @@ namespace Rapport.Shared.Dto_er.FinalReport
 {
     public class CreateFinalReportDto
     {
-        public string[] Data{ get; set; }
+        public string Data{ get; set; }
     }
 }
