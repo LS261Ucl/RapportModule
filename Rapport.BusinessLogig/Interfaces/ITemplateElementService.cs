@@ -9,7 +9,7 @@ namespace Rapport.BusinessLogig.Interfaces
         Task<List<TemplateElementDto>> GetTemplateElemens();
         Task<TemplateElementDto> GetTemplateElementById(int id);
         Task<TemplateElement> CreateTemplateElement([FromBody] CreateTemplateElementDto requestDto);
-        //  Task<Template> UpdateTemplate(int id, TemplateDto requestDto);
+        Task<TemplateElement> UpdateTemplate(int id, TemplateElementDto requestDto);
         Task DeleteTemplateElement(int id);
     }
 }

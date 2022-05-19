@@ -164,22 +164,22 @@ namespace Rapport.Client.Shared
                       await Task.Delay(1000);
                     ReportGroupService.OnChange += StateHasChanged;
 
-                    //foreach (var element in group.Elements)
-                    //{
-                    //    var dbelement = new CreateReportElementDto
-                    //    {
-                    //        TemplateElementId = element.Id,
-                    //        ReportGroupId = dbRequest.Id,
-                    //        Titel = element.Titel,
+                    foreach (var element in group.Elements)
+                    {
+                        var dbelement = new CreateReportElementDto
+                        {
+                            TemplateElementId = element.Id,
+                            ReportGroupId = dbRequest.Id,
+                            Titel = element.Titel,
 
-                    //    };
+                        };
 
-                    //    CreateReportElementDto = dbelement;
+                        CreateReportElementDto = dbelement;
 
-                    //    await ReportElementService.CreateReportElementAsync(dbelement);
-                    //    await Task.Delay(1000);
-                    //    ReportElementService.OnChange += StateHasChanged;
-                    //}//forache
+                        await ReportElementService.CreateReportElementAsync(dbelement);
+                        await Task.Delay(1000);
+                        ReportElementService.OnChange += StateHasChanged;
+                    }//forache
 
                 }//forache
             }//if

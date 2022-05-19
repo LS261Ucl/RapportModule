@@ -96,52 +96,52 @@ namespace Rapport.Api.Controllers
 
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<ReportElement>> UpdateReportElement(int id, ReportElementDto requestDto)
-        {
-            try
-            {
-                var dbElement = await _reportElementRepository.GetAsync(x => x.Id == id);
+        //[HttpPut("{id}")]
+        //public async Task<ActionResult<ReportElement>> UpdateReportElement(int id, ReportElementDto requestDto)
+        //{
+        //    try
+        //    {
+        //        var dbElement = await _reportElementRepository.GetAsync(x => x.Id == id);
 
-                if (dbElement == null)
-                {
-                    _logger.LogInformation($"Unable to finde ReportField whit this id: {id}");
-                    return NotFound();
-                }//if
+        //        if (dbElement == null)
+        //        {
+        //            _logger.LogInformation($"Unable to finde ReportField whit this id: {id}");
+        //            return NotFound();
+        //        }//if
 
-                _mapper.Map(requestDto, dbElement);
+        //        _mapper.Map(requestDto, dbElement);
 
-                var updated = await _reportElementRepository.UpdateAsync(dbElement);
+        //        var updated = await _reportElementRepository.UpdateAsync(dbElement);
 
-                return Ok(_mapper.Map<ReportElement>(dbElement));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error on Api", ex);
-            }
+        //        return Ok(_mapper.Map<ReportElement>(dbElement));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("Error on Api", ex);
+        //    }
 
-        }
+        //}
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteReportElement(int id)
-        {
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult> DeleteReportElement(int id)
+        //{
 
-            try
-            {
-                bool delete = await _reportElementRepository.DeleteAsync(id);
+        //    try
+        //    {
+        //        bool delete = await _reportElementRepository.DeleteAsync(id);
 
-                if (!delete)
-                {
-                    _logger.LogInformation($"Unable to find or delete {nameof(ReportElement)} whit this id : {id}");
-                    return NotFound();
-                }//if
+        //        if (!delete)
+        //        {
+        //            _logger.LogInformation($"Unable to find or delete {nameof(ReportElement)} whit this id : {id}");
+        //            return NotFound();
+        //        }//if
 
-                return NoContent();
-            }//try
-            catch (Exception ex)
-            {
-                throw new Exception("Error on Api", ex);
-            }//catch
-        }
+        //        return NoContent();
+        //    }//try
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("Error on Api", ex);
+        //    }//catch
+        //}
     }
 }

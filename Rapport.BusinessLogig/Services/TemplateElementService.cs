@@ -74,5 +74,23 @@ namespace Rapport.BusinessLogig.Services
                 throw new Exception($"Kunne ikke finde Skabelon med følgende id {id}", ex);
             }//catch
         }
+
+        public async Task<TemplateElement> UpdateTemplate(int id, TemplateElementDto requestDto)
+        {
+            try
+            {
+                var dbGroup = await _repository.GetAsync(x => x.Id == id);
+
+                _mapper.Map(requestDto, dbGroup);
+
+                var dbRequest = await _repository.UpdateAsync(dbGroup);
+
+                return (dbGroup);
+            }//if
+            catch (Exception ex)
+            {
+                throw new Exception($"kunne enten ikke finde følgende skabelon med id: {id}, eller fik ikke lov til at opdatere den, fra Api'et", ex);
+            }//catch
+        }
     }
 }
