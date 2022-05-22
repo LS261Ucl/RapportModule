@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{BFF9E738-F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest", "UnitTest\UnitTest.csproj", "{09205F69-48C4-4404-8E4F-AB94787FE582}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Rapport.IdentityServer\Server.csproj", "{FEC2F3F5-777F-440C-ACEB-022269B1A19E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rapport.IdentityServer", "Rapport.IdentityServer\Rapport.IdentityServer.csproj", "{FEC2F3F5-777F-440C-ACEB-022269B1A19E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

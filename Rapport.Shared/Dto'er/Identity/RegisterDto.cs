@@ -7,22 +7,16 @@ namespace Rapport.Shared.Dto_er.User
     {
 
 
-        [Required(ErrorMessage = "Husk Bruger navn")]
-        public string? FullName { get; set; }
+        [Required(ErrorMessage = "User Name is required")]
+        public string? Username { get; set; }
 
- 
-        [Required, EmailAddress]
-        public string?Email { get; set; }
+        [EmailAddress]
+        [Required(ErrorMessage = "Email is required")]
+        public string? Email { get; set; }
 
-        [Required]
-        public string? ConformPassword { get; set; }
-
-        [Required]
+        [Required(ErrorMessage = "Password is required")]
         public string? Password { get; set; }
 
-        [Required(ErrorMessage = "Husk at anføre role til brugeren")]
-        public string? Role { get; set; }
 
-    
     }
 }

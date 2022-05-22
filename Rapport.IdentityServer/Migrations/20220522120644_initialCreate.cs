@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Server.Migrations.AspNetIdentityDb
+namespace Rapport.IdentityServer.Migrations
 {
-    public partial class InitialIdentityServerMigration : Migration
+    public partial class initialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
