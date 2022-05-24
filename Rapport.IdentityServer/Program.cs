@@ -50,7 +50,19 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var devCorsPolicy = "devCorsPolicy";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(devCorsPolicy, builder => {
+        builder.WithOrigins("http://localhost:5443", "https://localhost:7174/", "http://localhost:59760").AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+        builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost");
+        builder.SetIsOriginAllowed(origin => true);
+    });
+});
+
 var app = builder.Build();
+app.UseCors(devCorsPolicy);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

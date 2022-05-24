@@ -20,7 +20,8 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddHttpClient("ReportUri", (sp, cl) =>
 {
-    cl.BaseAddress = new Uri("https://localhost:7109/api/");
+    //Try to encode : to %3A and / to %2F org value "https://localhost:5002/api/"
+    cl.BaseAddress = new Uri("https://localhost:5002/api/");
 });
 
 builder.Services.AddBlazoredLocalStorage();
@@ -42,10 +43,10 @@ builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IReportGroupService, ReportGroupService>();
 builder.Services.AddScoped<IReportElementService, ReportElementService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
-
+builder.Services.AddScoped<AuthenticationStateProvider,CustomAuthenticationStateProvider>();
 
 builder.Services.AddAuthorizationCore();
-builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
+
 
 //der.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddScoped(serviceProvider => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });

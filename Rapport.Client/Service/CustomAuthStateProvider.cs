@@ -1,71 +1,88 @@
 ﻿using Blazored.LocalStorage;
+using Rapport.Shared.Dto_er.User;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text.Json;
 
 namespace Rapport.Client.Service
 {
-    public class CustomAuthStateProvider : AuthenticationStateProvider
+    public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {
-        private readonly ILocalStorageService _localStorageService;
-        private readonly HttpClient _http;
+        public ILocalStorageService _localStorageService { get; }
+        public IAuthService _authService { get; set; }
+        private readonly HttpClient _httpClient;
 
-        public CustomAuthStateProvider(ILocalStorageService localStorageService, HttpClient http)
+        public CustomAuthenticationStateProvider(ILocalStorageService localStorageService,
+            IAuthService authService,
+            HttpClient httpClient)
         {
+            //throw new Exception("CustomAuthenticationStateProviderException");
             _localStorageService = localStorageService;
-            _http = http;
+            _authService = authService;
+            _httpClient = httpClient;
         }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            string authToken = await _localStorageService.GetItemAsStringAsync("authToken");
+            var accessToken = await _localStorageService.GetItemAsync<string>("accessToken");
+
+            ClaimsIdentity identity;
+
+            if (accessToken != null && accessToken != string.Empty)
+            {
+                LoginDto user = await _authService.GetUserByAccessTokenAsync(accessToken);
+                identity = GetClaimsIdentity(user);
+            }
+            else
+            {
+                identity = new ClaimsIdentity();
+            }
+
+            var claimsPrincipal = new ClaimsPrincipal(identity);
+
+            return await Task.FromResult(new AuthenticationState(claimsPrincipal));
+        }
+
+        public async Task MarkUserAsAuthenticated(LoginDto user)
+        {
+            await _localStorageService.SetItemAsync("accessToken", user.AccessToken);
+            await _localStorageService.SetItemAsync("refreshToken", user.RefreshToken);
+
+            var identity = GetClaimsIdentity(user);
+
+            var claimsPrincipal = new ClaimsPrincipal(identity);
+
+            NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(claimsPrincipal)));
+        }
+
+        public async Task MarkUserAsLoggedOut()
+        {
+            await _localStorageService.RemoveItemAsync("refreshToken");
+            await _localStorageService.RemoveItemAsync("accessToken");
 
             var identity = new ClaimsIdentity();
-            _http.DefaultRequestHeaders.Authorization = null;
-
-            if (!string.IsNullOrEmpty(authToken))
-            {
-                try
-                {
-                    identity = new ClaimsIdentity(ParseClaimsFromJwt(authToken), "jwt");
-                    _http.DefaultRequestHeaders.Authorization =
-                        new AuthenticationHeaderValue("Bearer", authToken.Replace("\"", ""));
-                }
-                catch
-                {
-                    await _localStorageService.RemoveItemAsync("authToken");
-                    identity = new ClaimsIdentity();
-                }
-            }
 
             var user = new ClaimsPrincipal(identity);
-            var state = new AuthenticationState(user);
 
-            NotifyAuthenticationStateChanged(Task.FromResult(state));
-
-            return state;
+            NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));
         }
 
-        private byte[] ParseBase64WithoutPadding(string base64)
+        private ClaimsIdentity GetClaimsIdentity(LoginDto user)
         {
-            switch (base64.Length % 4)
+            var claimsIdentity = new ClaimsIdentity();
+
+            if (user.Username != null)
             {
-                case 2: base64 += "=="; break;
-                case 3: base64 += "="; break;
+                claimsIdentity = new ClaimsIdentity(new[]
+                                {
+                                    new Claim(ClaimTypes.Name, user.Username),
+                             
+                                }, "apiauth_type");
             }
-            return Convert.FromBase64String(base64);
+
+            return claimsIdentity;
         }
 
-        private IEnumerable<Claim> ParseClaimsFromJwt(string jwt)
-        {
-            var payload = jwt.Split('.')[1];
-            var jsonBytes = ParseBase64WithoutPadding(payload);
-            var keyValuePairs = JsonSerializer
-                .Deserialize<Dictionary<string, object>>(jsonBytes);
-
-            var claims = keyValuePairs.Select(kvp => new Claim(kvp.Key, kvp.Value.ToString()));
-
-            return claims;
-        }
+      
     }
 }
