@@ -1,76 +1,138 @@
-﻿using Rapport.Shared.Dto_er.User;
-using Rapport.Shared.Response;
-using System.Net.Http.Json;
+﻿using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using Rapport.Shared.Dto_er.User;
 
 namespace Rapport.Client.Service
 {
     public class AuthService : IAuthService
     {
 
-        private readonly HttpClient _http;
-        private readonly AuthenticationStateProvider _authStateProvider;
+        public HttpClient _httpClient { get; }
+        public AppSettings _appSettings { get; }
 
-        public AuthService(HttpClient http, AuthenticationStateProvider authStateProvider)
+        public AuthService(IHttpService httpService, HttpClient httpClient, IOptions<AppSettings> appSettings)
         {
-            _http = http;
-            _authStateProvider = authStateProvider;
+            _appSettings = appSettings.Value;
+
+            
+            httpClient.BaseAddress = new Uri("https://localhost:5443");
+
+            _httpClient = httpClient;
         }
 
-        public async Task<ServiceResponse<bool>> ChangePassword(UserChangePassword request)
+        public async Task<LoginDto> LoginAsync(LoginDto user)
         {
             try
             {
-                var result = await _http.PostAsJsonAsync("api/auth/change-password", request.Password);
-                return await result.Content.ReadFromJsonAsync<ServiceResponse<bool>>();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Kunne ikke få lov til at logge på", ex);
-            }
+                user.Password = Utility.Encrypt(user.Password);
+                string serializedUser = JsonConvert.SerializeObject(user);
 
-       
-        }
+                var requestMessage = new HttpRequestMessage(HttpMethod.Post, "authentication/login");
+                requestMessage.Content = new StringContent(serializedUser);
 
-        public async Task<bool> IsUserAuthenticated()
-        {
-            try
-            {
-                return (await _authStateProvider.GetAuthenticationStateAsync()).User.Identity.IsAuthenticated;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Kunne ikke få lov til at logge på", ex);
-            }
+                requestMessage.Content.Headers.ContentType
+                    = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-    
-        }
+                var response = await _httpClient.SendAsync(requestMessage);
 
-        public async Task<ServiceResponse<string>> Login(LoginDto request)
-        {
-            try
-            {
-                var result = await _http.PostAsJsonAsync("/auth/login", request);
-                return await result.Content.ReadFromJsonAsync<ServiceResponse<string>>();
+                var responseStatusCode = response.StatusCode;
+                var responseBody = await response.Content.ReadAsStringAsync();
+
+                var returnedUser = JsonConvert.DeserializeObject<LoginDto>(responseBody);
+
+                return await Task.FromResult(returnedUser);
             }
             catch(Exception ex)
             {
-                throw new Exception("Kunne ikke få lov til at logge på", ex);
+                throw new Exception(ex.Message);
             }
-  
+           
+
         }
 
-        public async Task<ServiceResponse<int>> Register(RegisterDto request)
+        public async Task<RegisterDto> RegisterUserAsync(RegisterDto user)
         {
             try
             {
-                var result = await _http.PostAsJsonAsync("api/auth/register", request);
-                return await result.Content.ReadFromJsonAsync<ServiceResponse<int>>();
+                user.Password = Utility.Encrypt(user.Password);
+                string serializedUser = JsonConvert.SerializeObject(user);
+
+                var requestMessage = new HttpRequestMessage(HttpMethod.Post, "Auth/RegisterUser");
+                requestMessage.Content = new StringContent(serializedUser);
+
+                requestMessage.Content.Headers.ContentType
+                    = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+                var response = await _httpClient.SendAsync(requestMessage);
+
+                var responseStatusCode = response.StatusCode;
+                var responseBody = await response.Content.ReadAsStringAsync();
+
+                var returnedUser = JsonConvert.DeserializeObject<RegisterDto>(responseBody);
+
+                return await Task.FromResult(returnedUser);
             }
             catch (Exception ex)
             {
-                throw new Exception("Kunne ikke få lov til at logge på", ex);
+                throw new Exception(ex.Message);
             }
+    
+        }
 
+        public async Task<LoginDto> RefreshTokenAsync(RefreashRequest refreshRequest)
+        {
+            try
+            {
+                string serializedUser = JsonConvert.SerializeObject(refreshRequest);
+
+                var requestMessage = new HttpRequestMessage(HttpMethod.Post, "Users/RefreshToken");
+                requestMessage.Content = new StringContent(serializedUser);
+
+                requestMessage.Content.Headers.ContentType
+                    = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+                var response = await _httpClient.SendAsync(requestMessage);
+
+                var responseStatusCode = response.StatusCode;
+                var responseBody = await response.Content.ReadAsStringAsync();
+
+                var returnedUser = JsonConvert.DeserializeObject<LoginDto>(responseBody);
+
+                return await Task.FromResult(returnedUser);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+         
+        }
+
+        public async Task<LoginDto> GetUserByAccessTokenAsync(string accessToken)
+        {
+            try
+            {
+                string serializedRefreshRequest = JsonConvert.SerializeObject(accessToken);
+
+                var requestMessage = new HttpRequestMessage(HttpMethod.Post, "Auth/GetUserByAccessToken");
+                requestMessage.Content = new StringContent(serializedRefreshRequest);
+
+                requestMessage.Content.Headers.ContentType
+                    = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+                var response = await _httpClient.SendAsync(requestMessage);
+
+                var responseStatusCode = response.StatusCode;
+                var responseBody = await response.Content.ReadAsStringAsync();
+
+                var returnedUser = JsonConvert.DeserializeObject<LoginDto>(responseBody);
+
+                return await Task.FromResult(returnedUser);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+      
         }
     }
 }
