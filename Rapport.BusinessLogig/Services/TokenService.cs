@@ -17,6 +17,10 @@ namespace Rapport.BusinessLogig.Services
         }
         public string CreateToken(AppUser user)
         {
+            string role = "User";
+
+            if (user.UserName == "lenesvit@gmail.dk")
+                role = "Admin";
 
             var claims = new List<Claim>
             {
