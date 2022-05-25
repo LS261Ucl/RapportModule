@@ -1,0 +1,25 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "Rapport.Api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/{everything}",
+      "UpstreamScheme": "http",
+      "UpstreamHttpMethod": [
+        "GET"
+      ],
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    "DownstreamPathTemplate"
+    :
+    "/api/{everything}",
+
+  ]
+
+}

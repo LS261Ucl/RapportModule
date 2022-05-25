@@ -15,7 +15,6 @@ using System.Text.Json.Serialization;
 
 
 
-
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 
@@ -47,22 +46,6 @@ builder.Services.AddDbContext<ReportDbContext>(options =>
 });
 
 
-
-// Adding Authentication
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey =
-                new SymmetricSecurityKey(System.Text.Encoding.UTF8
-                .GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value)),
-            ValidateIssuer = false,
-            ValidateAudience = false
-        };
-    });
-
 //Services
 builder.Services.AddScoped<ITemplateService, TemplateService>();
 builder.Services.AddScoped<ITemplateGroupService, TemplateGroupService>();
@@ -73,6 +56,9 @@ builder.Services.AddTransient<IMailService, MailService>();
 
 
 builder.Services.AddScoped<IReportElementService, ReportElementService>();
+
+
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 
 builder.Services.AddHttpClient();
