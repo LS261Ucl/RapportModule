@@ -1,4 +1,4 @@
-﻿@*@page "/"
+﻿@page "/"
 @using Rapport.Shared.Dto_er.User
 @using System.Security.Claims
 @inject Blazored.LocalStorage.ILocalStorageService localStorageService
@@ -16,7 +16,7 @@
         <br />
     </div>
     <div class="col-12 row">
-        <input class="form-control col-12" @bind="user.Username" placeholder="bruger navn" />
+        <input class="form-control col-12" @bind="user.Email" placeholder="bruger navn" />
     </div>
     <br />
     <div class="col-12 row">
@@ -38,4 +38,4 @@
 
    
 
-}*@
+}

@@ -42,6 +42,7 @@ builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IReportGroupService, ReportGroupService>();
 builder.Services.AddScoped<IReportElementService, ReportElementService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
 
 
 builder.Services.AddAuthorizationCore();
