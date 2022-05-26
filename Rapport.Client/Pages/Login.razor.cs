@@ -46,7 +46,7 @@ namespace Rapport.Client.Pages
 
             var returnedUser = await AuthService.Login(user);
 
-            if (returnedUser?.Email != null)
+            if (returnedUser?.Token != null)
             {
                 await ((CustomAuthStateProvider?)AuthenticationStateProvider)?.GetAuthenticationStateAsync();
                 NavigationManager.NavigateTo("/index");
