@@ -14,19 +14,19 @@ namespace Rapport.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthenticateController : ControllerBase
+    public class AuthController : ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<UserRoles> _roleManager;
-        private readonly ILogger<AuthenticateController> _logger;
+        private readonly ILogger<AuthController> _logger;
         private readonly TokenService _tokenService;
         private readonly IConfiguration _configuration;
 
-        public AuthenticateController(
+        public AuthController(
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
-            ILogger<AuthenticateController> logger,
+            ILogger<AuthController> logger,
             RoleManager<UserRoles> roleManager,
             IConfiguration configuration)
         {
@@ -37,8 +37,7 @@ namespace Rapport.Api.Controllers
             _configuration = configuration;
         }
 
-        [HttpPost]
-        [Route("login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto model)
         {
             try
@@ -82,8 +81,7 @@ namespace Rapport.Api.Controllers
 
         }
 
-        [HttpPost]
-        [Route("register")]
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto model)
         {
             try

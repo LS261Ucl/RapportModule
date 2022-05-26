@@ -20,7 +20,7 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddHttpClient("ReportUri", (sp, cl) =>
 {
-    cl.BaseAddress = new Uri("https://localhost:7109/api/");
+    cl.BaseAddress = new Uri("http://localhost:5002/api/");
 });
 
 builder.Services.AddBlazoredLocalStorage();
