@@ -1,108 +1,166 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Rapport.Api.Response;
 using Rapport.BusinessLogig.Services;
 using Rapport.Entites.Identity;
 using Rapport.Shared.Dto_er.Identity;
 using Rapport.Shared.Dto_er.User;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text;
 
 namespace Rapport.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthenticateController : ControllerBase
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
+        private readonly RoleManager<UserRoles> _roleManager;
+        private readonly ILogger<AuthenticateController> _logger;
         private readonly TokenService _tokenService;
-        private readonly ILogger<AuthController> _logger;
+        private readonly IConfiguration _configuration;
 
-        public AuthController(
-            SignInManager<IdentityUser> signInManager,  
-            UserManager<IdentityUser> userManager,
-            TokenService tokenService,
-            ILogger<AuthController> logger)
+        public AuthenticateController(
+            UserManager<AppUser> userManager,
+            SignInManager<AppUser> signInManager,
+            ILogger<AuthenticateController> logger,
+            RoleManager<UserRoles> roleManager,
+            IConfiguration configuration)
         {
-            _signInManager = signInManager;
             _userManager = userManager;
-            _tokenService = tokenService;
+            _signInManager = signInManager;
             _logger = logger;
+            _roleManager = roleManager;
+            _configuration = configuration;
         }
 
-        /// </remarks>
-        [AllowAnonymous]
-        [HttpPost("Login")]
-        public async Task<ActionResult<UserDto>> Login([FromBody] LoginDto loginDto)
+        [HttpPost]
+        [Route("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDto model)
         {
-            var user = await _userManager.FindByEmailAsync(loginDto.Email);
-
-            if (user == null)
+            try
             {
-                _logger.LogInformation("Bad email / password combination.");
-                return Unauthorized();
+                var user = await _userManager.FindByNameAsync(model.Email);
+
+                if (user == null) return NotFound();
+
+
+
+                var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
+
+                if (!result.Succeeded)
+                {
+                    _logger.LogInformation("Bad email / password combination.");
+                    return Unauthorized();
+                }
+
+
+                var authClaims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                };
+
+                var token = GetToken(authClaims);
+
+                return Ok(new
+                {
+                    token = new JwtSecurityTokenHandler().WriteToken(token),
+                    expiration = token.ValidTo
+                });
+
             }
-
-            var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
-
-            if (!result.Succeeded)
+            catch (Exception ex)
             {
-                _logger.LogInformation("Bad email / password combination.");
-                return Unauthorized();
+                throw new Exception(ex.Message);
             }
+          
+         
 
-            return Ok(new UserDto
-            {
-                Email = user.Email,
-                Token = _tokenService.CreateToken((AppUser)user)
-            });
         }
 
-        [Authorize(Policy = "IsAdmin")]
-        [HttpPost("Register")]
-        public async Task<ActionResult<UserDto>> Register([FromBody] RegisterDto registerDto)
+        [HttpPost]
+        [Route("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterDto model)
         {
-            if (await _userManager.Users.AnyAsync(x => x.UserName == registerDto.Email))
+            try
             {
-                _logger.LogInformation($"User with email: {registerDto.Email} already exists");
-                return BadRequest("User already exists");
+                var userExists = await _userManager.FindByEmailAsync(model.Email);
+                if (userExists != null)
+                    return StatusCode(StatusCodes.Status500InternalServerError, new RespnseMessages { Status = "Error", Message = "User already exists!" });
+
+                AppUser user = new()
+                {
+                    FullName = model.FullName,
+                    Email = model.Email,
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                    UserName = model.Email
+                };
+                var result = await _userManager.CreateAsync(user, model.Password);
+
+                if (result.Succeeded)
+                    return Ok(new RespnseMessages { Status = "Success", Message = "User created successfully!" });
+                else
+                    return Unauthorized(result);
             }
-
-            var user = new AppUser
+            catch(Exception ex)
             {
-                FullName = registerDto.FullName,
-                Email = registerDto.Email,
-                UserName = registerDto.Email
-            };
-
-            var result = await _userManager.CreateAsync(user, registerDto.Password);
-
-            if (!result.Succeeded)
-            {
-                _logger.LogInformation("Problem registering user");
-                return BadRequest("Problem registering user");
+                throw new Exception(ex.Message);
             }
+           
 
-            return Ok(new UserDto
-            {
-                Email = user.Email,
-                FullName = user.FullName,
-                Token = _tokenService.CreateToken(user)
-            });
         }
 
-        [HttpGet]
-        public async Task<ActionResult<UserDto>> GetCurrentUser()
-        {
-            var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+        [HttpPost]
+        //[Route("register-admin")]
+        //public async Task<IActionResult> RegisterAdmin([FromBody] RegisterDto model)
+        //{
+        //    var userExists = await _userManager.FindByNameAsync(model.Email);
+        //    if (userExists != null)
+        //        return StatusCode(StatusCodes.Status500InternalServerError, new RespnseMessages { Status = "Error", Message = "User already exists!" });
 
-            return Ok(new UserDto
-            {
-                Email = user.Email,
-                Token = _tokenService.CreateToken((AppUser)user)
-            });
+        //    AppUser user = new()
+        //    {
+        //        Email = model.Email,
+        //        SecurityStamp = Guid.NewGuid().ToString(),
+        //        UserName = model.Email
+        //    };
+        //    var result = await _userManager.CreateAsync(user, model.Password);
+        //    if (!result.Succeeded)
+        //        return StatusCode(StatusCodes.Status500InternalServerError, new RespnseMessages { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+
+        //    if (!await _roleManager.RoleExistsAsync(UserRoles))
+        //        await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+        //    if (!await _roleManager.RoleExistsAsync(UserRoles.User))
+        //        await _roleManager.CreateAsync(new IdentityRole(UserRoles.User));
+
+        //    if (await _roleManager.RoleExistsAsync(UserRoles.Admin))
+        //    {
+        //        await _userManager.AddToRoleAsync(user, UserRoles.Admin);
+        //    }
+        //    if (await _roleManager.RoleExistsAsync(UserRoles.Admin))
+        //    {
+        //        await _userManager.AddToRoleAsync(user, UserRoles.User);
+        //    }
+        //    return Ok(new RespnseMessages { Status = "Success", Message = "User created successfully!" });
+        //    }
+
+            private JwtSecurityToken GetToken(List<Claim> authClaims)
+        {
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+
+            var token = new JwtSecurityToken(
+                issuer: _configuration["JWT:ValidIssuer"],
+                audience: _configuration["JWT:ValidAudience"],
+                expires: DateTime.Now.AddHours(3),
+                claims: authClaims,
+                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+                );
+
+            return token;
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Rapport.BusinessLogig.Services
 {
-    public class TokenService
+    public  class TokenService
     {
         private readonly IConfiguration _configuration;
 
@@ -24,10 +24,12 @@ namespace Rapport.BusinessLogig.Services
 
             var claims = new List<Claim>
             {
-
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.GivenName, user.FullName),
                 new Claim(ClaimTypes.Email, user.Email),
-            
-        };
+                new Claim(ClaimTypes.Role, role)
+
+             };
 
             var key = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(_configuration.GetValue<string>("JwtSettings:Key")));
@@ -42,7 +44,7 @@ namespace Rapport.BusinessLogig.Services
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
-
+            
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
