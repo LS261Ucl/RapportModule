@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Rapport.Api.Services.SendEmail;
 using Rapport.BusinessLogig.Interfaces;
 using Rapport.BusinessLogig.Services;
 using Rapport.Data;
@@ -13,9 +12,7 @@ using Rapport.Entites.Identity;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using System.Text.Json.Serialization;
-
-
-
+using IMailService = Rapport.BusinessLogig.Interfaces.IMailService;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -69,19 +66,6 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// Adding Jwt Bearer
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//    .AddJwtBearer(options =>
-//    {
-//        options.TokenValidationParameters = new TokenValidationParameters
-//        {
-//            ValidateIssuerSigningKey = true,
-//            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
-//                .GetBytes(builder.Configuration.GetSection("AppSettings:JwtSettings").Value)),
-//            ValidateIssuer = false,
-//            ValidateAudience = false
-//        };
-//    });
 
 //Add authorization in swagger
 builder.Services.AddSwaggerGen(options => {
@@ -96,8 +80,8 @@ builder.Services.AddSwaggerGen(options => {
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 
-
-
+//SendEmail
+var apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
 
 //Services
 builder.Services.AddScoped<ITemplateService, TemplateService>();

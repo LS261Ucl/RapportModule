@@ -24,7 +24,7 @@ namespace Rapport.Client.Service
 
         public async Task<UserDto> Register(RegisterDto register)
         {
-            var wrapper = await _httpService.Post<RegisterDto, UserDto>($"auth/register", register);
+            var wrapper = await _httpService.Post<RegisterDto, UserDto>($"auth/registre", register);
             return wrapper.Response ?? throw new HttpRequestException(wrapper.HttpResponseMessage.ReasonPhrase);
         }
     }
