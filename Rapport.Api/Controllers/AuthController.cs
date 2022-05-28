@@ -110,7 +110,6 @@ namespace Rapport.Api.Controllers
                 if (result.Succeeded)
                 {
                     return Ok(new RespnseMessages { Status = "Success", Message = "User created successfully!" });
-                    _mailService.SendEmailAsync("lenesvit@gmail.com", "oprettet bruger", "Oprettelse af ny bruger i Rapport modulet");
                 }
                    
                 else

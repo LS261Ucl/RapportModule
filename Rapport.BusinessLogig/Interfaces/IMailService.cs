@@ -1,8 +1,9 @@
-﻿
+﻿using Rapport.Entites;
+
 namespace Rapport.BusinessLogig.Interfaces
 {
     public interface IMailService
     {
-        Task SendEmailAsync(string toEmail, string subject, string content);
+        void SendEmail(EmailDto request);
     }
 }

@@ -9,6 +9,7 @@ using Rapport.BusinessLogig.Interfaces;
 using Rapport.BusinessLogig.Services;
 using Rapport.Data;
 using Rapport.Entites.Identity;
+using SendGrid.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -81,6 +82,11 @@ builder.Services.AddSwaggerGen(options => {
 });
 
 //SendEmail
+builder.Services.AddSendGrid(Option =>
+{
+    Option.ApiKey = builder.Configuration.GetSection("SendGrindEmailSettings")
+    .GetValue<string>("ApiKey");
+});
 var apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
 
 //Services
@@ -89,7 +95,7 @@ builder.Services.AddScoped<ITemplateGroupService, TemplateGroupService>();
 builder.Services.AddScoped<ITemplateElementService, TemplateElementService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IReportGroupService, ReportGroupService>();
-builder.Services.AddTransient<IMailService, MailService>();
+builder.Services.AddTransient<IMailService, EmailService>();
 
 
 builder.Services.AddScoped<IReportElementService, ReportElementService>();
