@@ -62,6 +62,22 @@ namespace Rapport.Data
             return await _context.SaveChangesAsync() > 0;
         }
 
+        public async Task<List<T>> FindBySearchText(string searchText, Expression<Func<T, bool>>? criteria = null, Func<IQueryable<T>, IIncludableQueryable<T, object>>? includes = null)
+        {
+            IQueryable<T> query = _context.Set<T>().AsNoTracking();
+
+            if (criteria != null)
+            {
+                query = query.Where(criteria);
+            }//if
+
+            if (includes != null)
+            {
+                query = includes(query);
+            }//if
+
+            return await query.AsNoTracking().ToListAsync();
+        }
 
         public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? criteria = null, Func<IQueryable<T>, IIncludableQueryable<T, object>>? includes = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null)
         {

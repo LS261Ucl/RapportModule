@@ -123,6 +123,17 @@ namespace Rapport.Api.Controllers
            
 
         }
+        [HttpGet]
+        public async Task<ActionResult<UserDto>> GetCurrentUser()
+        {
+            var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+
+            return Ok(new UserDto
+            {
+                Email = user.Email,
+                FullName = user.FullName,
+            });
+        }
 
         private JwtSecurityToken GetToken(List<Claim> authClaims)
         {

@@ -3,8 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Rapport.BusinessLogig.Interfaces
 {
@@ -20,5 +19,6 @@ namespace Rapport.BusinessLogig.Interfaces
         Task<T> UpdateAsync(T entity);
     //   Task<string[]> UpdateConcurrentlyAsync(T entity);
         Task<bool> DeleteAsync(int id);
+
     }
 }

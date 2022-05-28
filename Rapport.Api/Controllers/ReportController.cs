@@ -47,26 +47,26 @@ namespace Rapport.Api.Controllers
             }//cathc
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ReportDto>> GetReportByIdAsync(int id)
-        {
-            try
-            {
-                var report = await _reportService.GetReportyId(id);
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<ReportDto>> GetReportByIdAsync(int id)
+        //{
+        //    try
+        //    {
+        //        var report = await _reportService.GetReportyId(id);
 
-                if (report == null)
-                {
-                    _logger.LogError($"Unable to find {nameof(Report)} whit this id: {id}");
-                    return NotFound();
-                }//if
+        //        if (report == null)
+        //        {
+        //            _logger.LogError($"Unable to find {nameof(Report)} whit this id: {id}");
+        //            return NotFound();
+        //        }//if
 
-                return Ok(_mapper.Map<ReportDto>(report));
-            }//try
-            catch (Exception ex)
-            {
-                throw new Exception("Error on Api", ex);
-            }//catch
-        }
+        //        return Ok(_mapper.Map<ReportDto>(report));
+        //    }//try
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("Error on Api", ex);
+        //    }//catch
+        //}
 
         [HttpGet("{id}/groups")]
         public async Task<ActionResult<ReportDto>> GetReportWhitChildrenAscyn(int id)
@@ -89,6 +89,26 @@ namespace Rapport.Api.Controllers
                 throw new Exception("Error on Api", ex);
             }//catch
 
+        }
+
+        [HttpGet("{search}")]
+        public async Task<ActionResult<List<SearchReportDto>>> GetReportFromSearchText(int id, string searchText)
+        {
+            try
+            {
+                var dbReport = await _reportService.SearchReportBySearchText(id,searchText);
+                if(dbReport == null)
+                {
+                    _logger.LogInformation($"No {nameof(Report)} was found");
+                    return NotFound();
+                }
+
+                return Ok(dbReport);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         [HttpPost("{id}")]

@@ -5,12 +5,14 @@ using Rapport.BusinessLogig.Interfaces;
 using Rapport.Entites;
 using Rapport.Shared.Dto_er.Report;
 
+
 namespace Rapport.BusinessLogig.Services
 {
     public class ReportService : IReportService
     {
         private readonly IGenericRepository<Report> _repository;
         private readonly IMapper _mapper;
+
 
         public ReportService(IGenericRepository<Report> repository, IMapper mapper)
         {
@@ -80,6 +82,7 @@ namespace Rapport.BusinessLogig.Services
 
         }
 
+ 
         public async Task<ReportDto> GetReportyId(int id)
         {
             try
@@ -92,6 +95,28 @@ namespace Rapport.BusinessLogig.Services
             {
                 throw new Exception("Error on Api", ex);
             }//catch
+        }
+
+        public async Task<ReportDto> SearchReportBySearchText(int id, string searchText)
+        {
+            try
+            {
+                var report = new ReportDto();
+                if(report.Id == id)
+                {
+                    await _repository.GetAsync(x => x.Equals(searchText));
+                }
+                if(report.Title == searchText)
+                {
+                    await _repository.GetAllAsync(x => x.Title == searchText);
+                }
+
+                return report;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<Report> UpdateReport(int id, ReportDto requestDto)
@@ -113,5 +138,7 @@ namespace Rapport.BusinessLogig.Services
                 throw new Exception("Error on Api", ex);
             }//catch
         }
+
+       
     }
 }
