@@ -50,10 +50,10 @@ namespace Rapport.Api.Controllers
         [Route("send-mail-with-file-attachement")]
         public async Task<IActionResult> SendEmailFileAttchement([FromForm] EmilFileAttachment emailFile)
         {
-            string fromEmail = _configuration.GetSection("SendGridEmailSettings")
+            string fromEmail = _configuration.GetSection("SendGrindEmailSettings")
             .GetValue<string>("FromEmail");
 
-            string fromName = _configuration.GetSection("SendGridEmailSettings")
+            string fromName = _configuration.GetSection("SendGrindEmailSettings")
             .GetValue<string>("FromName");
 
             var msg = new SendGridMessage()
@@ -77,5 +77,28 @@ namespace Rapport.Api.Controllers
             "Email Sending Failed";
             return Ok(message);
         }
+
+        //[HttpPost]
+        //[Route("send-html-mail")]
+        //public async Task<IActionResult> SendHtmlEmail(FinalReport finalReport)
+        //{
+        //    string fromEmail = _configuration.GetSection("SendGrindEmailSettings")
+        //    .GetValue<string>("FromEmail");
+
+        //    string fromName = _configuration.GetSection("SendGrindEmailSettings")
+        //    .GetValue<string>("FromName");
+
+        //    var msg = new SendGridMessage()
+        //    {
+        //        From = new EmailAddress(fromEmail, fromName),
+        //        Subject = "HTML Email",
+        //        HtmlContent = EmailHTMLTemplate(heroEmail)
+        //    };
+        //    msg.AddTo(heroEmail.ToEmail);
+        //    var response = await _sendGridClient.SendEmailAsync(msg);
+        //    string message = response.IsSuccessStatusCode ? "Email Send Successfully" :
+        //    "Email Sending Failed";
+        //    return Ok(message);
+        //}
     }
 }
