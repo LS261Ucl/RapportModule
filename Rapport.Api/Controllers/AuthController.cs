@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using Rapport.Api.Response;
-using Rapport.BusinessLogig.Interfaces;
-using Rapport.BusinessLogig.Services;
+using Rapport.Api.ResponseMessage;
 using Rapport.Entites.Identity;
 using Rapport.Shared.Dto_er.Identity;
 using Rapport.Shared.Dto_er.User;
@@ -19,7 +17,7 @@ namespace Rapport.Api.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
-        private readonly RoleManager<UserRoles> _roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<AuthController> _logger;
         private readonly IConfiguration _configuration;
 
@@ -28,7 +26,7 @@ namespace Rapport.Api.Controllers
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             ILogger<AuthController> logger,
-            RoleManager<UserRoles> roleManager,
+            RoleManager<IdentityRole> roleManager,
      
             IConfiguration configuration)
         {
@@ -107,6 +105,24 @@ namespace Rapport.Api.Controllers
 
                 if (result.Succeeded)
                 {
+                    if (result.Succeeded)
+                    {
+
+                        if (!await _roleManager.RoleExistsAsync(user.Admin))
+                            await _roleManager.CreateAsync(new IdentityRole(user.Admin));
+                        if (!await _roleManager.RoleExistsAsync(user.User))
+                            await _roleManager.CreateAsync(new IdentityRole(user.User));
+
+                        if (await _roleManager.RoleExistsAsync(user.Admin))
+                        {
+                            await _userManager.AddToRoleAsync(user, "Admin");
+                        }
+                        if (await _roleManager.RoleExistsAsync(user.User))
+                        {
+                            await _userManager.AddToRoleAsync(user, "User");
+                        }
+                        return Ok(new RespnseMessages { Status = "Success", Message = "User created successfully!" });
+                    }
                     return Ok(new RespnseMessages { Status = "Success", Message = "User created successfully!" });
                 }
                    

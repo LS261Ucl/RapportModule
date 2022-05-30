@@ -32,7 +32,7 @@ namespace Rapport.Client.Shared
         {
             await LocalStorage.RemoveItemAsync("authToken");
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            NavigationManager.NavigateTo("");
+            NavigationManager.NavigateTo("/");
         }
     }
 }

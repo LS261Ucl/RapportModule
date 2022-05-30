@@ -5,13 +5,15 @@
 @inject Blazored.LocalStorage.ILocalStorageService localStorageService
 @inject IAuthService authService
 @inject IJSRuntime jsRunTime
+@attribute [AllowAnonymous]
+
 
 <EditForm Model="@user" OnValidSubmit="@ValidateUser">
     <div>
         <br /><br /><br /><br /><br />
     </div>
     <div>
-        <h3 style="font-weight:bold; color:purple">Rapport Login</h3>
+        <h3 style="font-weight:bold; color:cadetblue">Rapport Login</h3>
     </div>
     <div>
         <br />
@@ -27,7 +29,6 @@
     <div class="col-12 row">
         <span class="col-12"></span>
         <input type="submit" class="form-control col-6 btn btn-primary" value="Login" />
-        <a href="/registre" class="col-3">Registre bruger</a>
     </div>
     <br />
     <div class="col-12 row" style="text-align:left; font-weight:bold">

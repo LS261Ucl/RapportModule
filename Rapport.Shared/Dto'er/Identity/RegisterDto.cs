@@ -11,7 +11,9 @@ namespace Rapport.Shared.Dto_er.User
         [EmailAddress]
         [Required(ErrorMessage = "Husk Email")]
         public string? Email { get; set; }
-
+        
+        [Required(ErrorMessage = "Husk at registre role")]
+        public string? Role { get; set; }
         
         [Required (ErrorMessage = "Husk Password")]
         public string? Password { get; set; }

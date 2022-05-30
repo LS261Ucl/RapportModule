@@ -2,12 +2,14 @@
 @using Rapport.Shared.Dto_er.User
 @inject IAuthService AuthService
 
+@attribute [Authorize(Roles = "admin")]
+
  <EditForm Model="@user" OnValidSubmit="@RegisterUser">
         <div>
             <br /><br /><br /><br /><br />
         </div>
         <div>
-            <h3 style="font-weight:bold; color:purple">Opret bruger</h3>
+            <h3 style="font-weight:bold; color:cadetblue">Opret bruger</h3>
         </div>
         <div>
             <br />
@@ -36,6 +38,9 @@
             <span class="col-12">@LoginMesssage</span>
         </div>
     </EditForm>
+
+   
+
 @code {
     RegisterDto user = new();
 

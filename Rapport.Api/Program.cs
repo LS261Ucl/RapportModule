@@ -38,7 +38,7 @@ builder.Services.AddControllers().AddJsonOptions(opt => opt.JsonSerializerOption
 builder.Services.AddEndpointsApiExplorer();
 
 // For Identity
-builder.Services.AddIdentity<AppUser, UserRoles>()
+builder.Services.AddIdentity<AppUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 

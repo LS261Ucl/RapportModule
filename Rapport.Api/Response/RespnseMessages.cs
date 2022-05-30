@@ -1,4 +1,4 @@
-﻿namespace Rapport.Api.Response
+﻿namespace Rapport.Api.ResponseMessage
 {
     public class RespnseMessages
     {
