@@ -13,7 +13,6 @@ using SendGrid.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using System.Text.Json.Serialization;
-using IMailService = Rapport.BusinessLogig.Interfaces.IMailService;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -30,8 +29,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection"));
 
 });
-//builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = false)
-//             .AddEntityFrameworkStores<ApplicationDbContext>();
 
 //Add services to the container.
 
@@ -95,9 +92,6 @@ builder.Services.AddScoped<ITemplateGroupService, TemplateGroupService>();
 builder.Services.AddScoped<ITemplateElementService, TemplateElementService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IReportGroupService, ReportGroupService>();
-builder.Services.AddTransient<IMailService, EmailService>();
-
-
 builder.Services.AddScoped<IReportElementService, ReportElementService>();
 
 

@@ -22,7 +22,6 @@ namespace Rapport.Api.Controllers
         private readonly RoleManager<UserRoles> _roleManager;
         private readonly ILogger<AuthController> _logger;
         private readonly IConfiguration _configuration;
-        private readonly IMailService _mailService;
 
 
         public AuthController(
@@ -30,7 +29,7 @@ namespace Rapport.Api.Controllers
             SignInManager<AppUser> signInManager,
             ILogger<AuthController> logger,
             RoleManager<UserRoles> roleManager,
-            IMailService mailService,
+     
             IConfiguration configuration)
         {
             
@@ -38,7 +37,6 @@ namespace Rapport.Api.Controllers
             _signInManager = signInManager;
             _logger = logger;
             _roleManager = roleManager;
-            _mailService = mailService;
             _configuration = configuration;
         }
 

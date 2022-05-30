@@ -41,23 +41,23 @@
             <InputText id="imageUrl" @bind-Value="reportDto.ImageUrl" class="form-control"></InputText>
             
         </div>
-@*              <div class="mb-0" style="display: flex; flex-wrap: wrap; flex-direction: row; justify-content: center;">
-            @if (!string.IsNullOrEmpty(product.ImageUrl))
+              <div class="mb-0" style="display: flex; flex-wrap: wrap; flex-direction: row; justify-content: center;">
+            @if (!string.IsNullOrEmpty(@reportDto.ImageUrl))
             {
-                <img src="@product.ImageUrl" />
+                <img src="@reportDto.ImageUrl" />
             }
             else
             {
-                foreach (var image in product.Images)
+                foreach (var image in reportDto.Images)
                 {
-                  <img src="@image.img" />
+                  <img src="@image.Img" />
                 }
             }
-        </div>*@
+        </div>
 @*        <div class="mb-0">
             <label for="images">Image(s)</label>
             <InputFile id="images" OnChange="OnFileChange" multiple class="form-control"></InputFile>
-        </div> *@  
+        </div>  *@ 
     </div>
 </div>
     <ValidationSummary/>
