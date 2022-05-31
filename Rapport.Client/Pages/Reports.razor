@@ -10,22 +10,22 @@
             <div class="row">
                 <table>
                     <thead>
-                        <tr>
-                            <th class="col-2 top-row">Id</th>
-                            <th class="col-md-4 top-row">Titel</th>
-                            <th class="col-md-4 top-row">Dato</th>
+                        <tr class="col-md-12 row justify-content-center">
+                            <th class="col-2">Id</th>
+                            <th class="col-md-4">Titel</th>
+                            <th class="col-md-4">Dato</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var report in reportList)
                         {
-                            <tr>
+                            <tr class="col-md-12 row justify-content-center">
                              
                                 <td> 
-                                    <div class="col-md-4 btn btn-primary" @onclick="(() => HandleValidSubmit(report.Id))"> @(report?.Id)</div>
+                                    <div class="col-sm-2 btn btn-primary" @onclick="(() => HandleValidSubmit(report.Id))"> @(report?.Id)</div>
                                 </td>
-                                <td class="col-md-4">@(report.Title ?? "")</td>
-                                <td class="col-md-4">@(report.Date)</td>
+                                <td class="col-4">@(report.Title ?? "")</td>
+                                <td class="col-4">@(report.Date)</td>
                               
                             </tr>
                         }

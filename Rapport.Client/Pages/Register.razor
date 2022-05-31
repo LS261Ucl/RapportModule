@@ -1,8 +1,5 @@
-﻿@page "/registre"
-@using Rapport.Shared.Dto_er.User
+﻿@using Rapport.Shared.Dto_er.User
 @inject IAuthService AuthService
-
-@attribute [Authorize(Roles = "admin")]
 
  <EditForm Model="@user" OnValidSubmit="@RegisterUser">
         <div>
@@ -19,6 +16,10 @@
         </div>
         <div class="col-12 row">
             <input class="form-control col-12" @bind-value="user.Email" placeholder="Email address" />
+        </div>
+        <br />
+             <div class="col-12 row">
+            <input class="form-control col-12" @bind="user.Role" placeholder="Bruger role" />
         </div>
         <br />
         <div class="col-12 row">

@@ -4,7 +4,7 @@
 <EditForm Model="@reportDto" OnValidSubmit="@OnInitializedAsync">
     <DataAnnotationsValidator/>
     <div class="container">
-   <div class="d-lg-grid welcome-text list-unstyled text-black">
+   <div class="d-lg-grid welcome-text text-black">
        <label>@reportDto?.Title</label>
    </div>
       <div>
@@ -14,11 +14,12 @@
         <InputTextArea @bind-Value="@reportDto.Remarks" DisplayName="Bemærkinger til personale!">@reportDto.Remarks</InputTextArea>
     </div>
     <div class="row col-md-12">
+      
         @if(reportDto.ReportGroups != null)
         {
             @foreach(var group in reportDto.ReportGroups)
             {
-                    <label>@group.Titel</label>
+                    <label class="col-sm-4">@group.Titel</label>
                     @if(group.Elements != null)
                     {
                     @foreach(var element in group.Elements)

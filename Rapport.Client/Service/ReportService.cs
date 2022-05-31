@@ -1,5 +1,4 @@
-﻿using Rapport.Shared.Dto_er.Report;
-using Rapport.Shared.Dto_er.ReportGroup;
+﻿using Rapport.Shared.Dto_er.ReportGroup;
 
 namespace Rapport.Client.Service
 {
@@ -122,5 +121,16 @@ namespace Rapport.Client.Service
             }
         }
 
+        //public async Task<List<ReportDto>> SearchReports(string searchText)
+        //{
+        //    var report = new ReportDto();
+        //    if(searchText == report.Title)
+        //    {
+        //        var wrapper = await _httpServices.Get<List<ReportDto>>("report");
+        //        return wrapper.Response ?? throw new HttpRequestException(wrapper.HttpResponseMessage.ReasonPhrase);
+        //    }
+       
+            
+        //}
     }
 }

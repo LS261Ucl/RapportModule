@@ -38,7 +38,7 @@ namespace Rapport.Client.Shared
             }
             else if (searchText.Length > 1)
             {
-                
+              
             }
         }
     }
