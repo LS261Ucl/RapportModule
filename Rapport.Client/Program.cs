@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Rapport.Client;
 using Rapport.Client.Service;
+using MudBlazor.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -25,8 +26,9 @@ builder.Services.AddHttpClient("ReportUri", (sp, cl) =>
 
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddBlazoredModal();
+builder.Services.AddMudServices();
 
- 
+
 
 //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddScoped(
