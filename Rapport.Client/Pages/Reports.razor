@@ -1,36 +1,23 @@
 ﻿@page "/reports"
 
 
-
-        <div class="container">
-            <div class="row justify-content-center">
-                <h2 class="col-md-4">Rapporter</h2>
-            </div>
-
-            <div class="row">
-                <table>
-                    <thead>
-                        <tr class="col-md-12 row justify-content-center">
-                            <th class="col-2">Id</th>
-                            <th class="col-md-4">Titel</th>
-                            <th class="col-md-4">Dato</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var report in reportList)
-                        {
-                            <tr class="col-md-12 row justify-content-center">
-                             
-                                <td> 
-                                    <div class="col-sm-2 btn btn-primary" @onclick="(() => HandleValidSubmit(report.Id))"> @(report?.Id)</div>
-                                </td>
-                                <td class="col-4">@(report.Title ?? "")</td>
-                                <td class="col-4">@(report.Date)</td>
-                              
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
+<h3>Rapporter</h3>
+<MudTable Items="reportList" Hover="true" Striped="true" Dense="true" Class="mb-2">
+    <HeaderContent>
+        <MudTh>Id</MudTh>
+        <MudTh>Titel</MudTh>
+        <MudTh>Dato</MudTh>
+        <MudTh></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Id">@context.Id</MudTd>
+        <MudTd DataLabel="Titel">@context.Title</MudTd>
+        <MudTd DataLabel="Dato">@context.Date</MudTd>
+        <MudTd DataLabel="Edit">
+            <MudIconButton OnClick="(() => HandleValidSubmit(context.Id))"
+                           Icon="@Icons.Material.Filled.Edit"
+                           Color="Color.Primary"
+                           Variant="Variant.Filled"></MudIconButton>
+        </MudTd>
+    </RowTemplate>
+</MudTable>
