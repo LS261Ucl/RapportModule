@@ -1,5 +1,6 @@
 ﻿
-namespace Rapport.Entites
+namespace Rapport.Shared.Dto_er
+
 {
     public class EmailDto
     {

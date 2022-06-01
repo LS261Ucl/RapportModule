@@ -1,0 +1,16 @@
+﻿@page "/mail"
+
+<h3 class="align-content-center">Mail</h3>
+<MudCard>
+    <MudCardContent>
+        <MudTextField Label="Til" @bind-Value="EmailDto.To" For="(() => EmailDto.To)"></MudTextField>
+        <MudTextField Label="Omhandler" @bind-Value="EmailDto.Subject" For="(() => EmailDto.Subject)"></MudTextField>
+             <MudTextField Label="Omhandler" @bind-Value="EmailDto.Body" For="(() => EmailDto.Body)">
+              
+             </MudTextField>
+             <br /><br />
+             <MudButton Class="align-content-center" @onclick="(()=> SendMail(EmailDto.To, EmailDto.Subject, EmailDto.Body))"
+                 Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Send" Color="Color.Primary">Send</MudButton>
+    </MudCardContent>
+</MudCard>
+
