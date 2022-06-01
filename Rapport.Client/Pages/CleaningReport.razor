@@ -1,5 +1,34 @@
 ﻿@inherits ReportBase
-<h3>CleaningReport</h3>
+@page "/report/cleaning/{id:int}"
+
+<h3 class="justify-content-center">@reportDto.Title</h3>
+
+<EditForm Model="reportDto" OnValidSubmit="OnInitializedAsync">
+    <DataAnnotationsValidator/>
+    <MudCard>
+        <MudCardContent>
+            @if(reportDto.ReportGroups != null)
+            {
+                @foreach(var groups in reportDto.ReportGroups)
+                {
+                      <MudTextField Label="Titel" @bind-Value="groups.Titel" For="@(() => groups.Titel )"></MudTextField>
+                      @if(groups.Elements != null)
+                    {
+                        @foreach(var element in groups.Elements)
+                        {
+                             <MudTextField Label="Titel" @bind-Value="element.Titel" For="@(() => element.Titel )"></MudTextField>
+                             <MudTextField Label="Bemærkninger" @bind-Value="element.Remarks" For="(() => element.Remarks)"></MudTextField>
+                             <MudPicker Label="Godkendt/ej godtkendt" @bind-Text=@element.Options For="(()=> element.Options)"></MudPicker>
+                        }
+                    }
+                }
+            }
+
+          
+        </MudCardContent>
+    </MudCard>
+    <ValidationSummary/>
+</EditForm>
 
 
 @code {

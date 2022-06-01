@@ -36,7 +36,7 @@ namespace Rapport.Client.Shared
             }
             if(reportDto != null && reportDto.LayoutId == 2)
             {
-                NavigationManager.NavigateTo($"/report/cleaningreport/{reportDto.Id}");
+                NavigationManager.NavigateTo($"/report/cleaning/{reportDto.Id}");
             }
 
             ReportService.OnChange += StateHasChanged;

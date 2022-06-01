@@ -3,63 +3,34 @@
 
 <EditForm Model="@reportDto" OnValidSubmit="@OnInitializedAsync">
     <DataAnnotationsValidator/>
-    <div class="container">
-   <div class="d-lg-grid welcome-text text-black">
-       <label>@reportDto?.Title</label>
-   </div>
-      <div>
-            <br /><br />
-    </div>
-    <div class="form-control edit-input">
-        <InputTextArea @bind-Value="@reportDto.Remarks" DisplayName="Bemærkinger til personale!">@reportDto.Remarks</InputTextArea>
-    </div>
-    <div class="row col-md-12">
+    <MudCard>
+        <MudCardContent>
+            <MudInputLabel Class="justify-content-center">@reportDto.Title</MudInputLabel>
+            <MudGrid>
       
-        @if(reportDto.ReportGroups != null)
-        {
-            @foreach(var group in reportDto.ReportGroups)
+                            @if(reportDto.ReportGroups != null)
             {
-                    <label class="col-sm-4">@group.Titel</label>
-                    @if(group.Elements != null)
-                    {
-                    @foreach(var element in group.Elements)
-                    {
-                        <div >
-                            <label>@element.Titel</label>
-                            <InputNumber @bind-Value="@element.Numbers">@element.Numbers</InputNumber>
-                        </div>
-                    }
-                }
-            }
-        }
-        <div class="container">
-            <div class="row align-content-center">
-                <InputTextArea @bind-Value="@reportDto.Remarks" placeholder="Bemærkinger fra Personale"> @reportDto.Remarks</InputTextArea>
-            </div>
-        </div>
-        <div class="md-0">
-            <label for="imageUrl">Image Url</label>
-            <InputText id="imageUrl" @bind-Value="reportDto.ImageUrl" class="form-control"></InputText>
-            
-        </div>
-              <div class="mb-0" style="display: flex; flex-wrap: wrap; flex-direction: row; justify-content: center;">
-            @if (!string.IsNullOrEmpty(@reportDto.ImageUrl))
-            {
-                <img src="@reportDto.ImageUrl" />
-            }
-            else
-            {
-                foreach (var image in reportDto.Images)
+                @foreach(var groups in reportDto.ReportGroups)
                 {
-                  <img src="@image.Img" />
-                }
+                    <br /><br />
+                      <MudTextField Label="Titel" @bind-Value="groups.Titel" For="@(() => groups.Titel )"></MudTextField>
+                      <br /> <br />
+                      @if(groups.Elements != null)
+                        {
+                            @foreach(var element in groups.Elements)
+                            {<br />
+                                <Row>
+                                <MudTextField Label="Titel" @bind-Value="element.Titel" For="(() => element.Titel)"></MudTextField>
+                                <MudTextField Label="Bemærkninger" @bind-Value="element.Remarks" For="(() => element.Remarks)"></MudTextField>
+                                <MudNumericField Label="Antal" @bind-Value="element.Numbers" For="(() => element.Numbers)"></MudNumericField>
+                                </Row>
+                                
+                            }
+                        }
+                    }
             }
-        </div>
-@*        <div class="mb-0">
-            <label for="images">Image(s)</label>
-            <InputFile id="images" OnChange="OnFileChange" multiple class="form-control"></InputFile>
-        </div>  *@ 
-    </div>
-</div>
+            </MudGrid>          
+        </MudCardContent>
+    </MudCard>
     <ValidationSummary/>
 </EditForm>
