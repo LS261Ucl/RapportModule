@@ -3,163 +3,85 @@
 
    <EditForm Model="@TemplateDto" OnValidSubmit="@OnInitializedAsync">
        <DataAnnotationsValidator/>
-       <div class="col-md-12">
-           <label for="titel">Titel</label>
-           <InputText id="titel" @bind-Value="@TemplateDto.Title"  class="form-control"></InputText>
-       </div>
+       <MudGrid>
+           <MudContainer>
+               <MudTextField Label="Titel" @bind-Value="TemplateDto.Title" For="(() => TemplateDto.Title)"></MudTextField>
+               <MudNumericField Label="LayoutId" @bind-Value="TemplateDto.LayoutId" For="(() => TemplateDto.LayoutId)" HelperText="Minimum value is 1."></MudNumericField>
+               @if(TemplateDto.TemplateGroups != null)
+            {
+                @foreach(var groups in TemplateDto.TemplateGroups)
+                {
+                    <label> Grupper</label>
+                    <br />
+                    <MudTextField Label="Titel" @bind-Value="groups.Titel" For="(() => groups.Titel)"></MudTextField>
+                    <br />
+                    <br />
+                            <MudButton @onclick="(() => DeleteGroup(groups.Id))"
+                                Variant="Variant.Filled" 
+                                StartIcon="@Icons.Material.Filled.Delete"
+                                Color="Color.Error">Delete</MudButton>
+                                <br />
+
+                    @if(groups.Elements != null)
+                    {
+                        @foreach(var element in groups.Elements)
+                        {
+                            <br />
+                            <label>Elementer</label>
+                            <br />
+                            <MudTextField Label="Titel" @bind-Text="element.Titel" For="(() => element.Titel)"></MudTextField>
+                            <br />
+                            <MudTextField Label="Bemærkninger" @bind-Value="element.Description" For="(() => element.Description)"></MudTextField>
+                            <br />
+                            <MudButton @onclick="(() => DeleteField(element.Id))"
+                                Variant="Variant.Filled" 
+                                StartIcon="@Icons.Material.Filled.Delete"
+                                Color="Color.Error">Delete</MudButton>
+                                <br />
+                        
+                        <br />
+                            
+                            }
+                        <br />
+              <MudButton @onclick="(() => OnSubmit(groups.Id))">
+                            Opret ny Element
+                        </MudButton>
+                        
+                    }
+                    <br />
+                          
+                    <MudButton @onclick="(() => HandleValidSubmit())">
+                            Opret ny gruppe
+                        </MudButton>
+                         <br />
+            }
+            }
             <br />
-           <div class="container">
-            <div class="col-12 text-center align-content-center">
-                <button class="btn btn-primary" @onclick="(() => ValidSubmit(TemplateDto))">
-                    Opret Rapport
-                </button>
-            </div>
-        </div>
-       <div class="col-md-3">
-                <label for="layoutId">Layout Id</label>
-       <InputNumber id="layoutId" @bind-Value="TemplateDto.LayoutId" class="form-control"></InputNumber>
-       </div>
-            <div class="container">
-                <div >
-                    <table>
-                        <thead>
-                            <tr class="row align-items-lg-baseline">
-                                <MudBlazor.MudInputLabel>Gruppe</MudBlazor.MudInputLabel>
-                                <th class="col-md-2 top-row border text-dark">Id</th>
-                                <th class="col-md-4 top-row border text-dark">Titel</th>
-                                <th class="col-md-6 top-row border text-dark">Beskrivelse</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+         <MudButton Class="align-content-center" 
+         @onclick="(() => UpdateTemplate(TemplateDto.Id))"
+             Variant="Variant.Filled" 
+             StartIcon="@Icons.Material.Filled.Save" 
+             Color="Color.Info"  
+             Size="Size.Small">Save</MudButton>
+             <br /> <br /><br />
+              <MudButton 
+                  Class="align-content-center"
+                  @onclick="(() => ValidSubmit(TemplateDto))">
+                            Opret rapport
+                        </MudButton>
+                          <br /> <br /><br />
+             <label>Slet Skabelon</label>
+                         <MudButton 
+                             Class="align-content-end"
+                             @onclick="(() => DeleteTemplate(TemplateDto))"
+                            
+                                Variant="Variant.Filled" 
+                                StartIcon="@Icons.Material.Filled.Delete"
+                                Color="Color.Error">Delete</MudButton>
+        </MudContainer>
+           
+       </MudGrid>
+       
+    </EditForm>    
 
-                            @if (TemplateDto.TemplateGroups != null)
-                            {
-                           
-                                     @foreach (var group in TemplateDto.TemplateGroups)
-                                {
-                                    
-                                    <tr class="row align-content-lg-center">
-                                        <td class="col-md-2">
-                                            <label> @(group.Id)</label>
-                                        </td>
-                                        <td class=" col-md-4">
-                                           
-                                            <InputTextArea  type="text" class="form-control" placeholder="Titel" @bind-Value="group.Titel">@(group?.Titel ?? "")</InputTextArea>
-                                        </td>
-                                        <td class=" col-md-6">
-                                            <InputTextArea  type="text"
-                                                           class="form-control"
-                                                           placeholder="Beskrivelse"
-                                                           @bind-Value="@group.Description"
-                                                           rows="3">@(group.Description ?? "")</InputTextArea>
-                                        </td>                                                                                   
-                                        <td col-md-4>
-                                            <button class="btn btn-outline-danger"
-                                                    @onclick="(() => DeleteGroup(group.Id))">
-                                                Slet
-                                            </button>
-
-
-                                        </td>
-
-                                    </tr>
-                                    <tr class="container">
-
-                                        @if (group.Elements!= null)
-                                        {
-
-                                        <tr class="row align-items-lg-center">
-                                            <MudBlazor.MudInputLabel>Elementer</MudBlazor.MudInputLabel>
-                                            <th class="col-md-2 top-row border text-dark">Id</th>
-                                            <th class="col-md-4 top-row border text-dark">Titel</th>
-                                            <th class="col-md-6 top-row border text-dark">Beskrivelse</th>
-                                            <th class="col-md-3 top-row border text-dark"> DataType</th>
-                                        </tr>
-
-
-                                        @foreach (var elements in group.Elements)
-                                        {
-                                            <tr class="row">
-                                                <td class="col-md-2">
-                                                    <label> @(elements.Id)</label>
-                                                </td>
-                                                <td class="col-md-4">
-                                                    <InputText placeholder="Titel"
-                                                               @bind-Value="@elements.Titel">@(elements?.Titel ?? "")</InputText>
-                                                </td>
-                                                
-                                                
-                                              
-                                                <td class="col-md-6">
-                                                    <InputTextArea placeholder="Beskrivelse"
-                                                                   @bind-Value="@elements.Description">@(elements?.Description ?? "")</InputTextArea>
-                                                </td>
-                                                <td class="col-md-3">
-                                                    <InputSelect placeholder="Type" @bind-Value="@elements.Datatype">
-                                                        @foreach (DataTypeEnum datatype in Enum.GetValues(typeof(DataTypeEnum)))
-                                                                        {
-                                                            <option value="@((int) datatype)">@datatype</option>
-
-                                                                        }
-                                                    </InputSelect>
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-outline-danger"
-                                                            @onclick="(() => DeleteField(elements.Id))">
-                                                        Slet Element
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        }@* Forache fields *@
-                                           <tr class="container">
-                                            <td class="col-sm-6 text-right">
-                                                <div class="col-1"
-                                                        type="button"
-                                                        @onclick="(() => OnSubmit(group.Id))">
-                                                    Nyt felt
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    } @* if groups *@
-                                        </tr>
-                                     
-                                    }@* forache groups  *@
-                             
-                               
-
-                                }@* if template *@
-                        </tbody>
-
-                    </table>
-                    </div>
-                </div>
-                     
-    </EditForm>
-    <EditForm Model="TemplateDto">
-        <div class="container">
-            <div class="col-sm-6 text-right">
-                <div @onclick="@HandleValidSubmit" class="col-md-4">Opret gruppe</div>
-            </div>
-        </div>
-   </EditForm>
-       <EditForm Model="UpdateTemplate">
-        <br />
-        <div class="container">
-            <div class="col-12 text-right align-content-center">
-                <button class="btn btn-outline-primary" @onclick="(() => UpdateTemplate(Id))">
-                    Gem skabelon
-                </button>
-            </div>
-        </div>  
-    </EditForm>
-    <EditForm Model="TemplateDto">
-             <div class="container">
-                 <br /><br />
-            <div class="col-12 text-right align-content-lg-end">
-                <button class="btn btn-outline-danger" @onclick="(() => DeleteTemplate(TemplateDto))">
-                    Slet Skabelon
-                </button>
-            </div>
-        </div>
-    </EditForm>
 
