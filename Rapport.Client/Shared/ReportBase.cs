@@ -61,6 +61,11 @@ namespace Rapport.Client.Shared
             }
  
         }
+
+        public async Task SendMail()
+        {
+            NavigationManager.NavigateTo("/mail");
+        }
     }
 
 }

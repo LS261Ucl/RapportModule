@@ -5,8 +5,7 @@ namespace Rapport.Client.Interfaces
 {
     public interface IMailService
     {
-        Task<EmailDto> SendEmail(EmailDto emailDto);
-        Task SendEmailWhitFileAsync(EmilFileAttachment emilFile);
-        
+        Task<EmailDto> SendEmail( EmailDto emailDto);
+        Task SendEmailWhitFileAsync(EmilFileAttachment emilFile);        
     }
 }

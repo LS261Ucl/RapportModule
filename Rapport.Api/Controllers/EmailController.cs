@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Rapport.Entites;
+using Rapport.Shared.Dto_er;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
@@ -22,7 +23,7 @@ namespace Rapport.Api.Controllers
         }
 
         [HttpPost("sendtextmail")]
-        public async Task<IActionResult> SendPlaintextEmail(string toEmail)
+        public async Task<IActionResult> SendPlaintextEmail(string toEmail, EmailDto emailDto)
         {
             string fromEmail = _configuration.GetSection("SendGrindEmailSettings")
                 .GetValue<string>("FromEmail");
@@ -30,11 +31,14 @@ namespace Rapport.Api.Controllers
             string fromName = _configuration.GetSection("SendGrindEmailSettings")
                 .GetValue<string>("FromName");
 
+            toEmail = emailDto.To;
+
             var msg = new SendGridMessage()
             {
+                
                 From = new EmailAddress(fromEmail, fromName),
-                Subject = "Plain Text Email",
-                PlainTextContent = "Hello World"
+                Subject = emailDto.Subject,
+                PlainTextContent = emailDto.Body,
             };
 
             msg.AddTo(toEmail);

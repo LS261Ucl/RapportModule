@@ -29,7 +29,12 @@
                         }
                     }
             }
-            </MudGrid>          
+            </MudGrid>   
+            <MudButton 
+                @onclick="(() => SendMail())"
+                Variant="Variant.Filled" 
+                EndIcon="@Icons.Material.Filled.Send" 
+                Color="Color.Primary">Send</MudButton>
         </MudCardContent>
     </MudCard>
     <ValidationSummary/>

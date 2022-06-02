@@ -1,19 +1,15 @@
 ﻿using Rapport.Entites;
 using Rapport.Shared.Dto_er;
-using SendGrid;
-using SendGrid.Helpers.Mail;
 
 namespace Rapport.Client.Service
 {
     public class MailService : IMailService
     {
         private readonly IHttpService _httpServices;
-        private readonly IConfiguration _configuration;
 
-        public MailService(IHttpService httpService, IConfiguration configuration)
+        public MailService(IHttpService httpService)
         {
             _httpServices = httpService;
-            _configuration = configuration;
         }
 
         public async Task<EmailDto> SendEmail( EmailDto emailDto)

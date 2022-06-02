@@ -13,6 +13,9 @@ namespace Rapport.Client.Pages
         [Inject]
         private IMailService _mailService { get; set; }
 
+        [Inject]
+        private NavigationManager NavigationManager { get; set; }   
+
         private async Task SendMail(string toMail, string subject, string body)
         {
             
@@ -28,7 +31,7 @@ namespace Rapport.Client.Pages
             if( result != null)
             {
                 isSend = true;
-                message = "beskeden er sendt";
+                NavigationManager.NavigateTo("/index");
             }
             else
             {

@@ -93,6 +93,7 @@ builder.Services.AddScoped<ITemplateElementService, TemplateElementService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IReportGroupService, ReportGroupService>();
 builder.Services.AddScoped<IReportElementService, ReportElementService>();
+builder.Services.AddScoped<IMailService, MailService>();
 
 
 builder.Services.AddHttpClient();
