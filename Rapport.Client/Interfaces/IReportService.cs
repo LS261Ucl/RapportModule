@@ -1,4 +1,6 @@
-﻿using Rapport.Shared.Dto_er.ReportGroup;
+﻿using Rapport.Client.Features;
+using Rapport.Entites.RequestFeatures;
+using Rapport.Shared.Dto_er.ReportGroup;
 
 namespace Rapport.Client.Interfaces
 {
@@ -14,6 +16,6 @@ namespace Rapport.Client.Interfaces
         Task<ReportDto> UpdatedReport(int id, ReportDto requestDto);
         Task<bool> DeletedReport(int id);
         Task<ReportDto> GetReportWhitGroupsAndFields(int id);
-        //Task<ReportDto> SearchReports(string searchText);
+     
     }
 }

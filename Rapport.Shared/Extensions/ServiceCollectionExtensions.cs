@@ -1,7 +1,7 @@
 ﻿using Blazored.Modal.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Rapport.Shared.ServiceExtensions
+namespace Rapport.Shared.Extensions
 {
     public static class ServiceCollectionExtensions
     {

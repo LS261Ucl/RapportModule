@@ -18,7 +18,7 @@ namespace Rapport.Client.Service
 
         public async Task<UserDto> Login(LoginDto login)
         {
-            var wrapper = await _httpService.Post<LoginDto, UserDto>($"auth/login", login);
+            var wrapper = await _httpService.Post<LoginDto, UserDto>($"http://localhost:5002/api/auth/login", login);
             return wrapper.Response ?? throw new HttpRequestException(wrapper.HttpResponseMessage.ReasonPhrase);
         }
 

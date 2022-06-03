@@ -1,4 +1,9 @@
-﻿using Rapport.Shared.Dto_er.ReportGroup;
+﻿using Microsoft.AspNet.SignalR.Client.Http;
+using Microsoft.AspNetCore.WebUtilities;
+using Newtonsoft.Json;
+using Rapport.Client.Features;
+using Rapport.Entites.RequestFeatures;
+using Rapport.Shared.Dto_er.ReportGroup;
 
 namespace Rapport.Client.Service
 {
@@ -12,7 +17,7 @@ namespace Rapport.Client.Service
 
         public ReportService(IHttpService httpServices)
         {
-            _httpServices = httpServices;
+            _httpServices = httpServices; 
         }
 
         public async Task<ReportDto> CreateReport(int id, string templateTitel, int? layoutId, CreateReportDto requestDto)
@@ -120,17 +125,5 @@ namespace Rapport.Client.Service
                 throw new Exception($"Unable to get Report whit this id: {id}", ex);
             }
         }
-
-        //public async Task<List<ReportDto>> SearchReports(string searchText)
-        //{
-        //    var report = new ReportDto();
-        //    if(searchText == report.Title)
-        //    {
-        //        var wrapper = await _httpServices.Get<List<ReportDto>>("report");
-        //        return wrapper.Response ?? throw new HttpRequestException(wrapper.HttpResponseMessage.ReasonPhrase);
-        //    }
-       
-            
-        //}
     }
 }

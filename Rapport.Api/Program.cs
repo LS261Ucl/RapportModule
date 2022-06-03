@@ -104,9 +104,8 @@ builder.Services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>(
 //Automapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-//GenericRepository
+//Repository
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-
 
 
 
@@ -116,13 +115,25 @@ builder.Services.AddHttpContextAccessor();
 var devCorsPolicy = "devCorsPolicy";
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(devCorsPolicy, builder => {
+    options.AddPolicy(devCorsPolicy, builder =>
+    {
         //builder.WithOrigins("http://localhost:800").AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
         builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
         //builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost");
         //builder.SetIsOriginAllowed(origin => true);
+
     });
 });
+
+//builder.Services.AddCors(policy =>
+//{
+//    policy.AddPolicy("CorsPolicy", opt => opt
+//    .AllowAnyOrigin()
+//    .AllowAnyHeader()
+//    .AllowAnyMethod()
+//    .WithExposedHeaders("X-Pagination"));
+//});
+
 
 
 var app = builder.Build();

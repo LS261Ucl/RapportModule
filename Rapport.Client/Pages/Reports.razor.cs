@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Rapport.Entites.RequestFeatures;
 
 namespace Rapport.Client.Pages
 {
@@ -11,8 +12,6 @@ namespace Rapport.Client.Pages
 
         [Inject]
         private IReportService? _reportService { get; set; }
-
-
 
         [Inject]
         private NavigationManager NavigationManager { get; set; }
@@ -31,12 +30,6 @@ namespace Rapport.Client.Pages
         {
            
             NavigationManager.NavigateTo($"report/{id}");
-        }
-
-        private MudTable<TemplateDto> _table;
-        private void PageChanged(int i)
-        {
-            _table.NavigateTo(i - 1);
         }
     }
 }

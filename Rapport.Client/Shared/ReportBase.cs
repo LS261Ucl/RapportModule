@@ -66,6 +66,19 @@ namespace Rapport.Client.Shared
         {
             NavigationManager.NavigateTo("/mail");
         }
+
+        public async Task Save(int id)
+        {
+            try
+            {
+                await ReportService.UpdatedReport(reportDto.Id, reportDto);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 
 }
