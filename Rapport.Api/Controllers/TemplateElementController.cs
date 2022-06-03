@@ -13,8 +13,8 @@ namespace Rapport.Api.Controllers
     {
         private readonly IMapper _mapper;
         private readonly ILogger<TemplateElementController> _logger;
-        private readonly ITemplateElementService _templateElementService;   
-        public TemplateElementController( 
+        private readonly ITemplateElementService _templateElementService;
+        public TemplateElementController(
             ITemplateElementService templateElementService,
             IMapper mapper,
             ILogger<TemplateElementController> logger)
@@ -25,7 +25,7 @@ namespace Rapport.Api.Controllers
             _logger = logger;
         }
 
-    
+
 
         [HttpGet("{id}")]
         public async Task<ActionResult<TemplateElementDto>> GetTemplateElementById(int id)
@@ -34,7 +34,7 @@ namespace Rapport.Api.Controllers
             {
                 var element = await _templateElementService.GetTemplateElementById(id);
 
-                if(element == null)
+                if (element == null)
                 {
                     _logger.LogError($"Kunne ikke finde element {nameof(TemplateElement)} med følgende Id: {id}");
                     return NotFound();
@@ -57,7 +57,7 @@ namespace Rapport.Api.Controllers
             {
                 var created = await _templateElementService.CreateTemplateElement(requestDto);
 
-                if(created == null)
+                if (created == null)
                 {
                     _logger.LogError("Kunne ikke få lov til at oprette element");
                     return BadRequest();
@@ -96,12 +96,10 @@ namespace Rapport.Api.Controllers
             }//catch
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteTemplateElementAsync(int id)
         {
-
-
-            try
+           try
             {
                 await _templateElementService.DeleteTemplateElement(id);
 

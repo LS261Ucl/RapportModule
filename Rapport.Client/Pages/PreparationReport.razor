@@ -23,8 +23,9 @@
                                 <MudTextField Label="Titel" @bind-Value="element.Titel" For="(() => element.Titel)"></MudTextField>
                                 <MudTextField Label="Bemærkninger" @bind-Value="element.Remarks" For="(() => element.Remarks)"></MudTextField>
                                 <MudNumericField Label="Antal" @bind-Value="element.Numbers" For="(() => element.Numbers)"></MudNumericField>
+                               <br/>
                                 </Row>
-                                
+                       
                             }
                         }
                     }
@@ -35,6 +36,14 @@
                 Variant="Variant.Filled" 
                 EndIcon="@Icons.Material.Filled.Send" 
                 Color="Color.Primary">Send</MudButton>
+               <div class=" align-content-sm-center">
+                       <MudButton 
+                @onclick="(() => Save(reportDto.Id))"
+                Variant="Variant.Filled" 
+                EndIcon="@Icons.Material.Filled.Save" 
+                Color="Color.Primary">Gem</MudButton>
+               </div>
+             
         </MudCardContent>
     </MudCard>
     <ValidationSummary/>

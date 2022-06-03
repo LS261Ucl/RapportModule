@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Rapport.Entites;
+using Rapport.Shared.Dto_er.Image;
 using Rapport.Shared.Dto_er.Report;
 using Rapport.Shared.Dto_er.ReportElement;
 using Rapport.Shared.Dto_er.ReportGroup;
@@ -32,12 +33,15 @@ namespace Rapport.BusinessLogig.Mapping
             CreateMap<CreateTemplateElementDto, TemplateElement>();
           
 
-            CreateMap<TemplateDto, ReportDto>();
-            CreateMap<TemplateDto, CreateReportDto>();
+            CreateMap<Template, ReportDto>();
+            CreateMap<Template, CreateReportDto>();
 
             CreateMap<Report, ReportDto>();
             CreateMap<ReportDto, Report>();
+            CreateMap<Report, CreateReportDto>();
             CreateMap<CreateReportDto, Report>();
+
+            CreateMap<ReportDto, CreateReportDto>();
 
 
             CreateMap<TemplateGroup, ReportGroupDto>();
@@ -53,6 +57,10 @@ namespace Rapport.BusinessLogig.Mapping
             CreateMap<TemplateElementDto, ReportElementDto>();
             CreateMap<TemplateElementDto, CreateReportElementDto>();
 
+            CreateMap<ReportDto, ImageDto>();
+            CreateMap<ImageDto, ReportDto>();
+            CreateMap<Image, ImageDto>();
+            CreateMap<ImageDto, Image>();
         }
     }
 }

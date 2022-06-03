@@ -20,7 +20,7 @@ namespace Rapport.BusinessLogig.Services
             _mapper = mapper;
         }
 
-        public async Task<Report> CreateReport([FromBody] CreateReportDto requestDto)
+        public async Task<ReportDto> CreateReport([FromBody] CreateReportDto requestDto)
         {
             try
             {
@@ -30,7 +30,7 @@ namespace Rapport.BusinessLogig.Services
                 var dbResult = await _repository.CreateAsync(dbRequest);
 
 
-                return _mapper.Map<Report>(dbResult);
+                return _mapper.Map<ReportDto>(dbResult);
 
             }//try
             catch (Exception ex)
@@ -97,27 +97,6 @@ namespace Rapport.BusinessLogig.Services
             }//catch
         }
 
-        public async Task<ReportDto> SearchReportBySearchText(int id, string searchText)
-        {
-            try
-            {
-                var report = new ReportDto();
-                if(report.Id == id)
-                {
-                    await _repository.GetAsync(x => x.Equals(searchText));
-                }
-                if(report.Title == searchText)
-                {
-                    await _repository.GetAllAsync(x => x.Title == searchText);
-                }
-
-                return report;
-            }
-            catch(Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
 
         public async Task<Report> UpdateReport(int id, ReportDto requestDto)
         {

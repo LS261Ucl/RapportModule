@@ -20,7 +20,7 @@ namespace Rapport.Client.Service
         {
             try
             {
-                var wrapper = await _httpService.Post<CreateTemplateDto, TemplateDto>($"template", createTemplateDto);
+                var wrapper = await _httpService.Post<CreateTemplateDto, TemplateDto>($"http://localhost:5002/api/template", createTemplateDto);
 
                 return wrapper.Response ?? throw new HttpRequestException(wrapper.HttpResponseMessage.ReasonPhrase);
             }

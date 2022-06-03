@@ -5,9 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Rapport.BusinessLogig.Interfaces;
 using Rapport.Entites;
-using Rapport.Entites.RequestFeatures;
 using Rapport.Shared.Dto_er.Report;
-using Rapport.Shared.Paging;
 
 namespace Rapport.Api.Controllers
 {
@@ -75,18 +73,20 @@ namespace Rapport.Api.Controllers
 
         }
 
-        [HttpPost("{id}")]
-        public async Task<ActionResult<Report>> CreateReportAsync([FromBody] CreateReportDto requestDto)
+        [HttpPost]
+        public async Task<ActionResult<ReportDto>> CreateReportAsync([FromBody] CreateReportDto requestDto)
         {
             try
             {
                
-                var dbRequest = _mapper.Map<Report>(requestDto);
-
                 var dbResult = await _reportService.CreateReport(requestDto);
+                if (dbResult == null)
+                {
+                    _logger.LogInformation($"Kunne ikke oprette {nameof(Report)}");
+                    return BadRequest();
+                }//if
 
-
-                return Ok(_mapper.Map<Report>(dbResult));
+                return Ok(_mapper.Map<ReportDto>(dbResult));
 
             }//try
             catch (Exception ex)
@@ -97,7 +97,7 @@ namespace Rapport.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Report>> UpdateReportAsync(int id, ReportDto requestDto)
+        public async Task<ActionResult<ReportDto>> UpdateReportAsync(int id, ReportDto requestDto)
         {
             try
             {

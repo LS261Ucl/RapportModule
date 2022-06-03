@@ -91,7 +91,7 @@ namespace Rapport.Api.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<Template>> CreateTemplate([FromBody] CreateTemplateDto requestDto)
+        public async Task<ActionResult<TemplateDto>> CreateTemplate([FromBody] CreateTemplateDto requestDto)
         {
             try
             {
@@ -136,7 +136,7 @@ namespace Rapport.Api.Controllers
 
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteTemplateAsync(int id)
         {
 

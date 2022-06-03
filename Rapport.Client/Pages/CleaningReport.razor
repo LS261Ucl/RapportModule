@@ -24,18 +24,21 @@
                 }
             }
 
-           <MudButton 
+      
+<div class="align-content-center"> 
+      <MudButton 
+                @onclick="(() => Save(reportDto.Id))"
+                Variant="Variant.Filled" 
+                EndIcon="@Icons.Material.Filled.Save" 
+                Color="Color.Primary">Gem</MudButton>
+</div>
+     <MudButton 
                 @onclick="(() => SendMail())"
                 Variant="Variant.Filled" 
                 EndIcon="@Icons.Material.Filled.Send" 
                 Color="Color.Primary">Send</MudButton>
         </MudCardContent>
-        <MudButton
-            @onclick="(() => Save(reportDto.Id))">
-             Variant="Variant.Filled" 
-                EndIcon="@Icons.Material.Filled.Save" 
-                Color="Color.Primary">Gem</MudButton>
-    </MudCard>
+        </MudCard>
     <ValidationSummary/>
 </EditForm>
 

@@ -91,7 +91,7 @@ namespace Rapport.Client.Shared
         private async Task HandleValidSubmit()
         {
             //Call Api whit Create
-            var group = await GroupService.CreateTemplateGroup(Id, createGroupDto);
+            var group = await GroupService.CreateTemplateGroup(TemplateDto.Id, createGroupDto);
             NavigationManager.NavigateTo($"group/edit/{group.Id}");
         }
 
