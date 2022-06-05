@@ -7,7 +7,7 @@ namespace Rapport.Shared.Dto_er.Template
       
         public string? Title { get; set; }
 
-        [Required ]
+      
         public int? LayoutId { get; set; }
      
     }

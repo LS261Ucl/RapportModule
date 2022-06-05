@@ -11,7 +11,7 @@ namespace Rapport.Client.Service
         public List<TemplateDto> TemplateDtos { get; set; } = new List<TemplateDto>();
         // public List<TemplateGroupDto> GroupDtos { get; set; } = new List<TemplateGroupDto>();
 
-        public TemplateService(IHttpService httpService, HttpClient httpClient)
+        public TemplateService(IHttpService httpService)
         {
             _httpService = httpService;
         }
