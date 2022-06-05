@@ -3,16 +3,17 @@
 <div class="container">
     <EditForm Model="@Group" OnSubmit="OnInitializedAsync">
         <DataAnnotationsValidator/>
-        <label>Gruppe titel</label>
-        <div class="sign-validation">
-           <ValidationInput class="edit-input form-control"
-           placeholder ="Titel"
-           @bind-Value="@Group.Titel"
-           Error=@GetError(() => Group.Titel)>     
-           </ValidationInput>
-        </div>
-        <div>
-            <button class="edit-button" onclick="@Submit">Gem</button>
-        </div>
+  <MudTextField Label="Titel" @bind-Value="@Group.Titel" For="(() => Group.Titel)"></MudTextField>
+  <br /><br />
+     <MudButton 
+                @onclick="(() => Save())"
+                Variant="Variant.Filled" 
+                EndIcon="@Icons.Material.Filled.Save" 
+                Color="Color.Primary">Gem</MudButton>
+               <br /<br /><br />
+
     </EditForm>
+           <MudButton @onclick="(() => Backbutton(Template.Id))">
+        Tilbage
+       </MudButton>
 </div>

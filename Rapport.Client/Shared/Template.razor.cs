@@ -88,10 +88,10 @@ namespace Rapport.Client.Shared
 
         }
 
-        private async Task HandleValidSubmit()
+        private async Task HandleValidSubmit(int id)
         {
             //Call Api whit Create
-            var group = await GroupService.CreateTemplateGroup(TemplateDto.Id, createGroupDto);
+            var group = await GroupService.CreateTemplateGroup(id, createGroupDto);
             NavigationManager.NavigateTo($"group/edit/{group.Id}");
         }
 

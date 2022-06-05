@@ -43,11 +43,10 @@ namespace Rapport.Client.Pages
         {
             try
             {
+                Group = await GroupService.GetTemplateGroupById(Id);
 
-                Group = await GroupService.CreateTemplateGroup(Id, createTemplateGroup);
-
-                EditContext = new EditContext(Group);
-
+                GroupService.OnChange += StateHasChanged;
+ 
 
             }
             catch (Exception ex)
@@ -57,25 +56,14 @@ namespace Rapport.Client.Pages
 
         }
 
-        protected override async Task OnParametersSetAsync()
-        {
-            Group = await GroupService.CreateTemplateGroup(Id, createTemplateGroup);
-            GroupService.OnChange += StateHasChanged;
-        }
-
-        public async Task Submit()
+        public async Task Save()
         {
             try
             {
                 var group = await GroupService.GetTemplateGroupById(Id);
 
-                //group = new TemplateGroupDto
-                //{
-                //    TemplateId = Template?.Id;
-                //};
-
                 //Call Api whit Update
-                var dbGroup = await GroupService?.UpdatedTemplateGroup(Group.Id, Group);
+                var dbGroup = await GroupService?.UpdatedTemplateGroup(Id, Group);
               
 
             }
@@ -93,10 +81,10 @@ namespace Rapport.Client.Pages
         }
 
 
-        private void Backbutton(int Id)
+        private async Task Backbutton(int Id)
         {
-
-            NavigationManager.NavigateTo($"template/{Group.TemplateId}");
+            
+            NavigationManager.NavigateTo($"template/{Template.Id}");
         }
 
         public string GetError(Expression<Func<object>> fu)
