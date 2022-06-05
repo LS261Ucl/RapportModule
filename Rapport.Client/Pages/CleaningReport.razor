@@ -23,15 +23,44 @@
                     }
                 }
             }
-
+                  <div class="mb-0">
+            <label for="imageUrl">Image Url</label>
+            <InputText id="imageUrl" @bind-Value="reportDto.ImageUrl" class="form-control"></InputText>
+        </div>        <div class="mb-0" style="display: flex; flex-wrap: wrap; flex-direction: row; justify-content: center;">
+            @if (!string.IsNullOrEmpty(reportDto.ImageUrl))
+            {
+                <img src="@reportDto.ImageUrl" />
+            }
+            else
+            {
+                foreach (var image in reportDto.Images)
+                {
+                    <MudCard Class="ma-2">
+                        <MudCardContent>
+                            <MudImage Src="@image.Img" />
+                        </MudCardContent>
+                        <MudCardActions Style="justify-content: center;">
+                            <MudButton Variant="Variant.Filled"
+                           Color="Color.Error"
+                           OnClick="@(() => RemoveImage(image.Id))">
+                                Remove
+                            </MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                }
+            }
+        </div>
       
 <div class="align-content-center"> 
+    <br />
       <MudButton 
                 @onclick="(() => Save(reportDto.Id))"
                 Variant="Variant.Filled" 
                 EndIcon="@Icons.Material.Filled.Save" 
                 Color="Color.Primary">Gem</MudButton>
 </div>
+
+<br /><br />
      <MudButton 
                 @onclick="(() => SendMail())"
                 Variant="Variant.Filled" 
