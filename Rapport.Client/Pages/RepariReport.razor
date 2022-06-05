@@ -1,0 +1,74 @@
+﻿@inherits ReportBase
+@page "/report/repari/{id:int}"
+
+<h3 class="justify-content-center">@reportDto.Title</h3>
+
+<EditForm Model="reportDto" OnValidSubmit="OnInitializedAsync">
+    <DataAnnotationsValidator/>
+    <MudCard>
+        <MudCardContent>
+            @if(reportDto.ReportGroups != null)
+            {
+                @foreach(var groups in reportDto.ReportGroups)
+                {
+                      <MudTextField Label="Titel" @bind-Value="groups.Titel" For="@(() => groups.Titel )"></MudTextField>
+                      @if(groups.Elements != null)
+                    {
+                        @foreach(var element in groups.Elements)
+                        {
+                           
+                             <MudTextField Label="Bemærkninger" @bind-Value="element.Remarks" For="(() => element.Remarks)"></MudTextField>
+
+                        }
+                    }
+                }
+            }
+                  <div class="mb-0">
+            <label for="imageUrl">Image Url</label>
+            <InputText id="imageUrl" @bind-Value="reportDto.ImageUrl" class="form-control"></InputText>
+        </div>        <div class="mb-0" style="display: flex; flex-wrap: wrap; flex-direction: row; justify-content: center;">
+            @if (!string.IsNullOrEmpty(reportDto.ImageUrl))
+            {
+                <img src="@reportDto.ImageUrl" />
+            }
+            else
+            {
+                foreach (var image in reportDto.Images)
+                {
+                    <MudCard Class="ma-2">
+                        <MudCardContent>
+                            <MudImage Src="@image.Img" />
+                        </MudCardContent>
+                        <MudCardActions Style="justify-content: center;">
+                            <MudButton Variant="Variant.Filled"
+                           Color="Color.Error"
+                           OnClick="@(() => RemoveImage(image.Id))">
+                                Remove
+                            </MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                }
+            }
+        </div>
+        <div class="mb-0">
+            <label for="images">Image(s)</label>
+            <InputFile id="images" OnChange="OnFileChange" multiple class="form-control"></InputFile>
+        </div>
+
+      
+<div class="align-content-center"> 
+      <MudButton 
+                @onclick="(() => Save(reportDto.Id))"
+                Variant="Variant.Filled" 
+                EndIcon="@Icons.Material.Filled.Save" 
+                Color="Color.Primary">Gem</MudButton>
+</div>
+     <MudButton 
+                @onclick="(() => SendMail())"
+                Variant="Variant.Filled" 
+                EndIcon="@Icons.Material.Filled.Send" 
+                Color="Color.Primary">Send</MudButton>
+        </MudCardContent>
+        </MudCard>
+    <ValidationSummary/>
+    </EditForm>

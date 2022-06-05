@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Rapport.Shared.Dto_er.Image;
-using Rapport.Shared.Dto_er.ReportElement;
 
 namespace Rapport.Client.Shared
 {
@@ -20,7 +19,6 @@ namespace Rapport.Client.Shared
         public ReportDto reportDto { get; set; } = new();
 
 
-        private ReportElementDto ElementDto { get; set; } = new();
 
         public override Task SetParametersAsync(ParameterView parameters)
         {
@@ -38,6 +36,10 @@ namespace Rapport.Client.Shared
             {
                 NavigationManager.NavigateTo($"/report/cleaning/{reportDto.Id}");
             }
+            if(reportDto != null && reportDto.LayoutId == 3)
+            {
+                NavigationManager.NavigateTo($"/report/repair/{reportDto.Id}");
+            }
 
             ReportService.OnChange += StateHasChanged;
         }
@@ -48,7 +50,7 @@ namespace Rapport.Client.Shared
             ReportService.OnChange += StateHasChanged;
         }
 
-        private async Task OnFileChange(InputFileChangeEventArgs e)
+        public async Task OnFileChange(InputFileChangeEventArgs e)
         {
             var format = "image/png";
             foreach (var image in e.GetMultipleFiles(int.MaxValue))
@@ -60,6 +62,15 @@ namespace Rapport.Client.Shared
                 reportDto.Images.Add(new ImageDto { Img = imageDate});
             }
  
+        }
+
+       public void RemoveImage(int id)
+        {
+            var image = reportDto.Images.FirstOrDefault(i => i.Id == id);
+            if (image != null)
+            {
+                reportDto.Images.Remove(image);
+            }
         }
 
         public async Task SendMail()
@@ -78,6 +89,8 @@ namespace Rapport.Client.Shared
                 throw new Exception(ex.Message);
             }
         }
+
+
 
     }
 
