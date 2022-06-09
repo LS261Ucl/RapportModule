@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using MudBlazor;
-using Rapport.Entites.RequestFeatures;
 
 namespace Rapport.Client.Pages
 {
@@ -9,6 +7,8 @@ namespace Rapport.Client.Pages
         public  List<ReportDto>? reportList = new List<ReportDto>();
 
         public ReportDto ReportDto { get; set; } = new ReportDto();
+
+        public bool isLoading = true;
 
         [Inject]
         private IReportService? _reportService { get; set; }
@@ -21,8 +21,11 @@ namespace Rapport.Client.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            isLoading = true;
             reportList = await _reportService.GetReports();
-            _reportService.OnChange += StateHasChanged; 
+            _reportService.OnChange += StateHasChanged;
+
+            isLoading = false;
            
         }
 
@@ -31,5 +34,7 @@ namespace Rapport.Client.Pages
            
             NavigationManager.NavigateTo($"report/{id}");
         }
+
+      
     }
 }

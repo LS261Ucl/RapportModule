@@ -1,6 +1,4 @@
-﻿using Rapport.Client.Features;
-using Rapport.Entites.RequestFeatures;
-using Rapport.Shared.Dto_er.ReportGroup;
+﻿using Rapport.Shared.Dto_er.ReportGroup;
 
 namespace Rapport.Client.Interfaces
 {

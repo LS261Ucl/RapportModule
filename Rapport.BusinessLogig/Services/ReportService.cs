@@ -56,7 +56,9 @@ namespace Rapport.BusinessLogig.Services
         {
             try
             {
-                var dbReport = await _repository.GetAsync(x => x.Id == id, x => x.Include(r => r.ReportGroups).ThenInclude(g => g.Elements));
+                var dbReport = await _repository.GetAsync(x => x.Id == id, 
+                    x => x.Include(r => r.ReportGroups)
+                    .ThenInclude(g => g.Elements));
 
                 return _mapper.Map<ReportDto>(dbReport);
 

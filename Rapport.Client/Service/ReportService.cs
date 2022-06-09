@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNet.SignalR.Client.Http;
-using Microsoft.AspNetCore.WebUtilities;
-using Newtonsoft.Json;
-using Rapport.Client.Features;
-using Rapport.Entites.RequestFeatures;
-using Rapport.Shared.Dto_er.ReportGroup;
+﻿using Rapport.Shared.Dto_er.ReportGroup;
 
 namespace Rapport.Client.Service
 {

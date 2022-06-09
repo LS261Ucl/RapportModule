@@ -1,7 +1,8 @@
 ﻿@page "/reports"
 
-
 <h3>Rapporter</h3>
+<SpinLoader IsLoading="isLoading" Spinner="SpinnerType.Chase">
+    <ContentTemplate>
 <MudTable Items="reportList" Hover="true" Striped="true" Dense="true" Class="mb-2">
     <HeaderContent>
         <MudTh>Id</MudTh>
@@ -21,3 +22,6 @@
         </MudTd>
     </RowTemplate>
 </MudTable>
+    </ContentTemplate>
+</SpinLoader>
+

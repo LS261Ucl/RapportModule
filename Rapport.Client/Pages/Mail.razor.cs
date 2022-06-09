@@ -39,10 +39,5 @@ namespace Rapport.Client.Pages
             }
 
         }
-
-
-
-
-
     }
 }

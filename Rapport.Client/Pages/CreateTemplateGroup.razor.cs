@@ -26,18 +26,12 @@ namespace Rapport.Client.Pages
         [CascadingParameter]
         private BlazoredModal Modal { get; set; }
 
-        [CascadingParameter]
-        private ModalParameters Parameters { get; set; }
-
-        private bool ShowForm { get; set; }
-
         protected EditContext EditContext { get; set; }
 
         private readonly TemplateDto? Template = new();
         private TemplateGroupDto Group = new();
         public List<TemplateGroupDto> Groups = new();
         public List<TemplateDto> Templates = new();
-        private readonly CreateTemplateGroupDto createTemplateGroup = new CreateTemplateGroupDto();
 
         protected override async Task OnInitializedAsync()
         {

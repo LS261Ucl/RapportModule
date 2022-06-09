@@ -1,9 +1,14 @@
 ﻿@page "/report/{id:int}"
 @inherits ReportBase
 
-<EditForm Model="reportDto" OnValidSubmit="@OnInitializedAsync">
+<SpinLoader IsLoading="isLoading" Spinner="SpinnerType.Chase">
+    <ContentTemplate>
+        <EditForm Model="reportDto" OnValidSubmit="@OnInitializedAsync">
 
 </EditForm>
+    </ContentTemplate>
+</SpinLoader>
+
     
 
 
