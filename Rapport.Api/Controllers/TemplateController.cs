@@ -25,6 +25,7 @@ namespace Rapport.Api.Controllers
             _mapper = mapper;
         }
 
+        //[Authorize(Policy ="Admin")]
         [HttpGet]
         public async Task<ActionResult<List<TemplateDto>>> GetTemplatesAsync()
         {

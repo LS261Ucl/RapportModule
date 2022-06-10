@@ -54,20 +54,6 @@ namespace UnitTest.MoqTest
             Assert.Equal(result.StatusCode, StatusCodes.Status404NotFound);
         }
 
-        //[Fact]
-        //public async Task Create_WhenTemplateIsCreated_ShouldReturnCategory()
-        //{
-        //    var templateName = "Test";
-
-        //    var requestDto = new CreateTemplateDto
-        //    {
-        //        Title = templateName,
-
-        //    };
-
-        //    _templateService.Setup(x => x.CreateTemplate(createTemplateDto).
-        //         .ReturnsAsync(() => true);
-
-        //}
+      
     }
 }

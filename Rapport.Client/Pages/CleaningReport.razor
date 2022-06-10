@@ -1,7 +1,9 @@
 ﻿@inherits ReportBase
 @page "/report/cleaning/{id:int}"
 
+
 <h3 class="justify-content-center">@reportDto.Title</h3>
+<Pdf></Pdf>
 
 <EditForm Model="reportDto" OnValidSubmit="OnInitializedAsync">
     <DataAnnotationsValidator/>
@@ -67,12 +69,12 @@
                 EndIcon="@Icons.Material.Filled.Send" 
                 Color="Color.Primary">Send</MudButton>
                 <br />
+                
 
-                <Button class="btn btn-outline-primary" @onclick="@ExportToPdf">Pdf
-                </Button>
         </MudCardContent>
         </MudCard>
     <ValidationSummary/>
 </EditForm>
+
 
 

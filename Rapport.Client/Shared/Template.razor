@@ -1,7 +1,8 @@
 ﻿@page "/template/{id:int}"
 
-
-   <EditForm Model="@TemplateDto" OnValidSubmit="@OnInitializedAsync">
+<SpinLoader IsLoading="isLoading" Spinner="SpinnerType.Chase">
+    <ContentTemplate>
+         <EditForm Model="@TemplateDto" OnValidSubmit="@OnInitializedAsync">
        <DataAnnotationsValidator/>
        <MudGrid>
            <MudContainer>
@@ -84,5 +85,8 @@
        </MudGrid>
        
     </EditForm>    
+    </ContentTemplate>
+</SpinLoader>
+  
 
 

@@ -1,5 +1,6 @@
 global using Rapport.Client.Helpers;
 global using Rapport.Client.Interfaces;
+global using Rapport.Client.Extensions;
 global using Rapport.Shared.Dto_er.Template;
 global using Rapport.Shared.Dto_er.Report;
 global using Blazored.Modal;

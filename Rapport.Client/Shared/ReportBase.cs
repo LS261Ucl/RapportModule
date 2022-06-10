@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using Rapport.Client.Extensions;
-using Rapport.Client.Service;
+using Microsoft.JSInterop;
 using Rapport.Shared.Dto_er.Image;
-using System.IO;
+using Rapport.Client.Extensions;
+using Syncfusion.Drawing;
+using Syncfusion.Pdf;
+using Syncfusion.Pdf.Graphics;
+using Syncfusion.Pdf.Grid;
 
 namespace Rapport.Client.Shared
 {
@@ -16,17 +19,16 @@ namespace Rapport.Client.Shared
         [Inject]
         private NavigationManager? NavigationManager { get; set; }
 
-        [Inject]
-        private PdfExportService pdfExportService { get; set; }
+  
 
         [Inject]
-        private Microsoft.JSInterop.IJSRuntime js { get; set; }
+        private IJSRuntime js { get; set; }
 
         [Parameter]
         public int Id { get; set; }
 
         public ReportDto reportDto { get; set; } = new();
-        private ReportDto[] Reports { get; set; }
+     
        public bool isLoading = true;
 
         public override Task SetParametersAsync(ParameterView parameters)
@@ -102,13 +104,13 @@ namespace Rapport.Client.Shared
             }
         }
 
-        protected async Task ExportToPdf()
+       public void Print()
         {
-           using(MemoryStream memoryStream = pdfExportService.CreatePdf(Reports))
-            {
-                await js.SaveAs("Rapport.pdf", memoryStream.ToArray());
-            }
+            js.InvokeVoidAsync("Print");
         }
+
+
+
 
     }
 

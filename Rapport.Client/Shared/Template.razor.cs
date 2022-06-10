@@ -10,8 +10,7 @@ namespace Rapport.Client.Shared
     public partial class Template : ComponentBase
     {
 
-        private bool loading = true;
-        private string msg = "Loading...";
+        public bool isLoading = true;
 
         [Inject]
         private ITemplateService? TemplateService { get; set; }
@@ -67,9 +66,12 @@ namespace Rapport.Client.Shared
         {
             try
             {
+                isLoading = true;
                 //Call to Api whit Get
                 TemplateDto = await TemplateService.GetTemplateGroupByTemplateId(Id);
                 TemplateService.OnChange += StateHasChanged;
+
+                isLoading = false;
 
             }
             catch (Exception ex)

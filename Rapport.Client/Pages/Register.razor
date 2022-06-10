@@ -1,5 +1,6 @@
 ﻿@using Rapport.Shared.Dto_er.User
 @inject IAuthService AuthService
+@page "/register"
 
  <EditForm Model="@user" OnValidSubmit="@RegisterUser">
         <div>

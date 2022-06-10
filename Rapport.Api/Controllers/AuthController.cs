@@ -80,9 +80,6 @@ namespace Rapport.Api.Controllers
             {
                 throw new Exception(ex.Message);
             }
-          
-         
-
         }
 
         [HttpPost("registre")]

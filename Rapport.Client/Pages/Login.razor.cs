@@ -32,10 +32,6 @@ namespace Rapport.Client.Pages
             {
                 NavigationManager.NavigateTo("/index");
             }
-            {
-                user.Email = "lenesvit@gmail.com";
-                user.Password = "Pa$$Word1";
-            }
 
         }
 
