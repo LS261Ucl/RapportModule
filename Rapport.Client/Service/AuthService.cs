@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using IdentityModel.OidcClient;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Rapport.Shared.Dto_er.Identity;
 using Rapport.Shared.Dto_er.User;
@@ -27,5 +28,7 @@ namespace Rapport.Client.Service
             var wrapper = await _httpService.Post<RegisterDto, UserDto>($"auth/registre", register);
             return wrapper.Response ?? throw new HttpRequestException(wrapper.HttpResponseMessage.ReasonPhrase);
         }
+
     }
 }
+        

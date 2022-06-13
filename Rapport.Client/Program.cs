@@ -5,7 +5,7 @@ global using Rapport.Shared.Dto_er.Template;
 global using Rapport.Shared.Dto_er.Report;
 global using Blazored.Modal;
 global using Blazored.Modal.Services;
-global using Blazored.LocalStorage;
+//global using Blazored.LocalStorage;
 global using BlazorPro.Spinkit;
 global using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Rapport.Client;
 using Rapport.Client.Service;
 using MudBlazor.Services;
+using Blazored.LocalStorage;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");

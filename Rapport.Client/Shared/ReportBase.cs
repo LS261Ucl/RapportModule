@@ -2,6 +2,11 @@
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using Rapport.Shared.Dto_er.Image;
+using Rapport.Client.Extensions;
+using Syncfusion.Drawing;
+using Syncfusion.Pdf;
+using Syncfusion.Pdf.Graphics;
+using Syncfusion.Pdf.Grid;
 
 namespace Rapport.Client.Shared
 {
@@ -39,25 +44,20 @@ namespace Rapport.Client.Shared
             {
                 NavigationManager.NavigateTo($"/report/preparation/{reportDto.Id}");
             }
-            if(reportDto != null && reportDto.LayoutId == 2)
+            else
             {
                 NavigationManager.NavigateTo($"/report/cleaning/{reportDto.Id}");
             }
-            if(reportDto != null && reportDto.LayoutId == 3)
-            {
-                NavigationManager.NavigateTo($"/report/repair/{reportDto.Id}");
-            }
+            //else(reportDto != null && reportDto.LayoutId == 3)
+            //{
+            //    NavigationManager.NavigateTo($"/report/repair/{reportDto.Id}");
+            //}
 
             ReportService.OnChange += StateHasChanged;
 
             isLoading = false;
         }
 
-        protected override async Task OnParametersSetAsync()
-        {
-            reportDto = await ReportService.GetReportWhitGroupsAndFields(Id);
-            ReportService.OnChange += StateHasChanged;
-        }
 
         public async Task OnFileChange(InputFileChangeEventArgs e)
         {
@@ -104,9 +104,65 @@ namespace Rapport.Client.Shared
             js.InvokeVoidAsync("Print");
         }
 
+        public async Task ExportToPdf(int id)
+        {
+            //var test = 1;
+            //var rapId = reportDto.Id;
 
 
 
+
+            int paragraphAfterSpacing = 8;
+            int cellMargin = 8;
+            PdfDocument pdfDocument = new PdfDocument();
+            //Add Page to the PDF document.
+            PdfPage page = pdfDocument.Pages.Add();
+
+            //Create a new font.
+            PdfStandardFont font = new PdfStandardFont(PdfFontFamily.TimesRoman, 16);
+
+            //Create a text element to draw a text in PDF page.
+            PdfTextElement title = new PdfTextElement(reportDto.Title, font, PdfBrushes.Black);
+            PdfLayoutResult result = title.Draw(page, new PointF(0, 0));
+
+
+            PdfStandardFont contentFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 12);
+
+
+            PdfTextElement content = new PdfTextElement("Hello world", contentFont, PdfBrushes.Black);
+            PdfLayoutFormat format = new PdfLayoutFormat();
+            format.Layout = PdfLayoutType.Paginate;
+
+            //Draw a text to the PDF document.
+            result = content.Draw(page, new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width, page.GetClientSize().Height), format);
+
+            //Create a PdfGrid
+            PdfGrid pdfGrid = new PdfGrid();
+            pdfGrid.Style.CellPadding.Left = cellMargin;
+            pdfGrid.Style.CellPadding.Right = cellMargin;
+
+            //Applying built-in style to the PDF grid
+            pdfGrid.ApplyBuiltinStyle(PdfGridBuiltinStyle.GridTable4Accent1);
+
+            //Assign data source.
+            pdfGrid.DataSource = reportDto;
+
+            pdfGrid.Style.Font = contentFont;
+
+            //Draw PDF grid into the PDF page.
+            pdfGrid.Draw(page, new Syncfusion.Drawing.PointF(0, result.Bounds.Bottom + paragraphAfterSpacing));
+
+            MemoryStream memoryStream = new MemoryStream();
+
+            // Save the PDF document.
+            pdfDocument.Save(memoryStream);
+
+            // Download the PDF document
+            js.SaveAs("Sample.pdf", memoryStream.ToArray());
+        }
     }
 
+
 }
+
+

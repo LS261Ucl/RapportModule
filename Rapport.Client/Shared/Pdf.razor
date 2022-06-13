@@ -7,19 +7,28 @@
 @inject IJSRuntime js
 @inherits ReportBase
 
- <MudButton @onclick="@(() => ExportToPdf(reportDto.Id))"></MudButton>
+<EditForm Model="reportDto" OnValidSubmit="OnInitializedAsync">
+ <button type="submit">Pdf</button>
+</EditForm>
+
 
 @code {
-
-
-    @functions {
+    protected override async Task OnInitializedAsync()
+    {
+        var report = await ReportService.GetReportWhitGroupsAndFields(reportDto.Id);
+        await ExportToPdf(report.Id);
+        
+    }
+  
 
         public async Task ExportToPdf(int id)
         {
-            var report = await ReportService.GetReportWhitGroupsAndFields(id);
+            //var test = 1;
+            //var rapId = reportDto.Id;
+       
 
-            if(report != null)
-            {
+           
+            
                 int paragraphAfterSpacing = 8;
                 int cellMargin = 8;
                 PdfDocument pdfDocument = new PdfDocument();
@@ -30,16 +39,14 @@
                 PdfStandardFont font = new PdfStandardFont(PdfFontFamily.TimesRoman, 16);
 
                 //Create a text element to draw a text in PDF page.
-                PdfTextElement title = new PdfTextElement(report.Title, font, PdfBrushes.Black);
+                PdfTextElement title = new PdfTextElement(reportDto.Title, font, PdfBrushes.Black);
                 PdfLayoutResult result = title.Draw(page, new PointF(0, 0));
 
 
                 PdfStandardFont contentFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 12);
-                if(report.ReportGroups != null)
-                {
-                    foreach(var groups in report.ReportGroups)
-                    {
-                        PdfTextElement content = new PdfTextElement(groups.Titel, contentFont, PdfBrushes.Black);
+                
+              
+                PdfTextElement content = new PdfTextElement("Hello world", contentFont, PdfBrushes.Black);
                 PdfLayoutFormat format = new PdfLayoutFormat();
                 format.Layout = PdfLayoutType.Paginate;
 
@@ -71,11 +78,5 @@
                 js.SaveAs("Sample.pdf", memoryStream.ToArray());
                 } 
                 }
-                    }
-                     
-              
-
-            }
-        }
-  
+                             
 }

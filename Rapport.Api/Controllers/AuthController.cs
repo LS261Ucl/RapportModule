@@ -27,10 +27,10 @@ namespace Rapport.Api.Controllers
             SignInManager<AppUser> signInManager,
             ILogger<AuthController> logger,
             RoleManager<IdentityRole> roleManager,
-     
+
             IConfiguration configuration)
         {
-            
+
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
@@ -44,39 +44,46 @@ namespace Rapport.Api.Controllers
             try
             {
                 var user = await _userManager.FindByNameAsync(model.Email);
+                var roles = await _signInManager.UserManager.GetRolesAsync(user);
 
                 if (user == null) return NotFound();
+
+                var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
+
+                if (!result.Succeeded)
+                {
+                    _logger.LogInformation("Bad email / password combination.");
+                    return Unauthorized();
+                }
                 else
                 {
-                    var role = await _userManager.AddToRoleAsync(user, role:"Admin");
-                    var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
 
-                    if (!result.Succeeded)
-                    {
-                        _logger.LogInformation("Bad email / password combination.");
-                        return Unauthorized();
-                    }
-                    else
-                    {
-                        var authClaims = new List<Claim>
+
+                    var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
+                    
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
 
-                        var token = GetToken(authClaims);
-
-                        return Ok(new
-                        {
-                            token = new JwtSecurityTokenHandler().WriteToken(token),
-                            expiration = token.ValidTo
-                        });
+                    foreach(var role in roles)
+                    {
+                        authClaims.Add(new Claim(ClaimTypes.Role, role));
                     }
+
+                    var token = GetToken(authClaims);
+
+                    return Ok(new
+                    {
+                        token = new JwtSecurityTokenHandler().WriteToken(token),
+                        expiration = token.ValidTo
+                    });
                 }
 
 
 
-           
+
+
 
             }
             catch (Exception ex)
@@ -102,40 +109,40 @@ namespace Rapport.Api.Controllers
                     UserName = model.Email,
                     Admin = model.Role,
                     User = model.Role
-                    
+
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {
-                   
 
-                        if (!await _roleManager.RoleExistsAsync(user.Admin))
-                            await _roleManager.CreateAsync(new IdentityRole(user.Admin));
-                        if (!await _roleManager.RoleExistsAsync(user.User))
-                            await _roleManager.CreateAsync(new IdentityRole(user.User));
 
-                        if (await _roleManager.RoleExistsAsync(user.Admin))
-                        {
-                            await _userManager.AddToRoleAsync(user, "Admin");
-                        }
-                        if (await _roleManager.RoleExistsAsync(user.User))
-                        {
-                            await _userManager.AddToRoleAsync(user, "User");
-                        }
-                    
-                    
+                    if (!await _roleManager.RoleExistsAsync(user.Admin))
+                        await _roleManager.CreateAsync(new IdentityRole(user.Admin));
+                    if (!await _roleManager.RoleExistsAsync(user.User))
+                        await _roleManager.CreateAsync(new IdentityRole(user.User));
+
+                    if (await _roleManager.RoleExistsAsync(user.Admin))
+                    {
+                        await _userManager.AddToRoleAsync(user, "Admin");
+                    }
+                    if (await _roleManager.RoleExistsAsync(user.User))
+                    {
+                        await _userManager.AddToRoleAsync(user, "User");
+                    }
+
+
                     return Ok(new RespnseMessages { Status = "Success", Message = "User created successfully!" });
                 }
-                   
+
                 else
                     return Unauthorized(result);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-           
+
 
         }
         [HttpGet]

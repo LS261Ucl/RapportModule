@@ -79,10 +79,8 @@
                 EndIcon="@Icons.Material.Filled.Save" 
                 Color="Color.Primary">Gem</MudButton>
                </div>
-             @*  <Pdf >
-                    
-               </Pdf>*@
-      
+            
+   <MudButton @onclick="@(() => ExportToPdf(reportDto.Id))">pdf</MudButton>
         </MudCardContent>
     </MudCard>
     <ValidationSummary/>

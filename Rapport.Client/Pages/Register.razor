@@ -1,7 +1,7 @@
 ﻿@using Rapport.Shared.Dto_er.User
 @inject IAuthService AuthService
 @page "/register"
-@attribute [Authorize(Roles = "Admin")]  
+@attribute [Authorize(Roles = "admin")]  
 
 
             <EditForm Model="@user" OnValidSubmit="@RegisterUser">

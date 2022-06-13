@@ -17,12 +17,21 @@ namespace Rapport.Client.Service
             _http = http;
         }
 
+        public void MarkUserAsAuthenticated(string token)
+        {
+            var authenticatedUser = new ClaimsPrincipal(new ClaimsIdentity(ParseClaimsFromJwt(token), "jwt"));
+            var authState = Task.FromResult(new AuthenticationState(authenticatedUser));
+
+            NotifyAuthenticationStateChanged(authState);
+        }
+
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            string authToken = await _localStorageService.GetItemAsStringAsync("authToken");
+         //   var test = _localStorageService.KeysAsync().Result;
+
+            string authToken = await _localStorageService.GetItemAsync<string>("authToken");
 
             var identity = new ClaimsIdentity();
-
             _http.DefaultRequestHeaders.Authorization = null;
 
 
@@ -31,6 +40,7 @@ namespace Rapport.Client.Service
                 try
                 {
                     identity = new ClaimsIdentity(ParseClaimsFromJwt(authToken), "jwt");
+                    
                     _http.DefaultRequestHeaders.Authorization =
                         new AuthenticationHeaderValue("Bearer", authToken.Replace("\"", ""));
                 }
@@ -43,7 +53,6 @@ namespace Rapport.Client.Service
 
             var user = new ClaimsPrincipal(identity);
             var state = new AuthenticationState(user);
-
             NotifyAuthenticationStateChanged(Task.FromResult(state));
 
             return state;
@@ -61,14 +70,41 @@ namespace Rapport.Client.Service
 
         private IEnumerable<Claim> ParseClaimsFromJwt(string jwt)
         {
+
+            var claims = new List<Claim>();
             var payload = jwt.Split('.')[1];
             var jsonBytes = ParseBase64WithoutPadding(payload);
-            var keyValuePairs = JsonSerializer
-                .Deserialize<Dictionary<string, object>>(jsonBytes);
+            var keyValuePairs = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonBytes);
 
-            var claims = keyValuePairs.Select(kvp => new Claim(kvp.Key, kvp.Value.ToString()));
+          
+          
+            claims.AddRange(keyValuePairs.Select(kvp => new Claim(kvp.Key, kvp.Value.ToString())));
 
             return claims;
+
+
         }
+
+        private static void ExtractRolesFromJWT(List<Claim> claims, Dictionary<string, object> keyValuePairs)
+        {
+            keyValuePairs.TryGetValue(ClaimTypes.Role, out object roles);
+            if (roles != null)
+            {
+                var parsedRoles = roles.ToString().Trim().TrimStart('[').TrimEnd(']').Split(',');
+                if (parsedRoles.Length > 1)
+                {
+                    foreach (var parsedRole in parsedRoles)
+                    {
+                        claims.Add(new Claim(ClaimTypes.Role, parsedRole.Trim('"')));
+                    }
+                }
+                else
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, parsedRoles[0]));
+                }
+                keyValuePairs.Remove(ClaimTypes.Role);
+            }
+        }
+
     }
 }
