@@ -5,23 +5,18 @@
 @using Syncfusion.Pdf.Graphics
 @using Syncfusion.Pdf.Grid
 @inject IJSRuntime js
+@inherits ReportBase
 
-
-<button @onclick="(() => ExportToPdf(reportDto.Id))">Exporter til Pdf</button>
+ <MudButton @onclick="@(() => ExportToPdf(reportDto.Id))"></MudButton>
 
 @code {
 
-    [Inject]
-    private IReportService? ReportService { get; set; }
 
-    public ReportDto reportDto { get; set; } = new();
+    @functions {
 
-  
-        @functions {
-            
         public async Task ExportToPdf(int id)
         {
-            var report = await ReportService.GetReportWhitGroupsAndFields(1);
+            var report = await ReportService.GetReportWhitGroupsAndFields(id);
 
             if(report != null)
             {
@@ -40,7 +35,11 @@
 
 
                 PdfStandardFont contentFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 12);
-                PdfTextElement content = new PdfTextElement("This component demonstrates fetching data from a client side and Exporting the data to PDF document using Syncfusion .NET PDF library.", contentFont, PdfBrushes.Black);
+                if(report.ReportGroups != null)
+                {
+                    foreach(var groups in report.ReportGroups)
+                    {
+                        PdfTextElement content = new PdfTextElement(groups.Titel, contentFont, PdfBrushes.Black);
                 PdfLayoutFormat format = new PdfLayoutFormat();
                 format.Layout = PdfLayoutType.Paginate;
 
@@ -70,7 +69,11 @@
 
                 // Download the PDF document
                 js.SaveAs("Sample.pdf", memoryStream.ToArray());
+                } 
                 }
+                    }
+                     
+              
 
             }
         }

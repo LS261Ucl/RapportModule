@@ -46,32 +46,35 @@ namespace Rapport.Api.Controllers
                 var user = await _userManager.FindByNameAsync(model.Email);
 
                 if (user == null) return NotFound();
-
-
-
-                var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
-
-                if (!result.Succeeded)
-                {
-                    _logger.LogInformation("Bad email / password combination.");
-                    return Unauthorized();
-                }
                 else
                 {
-                    var authClaims = new List<Claim>
+                    var role = await _userManager.AddToRoleAsync(user, role:"Admin");
+                    var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
+
+                    if (!result.Succeeded)
+                    {
+                        _logger.LogInformation("Bad email / password combination.");
+                        return Unauthorized();
+                    }
+                    else
+                    {
+                        var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
 
-                    var token = GetToken(authClaims);
+                        var token = GetToken(authClaims);
 
-                    return Ok(new
-                    {
-                        token = new JwtSecurityTokenHandler().WriteToken(token),
-                        expiration = token.ValidTo
-                    });
+                        return Ok(new
+                        {
+                            token = new JwtSecurityTokenHandler().WriteToken(token),
+                            expiration = token.ValidTo
+                        });
+                    }
                 }
+
+
 
            
 
@@ -96,14 +99,16 @@ namespace Rapport.Api.Controllers
                     FullName = model.FullName,
                     Email = model.Email,
                     SecurityStamp = Guid.NewGuid().ToString(),
-                    UserName = model.Email
+                    UserName = model.Email,
+                    Admin = model.Role,
+                    User = model.Role
+                    
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {
-                    if (result.Succeeded)
-                    {
+                   
 
                         if (!await _roleManager.RoleExistsAsync(user.Admin))
                             await _roleManager.CreateAsync(new IdentityRole(user.Admin));
@@ -118,8 +123,8 @@ namespace Rapport.Api.Controllers
                         {
                             await _userManager.AddToRoleAsync(user, "User");
                         }
-                        return Ok(new RespnseMessages { Status = "Success", Message = "User created successfully!" });
-                    }
+                    
+                    
                     return Ok(new RespnseMessages { Status = "Success", Message = "User created successfully!" });
                 }
                    

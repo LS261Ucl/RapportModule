@@ -1,4 +1,5 @@
 ﻿using Blazored.LocalStorage;
+using Rapport.Shared.Dto_er.Identity;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text.Json;
@@ -21,7 +22,9 @@ namespace Rapport.Client.Service
             string authToken = await _localStorageService.GetItemAsStringAsync("authToken");
 
             var identity = new ClaimsIdentity();
+
             _http.DefaultRequestHeaders.Authorization = null;
+
 
             if (!string.IsNullOrEmpty(authToken))
             {

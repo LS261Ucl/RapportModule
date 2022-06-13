@@ -1,4 +1,5 @@
 ﻿@inherits ReportBase
+
 @page "/report/preparation/{id:int}"
 
 <h3 class="justify-content-center">@reportDto.Title</h3>
@@ -78,8 +79,12 @@
                 EndIcon="@Icons.Material.Filled.Save" 
                 Color="Color.Primary">Gem</MudButton>
                </div>
-             <Pdf></Pdf>
+             @*  <Pdf >
+                    
+               </Pdf>*@
+      
         </MudCardContent>
     </MudCard>
     <ValidationSummary/>
 </EditForm>
+

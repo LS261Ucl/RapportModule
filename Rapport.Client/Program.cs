@@ -32,6 +32,12 @@ builder.Services.AddHttpClient("ReportUri", (sp, cl) =>
 builder.Services.AddScoped(
     sp => sp.GetService<IHttpClientFactory>().CreateClient("RapportAPI"));
 
+builder.Services.AddAuthorizationCore(options => {
+    options.AddPolicy("mypolicy", policy => {
+        policy.RequireRole("admin", "User");
+    });
+});
+
 //Adding diff componentens 
 
 builder.Services.AddBlazoredLocalStorage();

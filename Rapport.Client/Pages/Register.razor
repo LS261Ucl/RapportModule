@@ -1,8 +1,10 @@
 ﻿@using Rapport.Shared.Dto_er.User
 @inject IAuthService AuthService
 @page "/register"
+@attribute [Authorize(Roles = "Admin")]  
 
- <EditForm Model="@user" OnValidSubmit="@RegisterUser">
+
+            <EditForm Model="@user" OnValidSubmit="@RegisterUser">
         <div>
             <br /><br /><br /><br /><br />
         </div>
@@ -39,7 +41,14 @@
         <div class="col-12 row" style="text-align:left; font-weight:bold">
             <span class="col-12">@LoginMesssage</span>
         </div>
-    </EditForm>
+    </EditForm>   
+
+
+      
+
+ 
+
+
 
    
 

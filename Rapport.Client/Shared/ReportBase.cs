@@ -2,11 +2,6 @@
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using Rapport.Shared.Dto_er.Image;
-using Rapport.Client.Extensions;
-using Syncfusion.Drawing;
-using Syncfusion.Pdf;
-using Syncfusion.Pdf.Graphics;
-using Syncfusion.Pdf.Grid;
 
 namespace Rapport.Client.Shared
 {
@@ -14,7 +9,7 @@ namespace Rapport.Client.Shared
     {
 
         [Inject]
-        private IReportService? ReportService { get; set; }
+        public IReportService? ReportService { get; set; }
 
         [Inject]
         private NavigationManager? NavigationManager { get; set; }

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Rapport.BusinessLogig.Interfaces;
 using Rapport.Entites;
 using Rapport.Shared.Dto_er.Template;
@@ -25,7 +24,7 @@ namespace Rapport.Api.Controllers
             _mapper = mapper;
         }
 
-        //[Authorize(Policy ="Admin")]
+     //   [Authorize(Policy ="Admin")]
         [HttpGet]
         public async Task<ActionResult<List<TemplateDto>>> GetTemplatesAsync()
         {
