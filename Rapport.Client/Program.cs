@@ -5,7 +5,6 @@ global using Rapport.Shared.Dto_er.Template;
 global using Rapport.Shared.Dto_er.Report;
 global using Blazored.Modal;
 global using Blazored.Modal.Services;
-//global using Blazored.LocalStorage;
 global using BlazorPro.Spinkit;
 global using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;

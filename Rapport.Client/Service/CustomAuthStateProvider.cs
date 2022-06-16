@@ -1,5 +1,4 @@
 ﻿using Blazored.LocalStorage;
-using Rapport.Shared.Dto_er.Identity;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text.Json;
@@ -58,15 +57,7 @@ namespace Rapport.Client.Service
             return state;
         }
 
-        private byte[] ParseBase64WithoutPadding(string base64)
-        {
-            switch (base64.Length % 4)
-            {
-                case 2: base64 += "=="; break;
-                case 3: base64 += "="; break;
-            }
-            return Convert.FromBase64String(base64);
-        }
+    
 
         private IEnumerable<Claim> ParseClaimsFromJwt(string jwt)
         {
@@ -76,34 +67,40 @@ namespace Rapport.Client.Service
             var jsonBytes = ParseBase64WithoutPadding(payload);
             var keyValuePairs = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonBytes);
 
-          
-          
-            claims.AddRange(keyValuePairs.Select(kvp => new Claim(kvp.Key, kvp.Value.ToString())));
-
-            return claims;
-
-
-        }
-
-        private static void ExtractRolesFromJWT(List<Claim> claims, Dictionary<string, object> keyValuePairs)
-        {
             keyValuePairs.TryGetValue(ClaimTypes.Role, out object roles);
+
             if (roles != null)
             {
-                var parsedRoles = roles.ToString().Trim().TrimStart('[').TrimEnd(']').Split(',');
-                if (parsedRoles.Length > 1)
+                if (roles.ToString().Trim().StartsWith("["))
                 {
+                    var parsedRoles = JsonSerializer.Deserialize<string[]>(roles.ToString());
+
                     foreach (var parsedRole in parsedRoles)
                     {
-                        claims.Add(new Claim(ClaimTypes.Role, parsedRole.Trim('"')));
+                        claims.Add(new Claim(ClaimTypes.Role, parsedRole));
                     }
                 }
                 else
                 {
-                    claims.Add(new Claim(ClaimTypes.Role, parsedRoles[0]));
+                    claims.Add(new Claim(ClaimTypes.Role, roles.ToString()));
                 }
+
                 keyValuePairs.Remove(ClaimTypes.Role);
             }
+
+            claims.AddRange(keyValuePairs.Select(kvp => new Claim(kvp.Key, kvp.Value.ToString())));
+
+            return claims;
+        }
+
+        private byte[] ParseBase64WithoutPadding(string base64)
+        {
+            switch (base64.Length % 4)
+            {
+                case 2: base64 += "=="; break;
+                case 3: base64 += "="; break;
+            }
+            return Convert.FromBase64String(base64);
         }
 
     }

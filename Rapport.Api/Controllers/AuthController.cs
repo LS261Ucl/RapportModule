@@ -59,12 +59,17 @@ namespace Rapport.Api.Controllers
                 {
 
 
-                    var authClaims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                };
+                    var authClaims = new List<Claim>();
+
+                    authClaims.Add(new Claim(ClaimTypes.Name, user.UserName));
+
+
+                    foreach (var role in roles)
+                    {
+                        authClaims.Add(new Claim(ClaimTypes.Role, role));
+                    }
+                    //new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                
 
                     foreach(var role in roles)
                     {

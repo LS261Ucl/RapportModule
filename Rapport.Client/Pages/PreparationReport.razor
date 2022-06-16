@@ -21,7 +21,7 @@
                         {
                             @foreach(var element in groups.Elements)
                             {<br />
-                                <Row>
+                            
                                     <br>
                                 <MudTextField Label="Titel" @bind-Value="element.Titel" For="(() => element.Titel)"></MudTextField>
                                  <br>
@@ -29,12 +29,13 @@
                                  <br>
                                 <MudNumericField Label="Antal" @bind-Value="element.Numbers" For="(() => element.Numbers)"></MudNumericField>
                                <br/>
-                                </Row>
+                                
                        
                             }
                         }
                     }
             }
+              </MudGrid> 
              <br> <br>
                               <div class="mb-0">
             <label for="imageUrl">Image Url</label>
@@ -64,7 +65,7 @@
             }
         </div>
 
-            </MudGrid>  
+           
                                  <br>
             <MudButton 
                 @onclick="(() => SendMail())"

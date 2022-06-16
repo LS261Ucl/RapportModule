@@ -44,14 +44,16 @@ namespace Rapport.Client.Shared
             {
                 NavigationManager.NavigateTo($"/report/preparation/{reportDto.Id}");
             }
-            else
+
+            if(reportDto.LayoutId == 2)
             {
                 NavigationManager.NavigateTo($"/report/cleaning/{reportDto.Id}");
             }
-            //else(reportDto != null && reportDto.LayoutId == 3)
-            //{
-            //    NavigationManager.NavigateTo($"/report/repair/{reportDto.Id}");
-            //}
+
+            if(reportDto.LayoutId == 3)
+            {
+                NavigationManager.NavigateTo($"/report/repair/{reportDto.Id}");
+            }
 
             ReportService.OnChange += StateHasChanged;
 
@@ -128,37 +130,43 @@ namespace Rapport.Client.Shared
 
             PdfStandardFont contentFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 12);
 
+            if(reportDto.ReportGroups != null)
+            {
+                foreach(var group in reportDto.ReportGroups)
+                {
+                    PdfTextElement content = new PdfTextElement(group.Titel, contentFont, PdfBrushes.Black);
+                    PdfLayoutFormat format = new PdfLayoutFormat();
+                    format.Layout = PdfLayoutType.Paginate;
 
-            PdfTextElement content = new PdfTextElement("Hello world", contentFont, PdfBrushes.Black);
-            PdfLayoutFormat format = new PdfLayoutFormat();
-            format.Layout = PdfLayoutType.Paginate;
+                    //Draw a text to the PDF document.
+                    result = content.Draw(page, new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width, page.GetClientSize().Height), format);
 
-            //Draw a text to the PDF document.
-            result = content.Draw(page, new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width, page.GetClientSize().Height), format);
+                    //Create a PdfGrid
+                    PdfGrid pdfGrid = new PdfGrid();
+                    pdfGrid.Style.CellPadding.Left = cellMargin;
+                    pdfGrid.Style.CellPadding.Right = cellMargin;
 
-            //Create a PdfGrid
-            PdfGrid pdfGrid = new PdfGrid();
-            pdfGrid.Style.CellPadding.Left = cellMargin;
-            pdfGrid.Style.CellPadding.Right = cellMargin;
+                    //Applying built-in style to the PDF grid
+                    pdfGrid.ApplyBuiltinStyle(PdfGridBuiltinStyle.GridTable4Accent1);
 
-            //Applying built-in style to the PDF grid
-            pdfGrid.ApplyBuiltinStyle(PdfGridBuiltinStyle.GridTable4Accent1);
+                    //Assign data source.
+                    pdfGrid.DataSource = reportDto;
 
-            //Assign data source.
-            pdfGrid.DataSource = reportDto;
+                    pdfGrid.Style.Font = contentFont;
 
-            pdfGrid.Style.Font = contentFont;
+                    //Draw PDF grid into the PDF page.
+                    pdfGrid.Draw(page, new PointF(0, result.Bounds.Bottom + paragraphAfterSpacing));
 
-            //Draw PDF grid into the PDF page.
-            pdfGrid.Draw(page, new Syncfusion.Drawing.PointF(0, result.Bounds.Bottom + paragraphAfterSpacing));
+                    MemoryStream memoryStream = new MemoryStream();
 
-            MemoryStream memoryStream = new MemoryStream();
+                    // Save the PDF document.
+                    pdfDocument.Save(memoryStream);
 
-            // Save the PDF document.
-            pdfDocument.Save(memoryStream);
-
-            // Download the PDF document
-            js.SaveAs("Sample.pdf", memoryStream.ToArray());
+                    // Download the PDF document
+                    js.SaveAs("Sample.pdf", memoryStream.ToArray());
+                }
+            }
+            
         }
     }
 
