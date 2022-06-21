@@ -9,6 +9,7 @@
     <DataAnnotationsValidator/>
     <MudCard>
         <MudCardContent>
+            <InputTextArea @bind-Value="reportDto.Remarks" placeholder="Bemærkninger"></InputTextArea>
             @if(reportDto.ReportGroups != null)
             {
                 @foreach(var groups in reportDto.ReportGroups)
@@ -18,9 +19,10 @@
                     {
                         @foreach(var element in groups.Elements)
                         {
-                             <MudTextField Label="Titel" @bind-Value="element.Titel" For="@(() => element.Titel )"></MudTextField>
-                             <MudTextField Label="Bemærkninger" @bind-Value="element.Remarks" For="(() => element.Remarks)"></MudTextField>
-                             <MudPicker Label="Godkendt/ej godtkendt" @bind-Text=@element.Options For="(()=> element.Options)"></MudPicker>
+                             <MudTextField Label="Titel" @bind-Value="element.Titel" For="@(() => element.Titel )" Disabled=reportDto.IsReadOnly></MudTextField>
+                             <MudTextField Label="Bemærkninger" @bind-Value="element.Remarks" For="(() => element.Remarks)" Disabled=reportDto.IsReadOnly></MudTextField>
+                             <InputCheckbox Label="Godkendt" @bind-Text=@element.Options For="(()=> element.Options)" Disabled=reportDto.IsReadOnly></InputCheckbox>
+                             <InputCheckbox Label="Godkendt" @bind-Text=@element.Options For="(()=> element.Options)" Disabled=reportDto.IsReadOnly></InputCheckbox>
                         }
                     }
                 }

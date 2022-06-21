@@ -15,7 +15,7 @@
                 @foreach(var groups in reportDto.ReportGroups)
                 {
                     <br /><br />
-                      <MudTextField Label="Titel" @bind-Value="groups.Titel" For="@(() => groups.Titel )"></MudTextField>
+                      <MudTextField Label="Titel" @bind-Value="groups.Titel" For="@(() => groups.Titel )" Disabled="reportDto.IsReadOnly"></MudTextField>
                       <br /> <br />
                       @if(groups.Elements != null)
                         {
@@ -23,11 +23,11 @@
                             {<br />
                             
                                     <br>
-                                <MudTextField Label="Titel" @bind-Value="element.Titel" For="(() => element.Titel)"></MudTextField>
+                                <MudTextField Label="Titel" @bind-Value="element.Titel" For="(() => element.Titel)" Disabled="reportDto.IsReadOnly"></MudTextField>
                                  <br>
-                                <MudTextField Label="Bemærkninger" @bind-Value="element.Remarks" For="(() => element.Remarks)"></MudTextField>
+                                <MudTextField Label="Bemærkninger" @bind-Value="element.Remarks" For="(() => element.Remarks)" Disabled="reportDto.IsReadOnly"></MudTextField>
                                  <br>
-                                <MudNumericField Label="Antal" @bind-Value="element.Numbers" For="(() => element.Numbers)"></MudNumericField>
+                                <MudNumericField Label="Antal" @bind-Value="element.Numbers" For="(() => element.Numbers)" Disabled="reportDto.IsReadOnly"></MudNumericField>
                                <br/>
                                 
                        
@@ -64,7 +64,11 @@
                 }
             }
         </div>
-
+        <div>
+            <label>Lås rapport</label>
+             <InputCheckbox @bind-Value="reportDto.IsReadOnly">Låse rapport</InputCheckbox>
+        </div>
+        
            
                                  <br>
             <MudButton 
