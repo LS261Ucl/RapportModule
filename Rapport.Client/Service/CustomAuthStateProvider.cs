@@ -28,24 +28,24 @@ namespace Rapport.Client.Service
         {
          //   var test = _localStorageService.KeysAsync().Result;
 
-            string authToken = await _localStorageService.GetItemAsync<string>("authToken");
+            string token = await _localStorageService.GetItemAsStringAsync("token");
 
             var identity = new ClaimsIdentity();
             _http.DefaultRequestHeaders.Authorization = null;
 
 
-            if (!string.IsNullOrEmpty(authToken))
+            if (!string.IsNullOrEmpty(token))
             {
                 try
                 {
-                    identity = new ClaimsIdentity(ParseClaimsFromJwt(authToken), "jwt");
+                    identity = new ClaimsIdentity(ParseClaimsFromJwt(token), "jwt");
                     
                     _http.DefaultRequestHeaders.Authorization =
-                        new AuthenticationHeaderValue("Bearer", authToken.Replace("\"", ""));
+                        new AuthenticationHeaderValue("Bearer", token.Replace("\"", ""));
                 }
                 catch
                 {
-                    await _localStorageService.RemoveItemAsync("authToken");
+                    await _localStorageService.RemoveItemAsync("token");
                     identity = new ClaimsIdentity();
                 }
             }
