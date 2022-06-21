@@ -120,5 +120,24 @@ namespace Rapport.Client.Service
                 throw new Exception($"Unable to get Report whit this id: {id}", ex);
             }
         }
+
+
+        public async Task<List<ReportDto>> SearchReportByTitel(string titel)
+        {
+            try
+            {
+                var wrapper = await _httpServices.Get<List<ReportDto>>($"report/{titel}");
+                return wrapper.Response ?? throw new HttpRequestException(wrapper.HttpResponseMessage.ReasonPhrase);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Unable to get Report whit this id: {titel}", ex);
+            }
+        }
+
+        public Task<List<ReportDto>> SearchReport(string titel)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

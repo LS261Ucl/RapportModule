@@ -1,8 +1,5 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using Rapport.BusinessLogig.Interfaces;
 using Rapport.Entites;
 using Rapport.Shared.Dto_er.Report;
@@ -49,6 +46,26 @@ namespace Rapport.Api.Controllers
             }//cathc
         }
 
+        [HttpGet("titel")]
+        public async Task<ActionResult<List<ReportDto>>> SearchReportByTitel(string titel)
+        {
+            try
+            {
+                var reports = await _reportService.SearchReportByTitel(titel);
+
+                if (reports == null)
+                {
+                    _logger.LogError("Unable to find Templates");
+                    return NotFound();
+                }//if
+
+                return Ok(reports);
+            }//if
+            catch (Exception ex)
+            {
+                throw new Exception("Error on Api", ex);
+            }//cathc
+        }
 
         [HttpGet("{id}/groups")]
         public async Task<ActionResult<ReportDto>> GetReportWhitChildrenAscyn(int id)

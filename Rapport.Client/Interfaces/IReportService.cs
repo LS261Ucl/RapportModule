@@ -14,6 +14,6 @@ namespace Rapport.Client.Interfaces
         Task<ReportDto> UpdatedReport(int id, ReportDto requestDto);
         Task<bool> DeletedReport(int id);
         Task<ReportDto> GetReportWhitGroupsAndFields(int id);
-     
+        Task<List<ReportDto>> SearchReport(string titel);
     }
 }

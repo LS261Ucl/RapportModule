@@ -99,6 +99,19 @@ namespace Rapport.BusinessLogig.Services
             }//catch
         }
 
+        public async Task<List<ReportDto>> SearchReportByTitel(string titel)
+        {
+            try
+            {
+                var report = await _repository.GetAllAsync(x => x.Title == titel);
+
+                return _mapper.Map<List<ReportDto>>(report);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error on service, businesslogig", ex);
+            }
+        }
 
         public async Task<Report> UpdateReport(int id, ReportDto requestDto)
         {
@@ -120,6 +133,5 @@ namespace Rapport.BusinessLogig.Services
             }//catch
         }
 
-       
     }
 }

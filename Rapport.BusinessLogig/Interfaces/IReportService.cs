@@ -12,6 +12,7 @@ namespace Rapport.BusinessLogig.Interfaces
         Task<ReportDto> CreateReport([FromBody] CreateReportDto requestDto);
         Task<Report> UpdateReport(int id, ReportDto requestDto);
         Task DeleteReport(int id);
-       
+        Task<List<ReportDto>> SearchReportByTitel(string titel);
+
     }
 }
