@@ -48,24 +48,7 @@ namespace Rapport.Client.Pages
 
         private async Task ValidateUser()
         {
-            //assume that user is valid
-            //call an API
-
-            //var returnedUser = await AuthService.Login(user);
-
-            //if (returnedUser?.Token != null)
-            //{
-            //   await LocalStorage.GetItemAsStringAsync(returnedUser.Token);
-            //   await ((CustomAuthStateProvider?)AuthenticationStateProvider)?.GetAuthenticationStateAsync();
-            //   NavigationManager.NavigateTo("/index");
-            //}
-            //else
-            //{
-            //    LoginMesssage = "Invalid username or password";
-            //}
-
-
-
+            
             var result = await Http.PostAsJsonAsync($"http://localhost:5002/api/auth/login", user);
             var token = await result.Content.ReadAsStringAsync();
             Console.WriteLine(token);

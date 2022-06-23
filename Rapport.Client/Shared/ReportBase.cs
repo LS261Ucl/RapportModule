@@ -128,42 +128,61 @@ namespace Rapport.Client.Shared
 
 
             PdfStandardFont contentFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 12);
+            PdfLayoutFormat format = new PdfLayoutFormat();
 
-            if(reportDto.ReportGroups != null)
+            try
             {
-                foreach(var group in reportDto.ReportGroups)
+
+                if (reportDto.ReportGroups != null)
                 {
-                    PdfTextElement content = new PdfTextElement(group.Titel, contentFont, PdfBrushes.Black);
-                    PdfLayoutFormat format = new PdfLayoutFormat();
-                    format.Layout = PdfLayoutType.Paginate;
+                    foreach (var group in reportDto.ReportGroups)
+                    {
+                        PdfTextElement content = new PdfTextElement(group.Titel, contentFont, PdfBrushes.Black);
+                        result = content.Draw(page, new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width, page.GetClientSize().Height), format);
 
-                    //Draw a text to the PDF document.
-                    result = content.Draw(page, new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width, page.GetClientSize().Height), format);
+                        if (group.Elements != null)
+                        {
+                            foreach (var element in group.Elements)
+                            {
+                                PdfTextElement test = new PdfTextElement(element.Titel, contentFont, PdfBrushes.Black);
 
-                    //Create a PdfGrid
-                    PdfGrid pdfGrid = new PdfGrid();
-                    pdfGrid.Style.CellPadding.Left = cellMargin;
-                    pdfGrid.Style.CellPadding.Right = cellMargin;
+                                format.Layout = PdfLayoutType.Paginate;
 
-                    //Applying built-in style to the PDF grid
-                    pdfGrid.ApplyBuiltinStyle(PdfGridBuiltinStyle.GridTable4Accent1);
+                                //Draw a text to the PDF document
 
-                    //Assign data source.
-                    pdfGrid.DataSource = reportDto;
+                                result = test.Draw(page, new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width, page.GetClientSize().Height), format);
+                                //Create a PdfGrid
+                                PdfGrid pdfGrid = new PdfGrid();
+                                pdfGrid.Style.CellPadding.Left = cellMargin;
+                                pdfGrid.Style.CellPadding.Right = cellMargin;
 
-                    pdfGrid.Style.Font = contentFont;
+                                //Applying built-in style to the PDF grid
+                                pdfGrid.ApplyBuiltinStyle(PdfGridBuiltinStyle.GridTable4Accent1);
 
-                    //Draw PDF grid into the PDF page.
-                    pdfGrid.Draw(page, new PointF(0, result.Bounds.Bottom + paragraphAfterSpacing));
+                                //Assign data source.
+                                pdfGrid.DataSource = reportDto;
 
-                    MemoryStream memoryStream = new MemoryStream();
+                                pdfGrid.Style.Font = contentFont;
 
-                    // Save the PDF document.
-                    pdfDocument.Save(memoryStream);
+                                //Draw PDF grid into the PDF page.
+                                pdfGrid.Draw(page, new PointF(0, result.Bounds.Bottom + paragraphAfterSpacing));
 
-                    // Download the PDF document
-                    js.SaveAs("Sample.pdf", memoryStream.ToArray());
+                                MemoryStream memoryStream = new MemoryStream();
+
+                                // Save the PDF document.
+                                pdfDocument.Save(memoryStream);
+
+                                // Download the PDF document
+                                js.SaveAs("Sample.pdf", memoryStream.ToArray());
+                            }
+                        }
+
+                    }
                 }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message + " " + e.InnerException);
             }
             
         }

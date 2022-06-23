@@ -1,4 +1,5 @@
 ﻿@page "/template/{id:int}"
+@attribute [Authorize(Roles = "Admin")]  
 
 <SpinLoader IsLoading="isLoading" Spinner="SpinnerType.Chase">
     <ContentTemplate>

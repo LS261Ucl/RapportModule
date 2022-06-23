@@ -1,4 +1,5 @@
 ﻿@page "/reports"
+@attribute [Authorize(Roles="Admin, User")]
 
 <h3>Rapporter</h3>
 <SpinLoader IsLoading="isLoading" Spinner="SpinnerType.Chase">

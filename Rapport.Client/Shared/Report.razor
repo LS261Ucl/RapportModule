@@ -1,4 +1,5 @@
 ﻿@page "/report/{id:int}"
+@attribute [Authorize(Roles="Admin, User")]
 @inherits ReportBase
 
 <SpinLoader IsLoading="isLoading" Spinner="SpinnerType.Chase">
