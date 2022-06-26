@@ -32,7 +32,7 @@ namespace Rapport.Client.Service
 
 
                 // Call Api whit Create
-                var wrapper = await _httpServices.Post<CreateReportDto, ReportDto>($"report", requestDto);
+                var wrapper = await _httpServices.Post<CreateReportDto, ReportDto>($"report/{id}", requestDto);
                 return wrapper.Response ?? throw new HttpRequestException(wrapper.HttpResponseMessage.ReasonPhrase);
             }
             catch (Exception ex)
